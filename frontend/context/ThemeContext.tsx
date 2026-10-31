@@ -26,8 +26,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setThemeState(saved);
       document.documentElement.classList.toggle("dark", saved === "dark");
       document.documentElement.classList.toggle("light", saved === "light");
+      document.documentElement.style.colorScheme = saved;
     } else {
       document.documentElement.classList.add("dark");
+      document.documentElement.style.colorScheme = "dark";
     }
     setMounted(true);
   }, []);
@@ -37,6 +39,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("dream2sim-theme", newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
     document.documentElement.classList.toggle("light", newTheme === "light");
+    document.documentElement.style.colorScheme = newTheme;
   };
 
   const toggleTheme = () => {

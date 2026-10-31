@@ -122,12 +122,15 @@ export default function LoginPage() {
                 <span>Email Address</span>
                 <span className="text-[10px] text-[var(--primary)] font-normal">SSO / Lab ID</span>
               </label>
-              <div className="flex items-center bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
-                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2">
+              <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
+                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2 shrink-0">
                   mail
                 </span>
                 <input
                   type="email"
+                  id="login-email"
+                  name="email"
+                  autoComplete="username"
                   required
                   placeholder="engineer@simulations.org"
                   value={email}
@@ -144,12 +147,15 @@ export default function LoginPage() {
                   Reset key?
                 </a>
               </label>
-              <div className="flex items-center bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
-                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2">
+              <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
+                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2 shrink-0">
                   lock
                 </span>
                 <input
                   type="password"
+                  id="login-password"
+                  name="password"
+                  autoComplete="current-password"
                   required
                   placeholder="••••••••••••"
                   value={password}

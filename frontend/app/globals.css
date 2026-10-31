@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: dark;
   /* Default baseline: Dark Mode (Stitch Engine) */
   --surface-container-lowest: #090040;
   --surface-container-low: #18114c;
@@ -37,6 +38,7 @@
 }
 
 .light {
+  color-scheme: light;
   /* Light mode (Stitch Clean States) */
   --surface-container-lowest: #FBF9F5;
   --surface-container-low: #F3EFE6;
@@ -169,3 +171,43 @@ code, pre, .font-telemetry {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(177, 59, 255, 0.4);
 }
+
+/* ==============================================================================
+   BROWSER AUTOFILL FIX (Dark Mode & Light Mode)
+   Stops Chrome / Edge / Safari from forcing white/light-blue background highlights
+   ============================================================================== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--on-surface) !important;
+  caret-color: var(--on-surface) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-container-lowest) inset !important;
+  box-shadow: 0 0 0 1000px var(--surface-container-lowest) inset !important;
+  transition: background-color 50000s ease-in-out 0s, color 50000s ease-in-out 0s;
+  font-family: inherit !important;
+  font-size: inherit !important;
+}
+
+.light input:-webkit-autofill,
+.light input:-webkit-autofill:hover, 
+.light input:-webkit-autofill:focus, 
+.light input:-webkit-autofill:active,
+.light textarea:-webkit-autofill,
+.light textarea:-webkit-autofill:hover,
+.light textarea:-webkit-autofill:focus,
+.light select:-webkit-autofill,
+.light select:-webkit-autofill:hover,
+.light select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--on-surface) !important;
+  caret-color: var(--on-surface) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--surface-container-lowest) inset !important;
+  box-shadow: 0 0 0 1000px var(--surface-container-lowest) inset !important;
+}
+

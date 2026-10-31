@@ -121,12 +121,14 @@ export default function SignupPage() {
               <label className="font-telemetry text-[11px] uppercase tracking-wider text-[var(--on-surface-variant)]">
                 Full Name & Title
               </label>
-              <div className="flex items-center bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
-                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2">
+              <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
+                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2 shrink-0">
                   badge
                 </span>
                 <input
                   type="text"
+                  name="name"
+                  autoComplete="name"
                   required
                   placeholder="Dr. Rajesh Kulkarni"
                   value={fullName}
@@ -140,12 +142,14 @@ export default function SignupPage() {
               <label className="font-telemetry text-[11px] uppercase tracking-wider text-[var(--on-surface-variant)]">
                 Lab or Institutional Email
               </label>
-              <div className="flex items-center bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
-                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2">
+              <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
+                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2 shrink-0">
                   mail
                 </span>
                 <input
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   required
                   placeholder="rkulkarni@mumbai-urban.gov"
                   value={email}
@@ -159,12 +163,14 @@ export default function SignupPage() {
               <label className="font-telemetry text-[11px] uppercase tracking-wider text-[var(--on-surface-variant)]">
                 Master Security Key (Password)
               </label>
-              <div className="flex items-center bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
-                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2">
+              <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">
+                <span className="material-symbols-outlined text-[18px] text-[var(--on-surface-variant)] mr-2 shrink-0">
                   lock
                 </span>
                 <input
                   type="password"
+                  name="password"
+                  autoComplete="new-password"
                   required
                   placeholder="Minimum 8 characters"
                   value={password}
