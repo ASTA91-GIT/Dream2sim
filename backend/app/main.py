@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.database.session import engine, Base
+import app.models.models  # Register all SQLAlchemy models
 from app.api.endpoints import auth, projects, ai, simulations, scenarios, media, system
 
 logging.basicConfig(
@@ -33,10 +34,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permits local frontend access smoothly
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

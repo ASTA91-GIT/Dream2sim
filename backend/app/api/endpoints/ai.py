@@ -11,7 +11,8 @@ from app.schemas.ai_schema import (
     AIChatRequest,
 )
 from app.schemas.simulation_schema import SimulationConfig, SimulationMetrics
-from app.services.ai.orchestrator import AIOrchestrator
+from pydantic import ValidationError
+from app.services.ai.orchestrator import AIOrchestrator, MetaAPIConfigurationError
 from app.api.deps import get_current_user_optional
 
 router = APIRouter(prefix="/ai", tags=["AI Engine (Meta Model API)"])
@@ -30,11 +31,21 @@ async def interpret_prompt(
     if not request.prompt.strip():
         raise HTTPException(status_code=400, detail="Prompt cannot be empty.")
 
-    result = await orchestrator.interpret_prompt_with_muse_spark(
-        prompt=request.prompt,
-        context=request.context,
-    )
-    return result
+    try:
+        result = await orchestrator.interpret_prompt_with_muse_spark(
+            prompt=request.prompt,
+            context=request.context,
+        )
+        return result
+    except MetaAPIConfigurationError as e:
+        # Clear error for missing configuration
+        raise HTTPException(status_code=503, detail=str(e))
+    except ValidationError as e:
+        # Clear error for schema mismatch
+        raise HTTPException(status_code=502, detail=f"Muse Spark output failed schema validation: {str(e)}")
+    except (RuntimeError, ValueError) as e:
+        # Clear error for upstream API failure
+        raise HTTPException(status_code=502, detail=str(e))
 
 
 @router.post("/analyze", response_model=AnalysisResponse)

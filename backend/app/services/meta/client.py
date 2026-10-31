@@ -25,21 +25,31 @@ class MetaAPIClient:
         base_url: Optional[str] = None,
         timeout: float = 60.0,
     ):
-        self.api_key = api_key or settings.MODEL_API_KEY
+        self._api_key = api_key
         self.base_url = (base_url or settings.META_API_BASE_URL).rstrip("/")
         self.timeout = timeout
 
     @property
+    def api_key(self) -> str:
+        return self._api_key or settings.effective_meta_api_key
+
+    @api_key.setter
+    def api_key(self, value: str):
+        self._api_key = value
+
+    @property
     def is_configured(self) -> bool:
-        return bool(self.api_key and len(self.api_key.strip()) > 5)
+        key = self.api_key
+        return bool(key and len(key.strip()) > 5)
 
     def _get_headers(self) -> Dict[str, str]:
+        key = self.api_key
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        if self.api_key:
-            headers["Authorization"] = f"Bearer {self.api_key}"
+        if key:
+            headers["Authorization"] = f"Bearer {key}"
         return headers
 
     async def chat_completion(
@@ -56,7 +66,7 @@ class MetaAPIClient:
         """
         if not self.is_configured:
             raise ValueError(
-                "Meta Model API key not configured. Please set the MODEL_API_KEY environment variable."
+                "Meta Model API key not configured. Please set 'META_API_KEY' in the backend environment."
             )
 
         endpoint = f"{self.base_url}/chat/completions"

@@ -21,6 +21,11 @@ from app.services.ai.tools import TOOL_DEFINITIONS
 logger = logging.getLogger(__name__)
 
 
+class MetaAPIConfigurationError(Exception):
+    """Raised when Meta Model API credentials or environment variables are not configured."""
+    pass
+
+
 class AIOrchestrator:
     """
     Controlled AI Orchestration Layer.
@@ -37,48 +42,136 @@ class AIOrchestrator:
         context: Optional[Dict[str, Any]] = None,
     ) -> AIInterpretationResponse:
         """
-        Interprets natural language simulation prompt using Muse Spark.
-        Extracts entities, constraints, and produces a validated SimulationConfig.
+        Interprets natural language simulation prompt using real Meta Muse Spark (muse-spark-1.3).
+        Extracts entities, constraints, and produces a mathematically valid SimulationConfig.
+        Validates missing configuration and does not substitute mock responses.
         """
-        if self.client.is_configured:
-            try:
-                system_instruction = (
-                    "You are Muse Spark, the primary simulation architect for Dream2Sim. "
-                    "Analyze the user's natural language description of an urban traffic situation. "
-                    "Identify intersections, road segments, lane numbers, traffic density, vehicle types, "
-                    "signal timings, and closures. Return a structured JSON response matching the SimulationConfig schema."
-                )
-                messages = [
-                    {"role": "system", "content": system_instruction},
-                    {"role": "user", "content": prompt},
-                ]
+        if not self.client.is_configured:
+            raise MetaAPIConfigurationError(
+                "Meta Model API key is not configured. Please set 'META_API_KEY' in the backend environment file (.env) to enable real Meta Muse Spark inference."
+            )
 
-                # We can call the Meta API
-                resp = await self.client.chat_completion(
-                    model=settings.MUSE_SPARK_MODEL,
-                    messages=messages,
-                    temperature=0.1,
-                    response_format={"type": "json_object"},
-                )
+        model = settings.effective_meta_model
+        system_instruction = (
+            "You are Meta Muse Spark (version muse-spark-1.3), the principal simulation architect for Dream2Sim. "
+            "Your objective is to analyze the user's natural language description of an urban traffic scenario "
+            "and generate a fully populated, collision-free microscopic traffic simulation configuration.\n\n"
+            "You MUST respond with a valid, parseable JSON object matching this exact specification:\n"
+            "{\n"
+            '  "summary": "1-2 sentence engineering summary of the scenario",\n'
+            '  "identified_entities": ["list of identified entities, e.g. 4-way intersection, cars, buses, motorcycles, traffic signals"],\n'
+            '  "identified_constraints": ["list of constraints, e.g. eastern road closed, rush hour ingress rate"],\n'
+            '  "reasoning": "Technical reasoning explaining chosen topology, speed limits, and signal phase allocations",\n'
+            '  "suggested_configuration": {\n'
+            '    "title": "Scenario Title",\n'
+            '    "description": "Full description of the situation",\n'
+            '    "domain": "traffic",\n'
+            '    "network": {\n'
+            '      "intersections": [\n'
+            '        {"id": "node_center", "name": "Central Junction", "x": 450.0, "y": 300.0, "type": "traffic_signal"},\n'
+            '        {"id": "node_north", "name": "North Approach", "x": 450.0, "y": 60.0, "type": "uncontrolled"},\n'
+            '        {"id": "node_south", "name": "South Approach", "x": 450.0, "y": 540.0, "type": "uncontrolled"},\n'
+            '        {"id": "node_east", "name": "East Approach", "x": 750.0, "y": 300.0, "type": "uncontrolled"},\n'
+            '        {"id": "node_west", "name": "West Approach", "x": 150.0, "y": 300.0, "type": "uncontrolled"}\n'
+            "      ],\n"
+            '      "roads": [\n'
+            '        {"id": "road_north_in", "source": "node_north", "target": "node_center", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_south_in", "source": "node_south", "target": "node_center", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_east_in", "source": "node_east", "target": "node_center", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_west_in", "source": "node_west", "target": "node_center", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_north_out", "source": "node_center", "target": "node_north", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_south_out", "source": "node_center", "target": "node_south", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_east_out", "source": "node_center", "target": "node_east", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false},\n'
+            '        {"id": "road_west_out", "source": "node_center", "target": "node_west", "lanes": 2, "speed_limit_kmh": 50.0, "is_closed": false}\n'
+            "      ]\n"
+            "    },\n"
+            '    "signals": [\n'
+            '      {\n'
+            '        "id": "sig_center",\n'
+            '        "intersection_id": "node_center",\n'
+            '        "cycle_time_seconds": 90.0,\n'
+            '        "phases": [\n'
+            '          {"id": "p1", "name": "North-South Green", "duration_seconds": 45.0, "active_green_roads": ["road_north_in", "road_south_in"], "yellow_seconds": 4.0},\n'
+            '          {"id": "p2", "name": "East-West Green", "duration_seconds": 35.0, "active_green_roads": ["road_east_in", "road_west_in"], "yellow_seconds": 4.0}\n'
+            "        ]\n"
+            "      }\n"
+            "    ],\n"
+            '    "demands": [\n'
+            '      {\n'
+            '        "id": "d_north",\n'
+            '        "source_node": "node_north",\n'
+            '        "target_node": "node_south",\n'
+            '        "vehicle_mix": [\n'
+            '          {"vehicle_type": "car", "flow_rate_vph": 800.0},\n'
+            '          {"vehicle_type": "bus", "flow_rate_vph": 150.0},\n'
+            '          {"vehicle_type": "motorcycle", "flow_rate_vph": 300.0}\n'
+            "        ]\n"
+            "      }\n"
+            "    ],\n"
+            '    "parameters": {\n'
+            '      "duration_seconds": 300.0,\n'
+            '      "time_step": 0.1,\n'
+            '      "random_seed": 42\n'
+            "    }\n"
+            "  }\n"
+            "}\n"
+            "Ensure coordinates are scaled for a 900x600 viewport. Set 'is_closed': true for any road segment requested to be closed.\n"
+            "Return pure JSON only."
+        )
 
-                content_str = resp["choices"][0]["message"]["content"]
-                parsed_json = json.loads(content_str)
+        messages = [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt},
+        ]
 
-                # Validate against Pydantic schema
-                config = SimulationConfig(**parsed_json.get("configuration", parsed_json))
+        try:
+            resp = await self.client.chat_completion(
+                model=model,
+                messages=messages,
+                temperature=0.1,
+                response_format={"type": "json_object"},
+            )
+        except Exception as e:
+            logger.error(f"Meta Muse Spark execution error on model '{model}': {e}")
+            raise RuntimeError(f"Meta Muse Spark ({model}) inference error: {str(e)}") from e
 
-                return AIInterpretationResponse(
-                    summary=f"Parsed scenario: {config.title}",
-                    identified_entities=["4-way intersection", "Vehicles", "Traffic Signals"],
-                    identified_constraints=["Road closure", "Rush hour arrival rates"],
-                    suggested_configuration=config,
-                    reasoning="Generated using Meta Muse Spark structured outputs.",
-                )
-            except Exception as e:
-                logger.warning(f"Meta API live call failed or fallback needed: {e}")
-                # Fall back to high-fidelity semantic generator
+        content_str = resp.get("choices", [{}])[0].get("message", {}).get("content", "")
+        if not content_str:
+            raise RuntimeError(f"Meta Muse Spark returned an empty completion.")
 
-        return self._generate_fallback_configuration(prompt)
+        # Clean potential markdown wrapping
+        clean_json = content_str.strip()
+        if clean_json.startswith("```"):
+            lines = clean_json.split("\n")
+            if lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].startswith("```"):
+                lines = lines[:-1]
+            clean_json = "\n".join(lines).strip()
+
+        try:
+            parsed_data = json.loads(clean_json)
+        except json.JSONDecodeError as e:
+            raise RuntimeError(f"Failed to decode Muse Spark JSON response: {e}") from e
+
+        # Extract configuration dictionary
+        config_data = parsed_data.get("suggested_configuration", parsed_data)
+        config = SimulationConfig(**config_data)
+
+        model_tag = f"Meta Muse Spark ({model})"
+        raw_reasoning = parsed_data.get("reasoning", "")
+        if raw_reasoning:
+            reasoning_text = f"[{model_tag}] {raw_reasoning}"
+        else:
+            reasoning_text = f"Synthesized via real-time inference with {model_tag}."
+
+        return AIInterpretationResponse(
+            summary=parsed_data.get("summary", f"Synthesized scenario: {config.title}"),
+            identified_entities=parsed_data.get("identified_entities", ["Intersection", "Vehicles", "Traffic Signals"]),
+            identified_constraints=parsed_data.get("identified_constraints", ["Traffic Flow"]),
+            suggested_configuration=config,
+            reasoning=reasoning_text,
+        )
 
     def _generate_fallback_configuration(self, prompt: str) -> AIInterpretationResponse:
         """

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"secondary-fixed-dim":"#d2bbff","error-container":"#93000a","inverse-surface":"#e4dfff","surface":"#0f0645","on-secondary-fixed":"#25005a","background":"#0f0645","on-primary-fixed-variant":"#6e00aa","on-surface-variant":"#d1c1d7","surface-bright":"#36316c","secondary-container":"#582ca7","inverse-on-surface":"#2d2862","tertiary-container":"#d0a600","primary":"#e3b5ff","on-surface":"#e4dfff","on-error-container":"#ffdad6","on-secondary":"#3f008e","primary-fixed-dim":"#e3b5ff","surface-container":"#1c1651","primary-fixed":"#f3daff","tertiary-fixed":"#ffe08b","tertiary-fixed-dim":"#f1c100","inverse-primary":"#9100de","outline-variant":"#4e4354","surface-container-highest":"#322d67","on-tertiary-fixed":"#241a00","secondary":"#d2bbff","surface-container-high":"#27215b","tertiary":"#f1c100","on-tertiary-container":"#4f3d00","error":"#ffb4ab","secondary-fixed":"#eaddff","on-primary-container":"#44006b","surface-variant":"#322d67","on-tertiary":"#3d2f00","surface-tint":"#e3b5ff","primary-container":"#c167ff","surface-container-lowest":"#090040","surface-dim":"#0f0645","surface-container-low":"#18114c","on-primary-fixed":"#2f004c","on-background":"#e4dfff","on-secondary-fixed-variant":"#5629a5","on-primary":"#4d007a","outline":"#9a8ca0","on-error":"#690005","on-tertiary-fixed-variant":"#584400","on-secondary-container":"#c6aaff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"2.5rem","gutter":"1rem","gutter-lg":"1.5rem","margin-md":"1.5rem","space-sm":"0.5rem","space-md":"1rem","margin-lg":"2.5rem","space-xs":"0.25rem","space-lg":"1.5rem","margin":"1rem"},"fontFamily":{"body-md":["Inter"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"display-hero":["Plus Jakarta Sans"],"label-caps":["JetBrains Mono"],"headline-xl":["Plus Jakarta Sans"],"telemetry-sm":["JetBrains Mono"],"headline-lg":["Plus Jakarta Sans"],"display-hero-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"telemetry-md":["JetBrains Mono"],"telemetry-lg":["JetBrains Mono"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"headline-xl-mobile":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"400"}],"display-hero":["56px",{"lineHeight":"64px","letterSpacing":"-0.03em","fontWeight":"700"}],"label-caps":["10px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"600"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.025em","fontWeight":"600"}],"telemetry-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"400"}],"headline-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"600"}],"display-hero-mobile":["36px",{"lineHeight":"44px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-md":["22px",{"lineHeight":"30px","letterSpacing":"-0.01em","fontWeight":"600"}],"telemetry-md":["13px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"500"}],"telemetry-lg":["15px",{"lineHeight":"22px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"26px","letterSpacing":"0em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface-container-lowest font-body-md text-body-md text-on-surface min-h-screen selection:bg-primary selection:text-on-primary"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-low/80 backdrop-blur-2xl z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 flex items-center px-gutter-lg gap-space-sm bg-surface-container/30"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-headline-sm">hub</span><span class="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface">Dream2Sim</span></div><span class="font-label-caps text-label-caps bg-primary-container/20 text-primary px-space-xs py-0.5 rounded">CORE</span></div><nav class="px-space-md py-space-md flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-[0_0_16px_rgba(193,103,255,0.25)]"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="overview-dashboard" href="#"><span class="material-symbols-outlined text-headline-sm">dashboard</span><span class="font-body-md text-body-md">Overview / Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-projects" href="#"><span class="material-symbols-outlined text-headline-sm">folder_open</span><span class="font-body-md text-body-md">My Projects</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="simulation-workspace" href="#"><span class="material-symbols-outlined text-headline-sm">science</span><span class="font-body-md text-body-md">Simulation Workspace</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="scenario-comparison" href="#"><span class="material-symbols-outlined text-headline-sm">compare_arrows</span><span class="font-body-md text-body-md">Scenario Comparison</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="analytics-telemetry" href="#"><span class="material-symbols-outlined text-headline-sm">insights</span><span class="font-body-md text-body-md">Analytics & Telemetry</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ai-assistant" href="#"><span class="material-symbols-outlined text-headline-sm">neurology</span><span class="font-body-md text-body-md">AI Assistant (Muse)</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="media-studio" href="#"><span class="material-symbols-outlined text-headline-sm">video_settings</span><span class="font-body-md text-body-md">Media Studio (SAM 3.1)</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="collaboration-comments" href="#"><span class="material-symbols-outlined text-headline-sm">forum</span><span class="font-body-md text-body-md">Collaboration & Velt</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="settings-integrations" href="#"><span class="material-symbols-outlined text-headline-sm">tune</span><span class="font-body-md text-body-md">Settings & Integrations</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="documentation-api" href="#"><span class="material-symbols-outlined text-headline-sm">terminal</span><span class="font-body-md text-body-md">Documentation & API</span></a></nav></div><div class="p-space-md flex flex-col gap-space-sm bg-surface-container/40"><div class="bg-surface-container-high/60 backdrop-blur-md rounded-lg p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(241,193,0,0.8)]"></span><span class="font-telemetry-sm text-telemetry-sm text-on-surface">Muse Spark 3.1</span></div><span class="font-label-caps text-label-caps text-primary bg-primary-container/20 px-space-xs py-0.5 rounded">READY</span></div><div class="flex items-center justify-between px-space-xs"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-body-sm">sensors</span><span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">Sys Health 99.98%</span></div><span class="font-label-caps text-label-caps text-secondary">PROD-US</span></div></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-low/70 backdrop-blur-2xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><img alt="Dream2Sim Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1ULwASxGcDejebL9NUNviQLxI1qYeqErRXhNc7lWXmSQa403Qpjx1RW6yXORRAmebQ6tqvXmRxRegPuRC8rhaAN48d9tp7JjlpV-qnXAxqE71MdRrANluO2CPwt9l-G40Ri12Ys86rZmxKdNS3CmTOOnTzy5f_S_ECfuAwv-3yDEAq7iTrvtmYPZgPjlGQbxNxNBmWMYiPls2okJ_88Rg8CJZQWpSWBxh3J_fDXZl0"/><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm font-semibold tracking-tight text-on-surface">Dream2Sim</span><span class="font-label-caps text-label-caps bg-primary-container/20 text-primary px-space-xs py-0.5 rounded shadow-[0_0_12px_rgba(193,103,255,0.2)]">SIM-CORE v2.4</span></div><div class="hidden xl:flex items-center gap-space-xs text-on-surface-variant font-telemetry-sm text-telemetry-sm"><span class="text-outline">/</span><span>Urban Transit Labs</span><span class="text-outline">/</span><span class="text-on-surface font-medium">Mumbai Intersections</span></div></div><div class="flex-1 max-w-xl mx-space-md hidden md:flex items-center gap-space-sm"><div class="flex-1 flex items-center bg-surface-container/60 backdrop-blur-md rounded-lg px-space-md py-space-xs text-on-surface-variant focus-within:text-on-surface"><span class="material-symbols-outlined text-headline-sm mr-space-xs">search</span><input class="bg-transparent border-0 outline-none w-full text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant" placeholder="Search scenarios, runs, parameters, datasets..." type="text"/><kbd class="font-label-caps text-label-caps bg-surface-container-highest px-space-xs py-0.5 rounded text-on-surface-variant">⌘K</kbd></div><div class="hidden lg:flex items-center gap-space-xs bg-surface-container/40 rounded-lg px-space-sm py-space-xs shrink-0"><span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span><span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">Engine: <strong class="text-on-surface font-normal">Online</strong> (14ms)</span></div></div><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center -space-x-2"><div class="relative w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-label-caps text-label-caps ring-2 ring-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-tertiary absolute -bottom-0.5 -right-0.5 ring-1 ring-surface-container-lowest"></span>AK</div><div class="relative w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-label-caps text-label-caps ring-2 ring-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-tertiary absolute -bottom-0.5 -right-0.5 ring-1 ring-surface-container-lowest"></span>VL</div><div class="relative w-7 h-7 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-label-caps text-label-caps ring-2 ring-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-tertiary absolute -bottom-0.5 -right-0.5 ring-1 ring-surface-container-lowest"></span>SR</div><div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-telemetry-sm text-telemetry-sm ring-2 ring-surface-container-lowest">+3</div></div><button class="hidden sm:flex items-center gap-space-xs bg-primary-container/20 hover:bg-primary-container/30 text-primary hover:text-on-primary-fixed font-telemetry-md text-telemetry-md px-space-md py-space-xs rounded-lg transition-colors"><span class="material-symbols-outlined text-body-md">group_add</span><span>Invite</span></button><button class="relative p-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-headline-sm">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(241,193,0,0.8)]"></span></button><div class="flex items-center bg-surface-container/60 rounded-full p-0.5"><button class="p-1 rounded-full bg-surface-container-highest text-primary"><span class="material-symbols-outlined text-body-sm">dark_mode</span></button><button class="p-1 rounded-full text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-body-sm">light_mode</span></button></div><div class="flex items-center gap-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-primary/40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZO9GzGzFVVhi9FX8wMkr0CBuf3Ksk3nHtbJ5Wh4i8a8G5VJM4CkFZXMiPn-uyYfkTbkZunUtTB8dqxgvgSzgqyOG4wJmpPGMRXVgpMucePTSBNS0EeViDndlAnpq9s5bersuLCDEh-7nYBfJyvr_kkqLDKjoxZLOs16ntN9vNvL7edF5NljfSy2yVseX15xX1hcE8v2dGvQ8Hsdj1BkEw4fbaPHLw7xJzZGIooA"/><span class="material-symbols-outlined text-on-surface-variant text-body-md">expand_more</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<div class="relative w-full px-gutter-lg py-space-lg flex flex-col gap-space-lg overflow-hidden">
+<div class="absolute -top-32 -left-20 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-1/3 -right-24 w-80 h-80 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-[600px] h-64 rounded-full bg-primary-container/10 blur-3xl pointer-events-none -z-10"></div>
+<section class="relative bg-surface-container/40 backdrop-blur-2xl p-gutter-lg rounded-xl shadow-xl">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-tertiary">SYS·ID: ORCHESTRATOR-CLUSTER-ALPHA</span>
+<span class="font-telemetry-sm text-telemetry-sm text-outline">|</span>
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">Active Model: Muse Spark 3.1 Neural SIM</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight">Good afternoon, Dr. Kulkarni</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Here's what's happening with your urban transit and multi-agent simulations across 12 active models.</p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-space-xs bg-tertiary text-on-tertiary-container hover:bg-tertiary-fixed font-telemetry-md text-telemetry-md px-space-md py-space-sm rounded-lg shadow-lg hover:shadow-tertiary/20 transition-all font-semibold active:scale-95">
+<span class="material-symbols-outlined text-headline-sm">add_circle</span>
+<span>+ Create New Simulation</span>
+</button>
+<button class="flex items-center gap-space-xs bg-surface-container-high/80 hover:bg-surface-container-highest text-primary font-telemetry-md text-telemetry-md px-space-md py-space-sm rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-body-lg">create_new_folder</span>
+<span>+ New Project</span>
+</button>
+<button class="flex items-center gap-space-xs bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-telemetry-md text-telemetry-md px-space-md py-space-sm rounded-lg transition-all">
+<span class="material-symbols-outlined text-body-lg">auto_awesome_motion</span>
+<span>Explore Scenario Templates</span>
+</button>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+<div class="relative bg-surface-container/50 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all group overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">METRIC 01 / REPOSITORY</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-headline-sm">account_tree</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="font-display-hero text-headline-xl text-on-surface font-bold leading-none tracking-tight">18</div>
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-tertiary/20 text-tertiary font-semibold">+2 THIS WK</span>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs">
+<span class="text-primary font-telemetry-sm text-telemetry-sm">4 team shared</span>
+<span class="text-outline">•</span>
+<span>Active workstreams</span>
+</div>
+<div class="mt-space-sm h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 78%;"></div>
+</div>
+</div>
+<div class="relative bg-surface-container/50 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all group overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">METRIC 02 / COMPUTATION</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-headline-sm">memory</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="font-display-hero text-headline-xl text-on-surface font-bold leading-none tracking-tight">1,248</div>
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary/20 text-primary font-semibold">99.4% SLA</span>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs">
+<span class="text-tertiary font-telemetry-sm text-telemetry-sm">Compute success rate</span>
+<span class="text-outline">•</span>
+<span>Zero packet loss</span>
+</div>
+<div class="mt-space-sm h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 99.4%;"></div>
+</div>
+</div>
+<div class="relative bg-surface-container/50 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all group overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">METRIC 03 / RUNTIME TODAY</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-headline-sm">cycle</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="font-display-hero text-headline-xl text-on-surface font-bold leading-none tracking-tight">34</div>
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-secondary/20 text-secondary font-semibold">PEAK TPUT</span>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs">
+<span class="text-on-surface font-telemetry-sm text-telemetry-sm">4.2k agents/min</span>
+<span class="text-outline">•</span>
+<span>Distributed swarm</span>
+</div>
+<div class="mt-space-sm h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 64%;"></div>
+</div>
+</div>
+<div class="relative bg-surface-container/50 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all group overflow-hidden">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">METRIC 04 / CONVERGENCE</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-headline-sm">timer</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<div class="font-display-hero text-headline-xl text-on-surface font-bold leading-none tracking-tight">4m 18s</div>
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary-container/30 text-primary font-semibold">98.2% EFF</span>
+</div>
+<div class="mt-space-xs font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs">
+<span class="text-on-surface font-telemetry-sm text-telemetry-sm">Average duration</span>
+<span class="text-outline">•</span>
+<span>GPU accelerated</span>
+</div>
+<div class="mt-space-sm h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 88%;"></div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">bolt</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Quick-Start Simulation Templates</h2>
+</div>
+<a class="font-telemetry-sm text-telemetry-sm text-primary hover:text-primary-fixed flex items-center gap-space-xs transition-colors" href="#">
+<span>View All Presets (24)</span>
+<span class="material-symbols-outlined text-body-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all flex flex-col justify-between group cursor-pointer">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary/20 text-primary font-medium">URBAN BOTTLENECK</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors text-body-lg">arrow_outward</span>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors">Mumbai Rush Hour (Four-Way)</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pre-configured with mixed vehicles, pedestrian flows, and smart signals.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm bg-surface-container-high/40 rounded-lg px-space-sm py-space-xs">
+<span class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>12k Agents</span>
+<span>4-Phase RL</span>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all flex flex-col justify-between group cursor-pointer">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-secondary/20 text-secondary font-medium">HIGHWAY LAB</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors text-body-lg">arrow_outward</span>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors">Highway Chokepoint & Bottleneck</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Lane closure simulation with automated merge algorithms and speed harmonization.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm bg-surface-container-high/40 rounded-lg px-space-sm py-space-xs">
+<span class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>8.5k Agents</span>
+<span>Zipper Merge</span>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all flex flex-col justify-between group cursor-pointer">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-tertiary/20 text-tertiary font-medium">AI AGENTS</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors text-body-lg">arrow_outward</span>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors">Smart Signal Optimization</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Reinforcement learning adaptive signal controller testbed with Q-learning.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm bg-surface-container-high/40 rounded-lg px-space-sm py-space-xs">
+<span class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Self-Tuning</span>
+<span>Loss: -0.012</span>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/70 transition-all flex flex-col justify-between group cursor-pointer">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary-container/30 text-primary font-medium">CRITICAL TRANSIT</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors text-body-lg">arrow_outward</span>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors">Emergency Corridor Priority</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Green-wave routing for ambulances, rapid transit and blue-light corridors.</p>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm bg-surface-container-high/40 rounded-lg px-space-sm py-space-xs">
+<span class="flex items-center gap-space-xs"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>Preemption V2X</span>
+<span>99.8% Cleared</span>
+</div>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">folder_open</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Recent Projects</h2>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded bg-surface-container text-on-surface hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-body-md">view_agenda</span>
+</button>
+<button class="p-1 rounded bg-transparent text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-body-md">grid_view</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/60 transition-all flex flex-col justify-between group">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-tertiary/20 text-tertiary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> RUNNING
+                  </span>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-body-md">more_vert</span></button>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors line-clamp-2">South Mumbai Coastal Road Intersections</div>
+<div class="font-body-sm text-body-sm text-secondary">Urban Traffic • 42 runs</div>
+</div>
+<div class="mt-space-md pt-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm">
+<span>Modified 18m ago</span>
+<span class="text-tertiary font-semibold">Iter #42</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center -space-x-2">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-label-caps text-label-caps">VK</div>
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-label-caps text-label-caps">PM</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-label-caps text-label-caps">SR</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-telemetry-sm text-telemetry-sm">+1</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">4 Active Velt</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/60 transition-all flex flex-col justify-between group">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-primary/20 text-primary">COMPLETED</span>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-body-md">more_vert</span></button>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors line-clamp-2">Bandra-Kurla Complex Autonomous Bus Feeder</div>
+<div class="font-body-sm text-body-sm text-secondary">Transit Logistics • 18 runs</div>
+</div>
+<div class="mt-space-md pt-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm">
+<span>Modified 2h ago</span>
+<span class="text-primary font-semibold">100% Synced</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center -space-x-2">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-on-primary font-label-caps text-label-caps">AR</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-label-caps text-label-caps">DK</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">2 Collaborators</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-xl p-space-md rounded-xl shadow-md hover:bg-surface-container/60 transition-all flex flex-col justify-between group">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps px-space-xs py-0.5 rounded bg-tertiary-container/30 text-tertiary">REVIEW NEEDED</span>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-body-md">more_vert</span></button>
+</div>
+<div class="font-headline-sm text-body-lg text-on-surface font-semibold mt-space-xs group-hover:text-primary transition-colors line-clamp-2">Pune Metro Line 3 Multimodal Hub</div>
+<div class="font-body-sm text-body-sm text-secondary">Pedestrian & Micro-mobility • 64 runs</div>
+</div>
+<div class="mt-space-md pt-space-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-telemetry-sm text-telemetry-sm">
+<span>Modified Yesterday</span>
+<span class="text-secondary font-semibold">Delta +4.8%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-bright flex items-center justify-center text-on-surface font-label-caps text-label-caps">ML</div>
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-label-caps text-label-caps">SR</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-telemetry-sm text-telemetry-sm">+3</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">5 Collaborators</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">table_chart</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Recent Simulation Runs</h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant hidden sm:inline">Showing 5 of 1,248 runs</span>
+<button class="bg-surface-container/60 hover:bg-surface-container text-on-surface px-space-sm py-1 rounded text-body-sm flex items-center gap-1 font-body-sm">
+<span class="material-symbols-outlined text-body-sm">filter_list</span> Filter
+              </button>
+</div>
+</div>
+<div class="bg-surface-container/45 backdrop-blur-2xl rounded-xl shadow-lg overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm min-w-[700px]">
+<thead class="bg-surface-container-high/60 text-on-surface-variant font-label-caps text-label-caps">
+<tr>
+<th class="py-space-sm px-space-md">SIMULATION NAME</th>
+<th class="py-space-sm px-space-md">SCENARIO TYPE</th>
+<th class="py-space-sm px-space-md">PROJECT</th>
+<th class="py-space-sm px-space-md">DATE / TIME</th>
+<th class="py-space-sm px-space-md">DURATION</th>
+<th class="py-space-sm px-space-md">ENGINE STATUS</th>
+<th class="py-space-sm px-space-md text-right">ACTION</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-on-surface">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-medium text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-body-md">play_circle</span>
+<span>#SIM-9842_EastArterial</span>
+</td>
+<td class="py-space-sm px-space-md text-secondary">Urban Diversion</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Mumbai Coastal Rd</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface-variant">Today 14:28 IST</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface">03m 42s</td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded font-label-caps text-label-caps bg-tertiary/20 text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span> RUNNING
+                    </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="bg-tertiary/20 hover:bg-tertiary hover:text-on-tertiary-container text-tertiary px-space-xs py-1 rounded font-telemetry-sm text-telemetry-sm transition-colors">Inspect</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-medium text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-body-md">star</span>
+<span>#SIM-9841_SigSync_BKC</span>
+</td>
+<td class="py-space-sm px-space-md text-secondary">Adaptive RL Grid</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">BKC Bus Feeder</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface-variant">Today 13:12 IST</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface">05m 12s</td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded font-label-caps text-label-caps bg-tertiary/20 text-tertiary">
+<span class="material-symbols-outlined text-label-caps">verified</span> OPTIMIZED
+                    </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-primary px-space-xs py-1 rounded font-telemetry-sm text-telemetry-sm transition-colors">Export</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-medium text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-body-md">check_circle</span>
+<span>#SIM-9840_PedCongestion</span>
+</td>
+<td class="py-space-sm px-space-md text-secondary">Crowd Evacuation</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Pune Metro Line 3</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface-variant">Today 11:45 IST</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface">04m 10s</td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded font-label-caps text-label-caps bg-primary/20 text-primary">
+                      COMPLETED
+                    </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface px-space-xs py-1 rounded font-telemetry-sm text-telemetry-sm transition-colors">Re-run</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-medium text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-body-md">check_circle</span>
+<span>#SIM-9839_EmergencyCorridor</span>
+</td>
+<td class="py-space-sm px-space-md text-secondary">V2X Preemption</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Mumbai Coastal Rd</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface-variant">Today 09:14 IST</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface">02m 54s</td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded font-label-caps text-label-caps bg-primary/20 text-primary">
+                      COMPLETED
+                    </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface px-space-xs py-1 rounded font-telemetry-sm text-telemetry-sm transition-colors">Inspect</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-medium text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-body-md">star</span>
+<span>#SIM-9838_Worli_Naka_Split</span>
+</td>
+<td class="py-space-sm px-space-md text-secondary">Macro Bottleneck</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Mumbai Coastal Rd</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface-variant">Yesterday 18:30</td>
+<td class="py-space-sm px-space-md font-telemetry-sm text-telemetry-sm text-on-surface">06m 02s</td>
+<td class="py-space-sm px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-xs py-0.5 rounded font-label-caps text-label-caps bg-tertiary/20 text-tertiary">
+<span class="material-symbols-outlined text-label-caps">verified</span> OPTIMIZED
+                    </span>
+</td>
+<td class="py-space-sm px-space-md text-right">
+<button class="bg-surface-container-high hover:bg-surface-container-highest text-primary px-space-xs py-1 rounded font-telemetry-sm text-telemetry-sm transition-colors">Compare</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<section class="bg-surface-container/45 backdrop-blur-2xl p-space-md rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-ping"></span>
+<h2 class="font-headline-sm text-body-lg text-on-surface font-semibold">Velt Team Presence & Feed</h2>
+</div>
+<span class="font-label-caps text-label-caps bg-secondary-container/50 text-secondary px-space-xs py-0.5 rounded">REAL-TIME</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="flex items-start gap-space-sm group">
+<div class="relative mt-0.5 shrink-0">
+<div class="w-7 h-7 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-label-caps text-label-caps font-semibold">VS</div>
+<span class="w-2 h-2 rounded-full bg-tertiary absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container-lowest animate-pulse"></span>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Vikram S.</strong> annotated <span class="font-telemetry-sm text-telemetry-sm text-tertiary">#SIM-9842</span> (Eastern arterial diversion)
+                </p>
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">4m ago • Intersection Node 14B</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm group">
+<div class="relative mt-0.5 shrink-0">
+<div class="w-7 h-7 rounded-full bg-primary-container flex items-center justify-center text-on-primary font-label-caps text-label-caps font-semibold">PM</div>
+<span class="w-2 h-2 rounded-full bg-tertiary absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Priya M.</strong> initiated Scenario Comparison: <span class="text-secondary">Baseline vs Adaptive Split</span>
+</p>
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">22m ago • BKC Feeder</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm group">
+<div class="relative mt-0.5 shrink-0">
+<div class="w-7 h-7 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary font-label-caps text-label-caps font-semibold">
+<span class="material-symbols-outlined text-body-md">neurology</span>
+</div>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold text-tertiary">Meta Muse Spark</strong> generated new signal timing configuration (<span class="text-tertiary font-medium">+14.2% throughput</span>)
+                </p>
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">1h ago • Autonomous Policy</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm group">
+<div class="relative mt-0.5 shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-bright flex items-center justify-center text-on-surface font-label-caps text-label-caps font-semibold">AR</div>
+<span class="w-2 h-2 rounded-full bg-outline absolute -bottom-0.5 -right-0.5 ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col gap-0.5 min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Ananya R.</strong> invited 2 reviewers to BKC Transit Hub
+                </p>
+<span class="font-telemetry-sm text-telemetry-sm text-on-surface-variant">3h ago • Workspace Perms</span>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-surface-container/45 backdrop-blur-2xl p-space-md rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-sm">neurology</span>
+<h2 class="font-headline-sm text-body-lg text-on-surface font-semibold">Ask Muse Spark</h2>
+</div>
+<span class="font-label-caps text-label-caps bg-primary/20 text-primary px-space-xs py-0.5 rounded">v3.1 AI</span>
+</div>
+<div class="bg-surface-container-high/40 rounded-lg p-space-sm flex flex-col gap-space-sm">
+<div class="flex items-center bg-surface-container-highest/60 rounded-lg px-space-sm py-space-xs text-on-surface">
+<input class="bg-transparent border-0 outline-none w-full text-body-sm font-body-sm text-on-surface placeholder:text-on-surface-variant" id="muse-input" placeholder="Ask Muse simulation engine..." type="text"/>
+<button class="text-tertiary hover:text-tertiary-fixed ml-space-xs" onclick="document.getElementById('muse-input').value='Analyzing Marine Drive diversion queues...';">
+<span class="material-symbols-outlined text-body-lg">send</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SUGGESTED PROMPTS</span>
+<button class="text-left text-on-surface-variant hover:text-primary font-body-sm text-body-sm p-space-xs rounded bg-surface-container/60 hover:bg-surface-container transition-colors line-clamp-1" onclick="document.getElementById('muse-input').value='How does closing Worli Naka affect Marine Drive queues?';">
+                “How does closing Worli Naka affect Marine Drive queues?”
+              </button>
+<button class="text-left text-on-surface-variant hover:text-primary font-body-sm text-body-sm p-space-xs rounded bg-surface-container/60 hover:bg-surface-container transition-colors line-clamp-1" onclick="document.getElementById('muse-input').value='Recommend green phase extension for BKC North';">
+                “Recommend green phase extension for BKC North”
+              </button>
+</div>
+</div>
+</section>
+<section class="bg-surface-container/45 backdrop-blur-2xl p-space-md rounded-xl shadow-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-headline-sm">tune</span>
+<h2 class="font-headline-sm text-body-lg text-on-surface font-semibold">Engine Telemetry Status</h2>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary shadow-sm"></span>
+</div>
+<div class="flex flex-col gap-space-sm font-telemetry-sm text-telemetry-sm">
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-high/40">
+<span class="text-on-surface-variant">Meta Model API</span>
+<span class="text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Connected (Muse Spark 3.1)
+              </span>
+</div>
+<div class="flex items-center justify-between p-space-xs rounded bg-surface-container-high/40">
+<span class="text-on-surface-variant">Python SIM Workers</span>
+<span class="text-primary font-semibold">8 / 8 Active Nodes</span>
+</div>
+<div class="flex flex-col gap-1 p-space-xs rounded bg-surface-container-high/40">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant">GPU Cluster Memory</span>
+<span class="text-on-surface font-semibold">38% Utilized (91.2 GB / 240 GB)</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 38%;"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant px-space-xs">
+<span>Avg Latency: <strong class="text-on-surface font-normal">14.2ms</strong></span>
+<span>Uptime: <strong class="text-on-surface font-normal">99.98%</strong></span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

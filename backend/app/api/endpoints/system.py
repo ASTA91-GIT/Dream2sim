@@ -21,23 +21,23 @@ async def health_check():
 async def meta_model_api_status():
     """
     Observability endpoint checking Meta Model API connectivity.
-    Transparently reports whether credentials are configured.
+    Transparently reports whether credentials are configured without exposing secrets.
     """
     configured = meta_client.is_configured
     return {
         "configured": configured,
         "base_url": settings.META_API_BASE_URL,
         "models": {
-            "primary_engine": settings.MUSE_SPARK_MODEL,
+            "primary_engine": settings.effective_meta_model,
             "advanced_reasoning": settings.MUSE_WONDER_MODEL,
             "image_generation": settings.MUSE_IMAGE_MODEL,
             "voice_transcription": settings.MUSE_VOICE_MODEL,
             "segmentation": settings.SAM_MODEL,
         },
         "message": (
-            "Meta Model API configured and ready."
+            f"Meta Model API configured and ready with model '{settings.effective_meta_model}'."
             if configured
-            else "MODEL_API_KEY environment variable is not configured. Running in high-fidelity deterministic engine mode."
+            else "META_API_KEY environment variable is not configured. Please set META_API_KEY to enable real Meta Muse Spark 1.3 inference."
         ),
     }
 

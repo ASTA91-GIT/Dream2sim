@@ -1,7 +1,18 @@
 import os
+from pathlib import Path
 from typing import List, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
+
+# Dynamic path resolution to detect .env in backend/ or repository root
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+ROOT_DIR = BACKEND_DIR.parent
+ENV_CANDIDATES = [
+    str(BACKEND_DIR / ".env"),
+    str(ROOT_DIR / ".env"),
+    ".env",
+    "../.env",
+]
 
 
 class Settings(BaseSettings):
@@ -18,15 +29,20 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 1 day
 
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./dream2sim.db"
+    DATABASE_URL: str = f"sqlite+aiosqlite:///{(BACKEND_DIR / 'dream2sim.db').as_posix()}"
 
     # Redis (Optional, with memory fallback)
     REDIS_URL: Optional[str] = None
 
-    # Meta Model API
+    # Meta Model API Environment Settings
+    # Supports both META_API_KEY and MODEL_API_KEY
+    META_API_KEY: Optional[str] = Field(default=None, alias="META_API_KEY")
     MODEL_API_KEY: Optional[str] = Field(default=None, alias="MODEL_API_KEY")
-    META_API_BASE_URL: str = "https://api.meta.ai/v1"
-    MUSE_SPARK_MODEL: str = "muse-spark"
+    META_API_BASE_URL: str = Field(default="https://api.meta.ai/v1", alias="META_API_BASE_URL")
+    META_MODEL: str = Field(default="muse-spark-1.3", alias="META_MODEL")
+
+    # Specific Model Targets
+    MUSE_SPARK_MODEL: str = "muse-spark-1.3"
     MUSE_WONDER_MODEL: str = "muse-wonder"
     MUSE_IMAGE_MODEL: str = "muse-image"
     MUSE_VOICE_MODEL: str = "muse-voice-transcribe"
@@ -45,11 +61,36 @@ class Settings(BaseSettings):
     MAX_UPLOAD_SIZE_MB: int = 25
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=ENV_CANDIDATES,
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore"
     )
+
+    @property
+    def effective_meta_api_key(self) -> Optional[str]:
+        """
+        Securely retrieves the Meta Model API Key.
+        Priority: META_API_KEY in .env -> MODEL_API_KEY in .env -> os.environ['META_API_KEY'] -> os.environ['MODEL_API_KEY']
+        """
+        return (
+            self.META_API_KEY
+            or self.MODEL_API_KEY
+            or os.environ.get("META_API_KEY")
+            or os.environ.get("MODEL_API_KEY")
+        )
+
+    @property
+    def effective_meta_model(self) -> str:
+        """
+        Returns active natural-language simulation model (defaults to muse-spark-1.3).
+        """
+        return (
+            self.META_MODEL
+            or self.MUSE_SPARK_MODEL
+            or os.environ.get("META_MODEL")
+            or "muse-spark-1.3"
+        )
 
 
 settings = Settings()
