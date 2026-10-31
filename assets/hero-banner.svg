@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="100%">
+  <defs>
+    <!-- Background Linear Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050811" />
+      <stop offset="50%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#0d1527" />
+    </linearGradient>
+
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <linearGradient id="metaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0064e0" />
+      <stop offset="50%" stop-color="#0082fb" />
+      <stop offset="100%" stop-color="#00c6ff" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    .title-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-weight: 900;
+      font-size: 56px;
+      letter-spacing: -1.5px;
+      fill: url(#neonCyan);
+    }
+    .subtitle-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      fill: #94a3b8;
+    }
+    .tagline-text {
+      font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, monospace;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 2px;
+      fill: #38bdf8;
+    }
+    .grid-line {
+      stroke: #1e293b;
+      stroke-width: 1;
+      opacity: 0.35;
+    }
+    .particle {
+      animation: floatParticle 6s ease-in-out infinite alternate;
+    }
+    @keyframes floatParticle {
+      0% { transform: translateY(0px) scale(0.8); opacity: 0.2; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-20px) scale(1.2); opacity: 0.3; }
+    }
+    .pulse-glow {
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.7; }
+    }
+    .beam {
+      stroke-dasharray: 80 400;
+      animation: dash 4s linear infinite;
+    }
+    @keyframes dash {
+      from { stroke-dashoffset: 480; }
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <!-- Deep Background -->
+  <rect width="1200" height="360" rx="20" fill="url(#bgGrad)" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Animated Background Matrix Grid -->
+  <g class="grid-line">
+    <line x1="0" y1="60" x2="1200" y2="60" />
+    <line x1="0" y1="120" x2="1200" y2="120" />
+    <line x1="0" y1="180" x2="1200" y2="180" />
+    <line x1="0" y1="240" x2="1200" y2="240" />
+    <line x1="0" y1="300" x2="1200" y2="300" />
+    <line x1="150" y1="0" x2="150" y2="360" />
+    <line x1="300" y1="0" x2="300" y2="360" />
+    <line x1="450" y1="0" x2="450" y2="360" />
+    <line x1="600" y1="0" x2="600" y2="360" />
+    <line x1="750" y1="0" x2="750" y2="360" />
+    <line x1="900" y1="0" x2="900" y2="360" />
+    <line x1="1050" y1="0" x2="1050" y2="360" />
+  </g>
+
+  <!-- Ambient Pulsing Glow Orbs -->
+  <circle cx="200" cy="180" r="140" fill="#0284c7" opacity="0.15" class="pulse-glow" filter="url(#glow)" />
+  <circle cx="1000" cy="160" r="150" fill="#9333ea" opacity="0.12" class="pulse-glow" filter="url(#glow)" />
+  <circle cx="600" cy="100" r="120" fill="#3b82f6" opacity="0.12" class="pulse-glow" filter="url(#glow)" />
+
+  <!-- Glowing Laser Accents -->
+  <path d="M 0 358 L 1200 358" stroke="url(#neonCyan)" stroke-width="2.5" class="beam" filter="url(#softGlow)" />
+  <path d="M 0 2 L 1200 2" stroke="url(#neonCyan)" stroke-width="1.5" class="beam" filter="url(#softGlow)" />
+
+  <!-- Hackathon Top Badge -->
+  <g transform="translate(600, 50)">
+    <rect x="-210" y="-16" width="420" height="32" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <circle cx="-188" cy="0" r="5" fill="#38bdf8">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+    <text x="0" y="5" text-anchor="middle" class="tagline-text" font-size="12">META GLOBAL AI DEVELOPER HACKATHON</text>
+  </g>
+
+  <!-- Title & Subtitle -->
+  <g transform="translate(600, 140)">
+    <text x="0" y="0" text-anchor="middle" class="title-text" filter="url(#softGlow)">DREAM2SIM</text>
+    <text x="0" y="42" text-anchor="middle" class="subtitle-text">
+      AI-Powered Idea-to-Simulation Platform
+    </text>
+  </g>
+
+  <!-- Capabilities Ribbon -->
+  <g transform="translate(600, 245)">
+    <!-- Pill 1: Meta Muse Spark -->
+    <g transform="translate(-390, 0)">
+      <rect x="0" y="0" width="180" height="38" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+      <circle cx="22" cy="19" r="6" fill="#38bdf8" />
+      <text x="36" y="24" fill="#f8fafc" font-family="sans-serif" font-weight="600" font-size="12">Meta Muse Spark</text>
+    </g>
+
+    <!-- Pill 2: Deterministic Python Engine -->
+    <g transform="translate(-190, 0)">
+      <rect x="0" y="0" width="180" height="38" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <circle cx="22" cy="19" r="6" fill="#10b981" />
+      <text x="36" y="24" fill="#f8fafc" font-family="sans-serif" font-weight="600" font-size="12">IDM Physics (Python)</text>
+    </g>
+
+    <!-- Pill 3: PixiJS 60 FPS Canvas -->
+    <g transform="translate(10, 0)">
+      <rect x="0" y="0" width="180" height="38" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1" />
+      <circle cx="22" cy="19" r="6" fill="#f59e0b" />
+      <text x="36" y="24" fill="#f8fafc" font-family="sans-serif" font-weight="600" font-size="12">PixiJS 60 FPS WebGL</text>
+    </g>
+
+    <!-- Pill 4: Meta Muse Wonder -->
+    <g transform="translate(210, 0)">
+      <rect x="0" y="0" width="180" height="38" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1" />
+      <circle cx="22" cy="19" r="6" fill="#a855f7" />
+      <text x="36" y="24" fill="#f8fafc" font-family="sans-serif" font-weight="600" font-size="12">Meta Muse Wonder</text>
+    </g>
+  </g>
+
+  <!-- Animated Bottom Tagline Indicator -->
+  <g transform="translate(600, 318)">
+    <text x="0" y="0" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="12">
+      Natural Language → Structured Geometry → Physics Engine → Hardware-Accelerated Canvas → AI Reasoning
+    </text>
+  </g>
+</svg>

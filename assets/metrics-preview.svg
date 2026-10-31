@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="meterGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="meterSky" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="meterPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+    <linearGradient id="meterAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .card-title {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      fill: #94a3b8;
+      font-weight: 500;
+    }
+    .card-value {
+      font-family: "SF Mono", Monaco, Consolas, monospace;
+      font-size: 26px;
+      font-weight: 800;
+      fill: #f8fafc;
+    }
+    .card-unit {
+      font-family: monospace;
+      font-size: 11px;
+      fill: #64748b;
+    }
+    .bar-anim {
+      animation: growBar 3s ease-in-out infinite alternate;
+    }
+    @keyframes growBar {
+      0% { transform: scaleX(0.7); }
+      100% { transform: scaleX(1); }
+    }
+    .pulse-dot {
+      animation: pulseDot 1.2s infinite;
+    }
+    @keyframes pulseDot {
+      0% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.3; transform: scale(0.8); }
+    }
+  </style>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="160" rx="14" fill="#090d16" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- 4 Animated HUD Cards Grid -->
+
+  <!-- Card 1: Throughput -->
+  <g transform="translate(25, 20)">
+    <rect width="220" height="120" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" />
+    <circle cx="20" cy="24" r="4" fill="#10b981" class="pulse-dot" />
+    <text x="32" y="27" class="card-title">SYSTEM THROUGHPUT</text>
+    <text x="20" y="66" class="card-value">1,416.0</text>
+    <text x="145" y="66" class="card-unit">VPH</text>
+    <!-- Progress bar -->
+    <rect x="20" y="88" width="180" height="6" rx="3" fill="#1e293b" />
+    <rect x="20" y="88" width="150" height="6" rx="3" fill="url(#meterGreen)" class="bar-anim" />
+    <text x="20" y="106" fill="#10b981" font-family="monospace" font-size="9">+12.4% vs uncoordinated</text>
+  </g>
+
+  <!-- Card 2: Delay Reduction -->
+  <g transform="translate(265, 20)">
+    <rect width="220" height="120" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" />
+    <circle cx="20" cy="24" r="4" fill="#38bdf8" class="pulse-dot" />
+    <text x="32" y="27" class="card-title">OPTIMIZED DELAY</text>
+    <text x="20" y="66" class="card-value">-4.22</text>
+    <text x="110" y="66" class="card-unit">sec / veh</text>
+    <rect x="20" y="88" width="180" height="6" rx="3" fill="#1e293b" />
+    <rect x="20" y="88" width="130" height="6" rx="3" fill="url(#meterSky)" class="bar-anim" />
+    <text x="20" y="106" fill="#38bdf8" font-family="monospace" font-size="9">18.5% Wait Time Improvement</text>
+  </g>
+
+  <!-- Card 3: Velocity Profile -->
+  <g transform="translate(505, 20)">
+    <rect width="220" height="120" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" />
+    <circle cx="20" cy="24" r="4" fill="#f59e0b" class="pulse-dot" />
+    <text x="32" y="27" class="card-title">AVG VEHICLE VELOCITY</text>
+    <text x="20" y="66" class="card-value">34.8</text>
+    <text x="95" y="66" class="card-unit">km/h</text>
+    <rect x="20" y="88" width="180" height="6" rx="3" fill="#1e293b" />
+    <rect x="20" y="88" width="125" height="6" rx="3" fill="url(#meterAmber)" class="bar-anim" />
+    <text x="20" y="106" fill="#f59e0b" font-family="monospace" font-size="9">Intelligent Driver Model (IDM)</text>
+  </g>
+
+  <!-- Card 4: Signal Efficiency -->
+  <g transform="translate(745, 20)">
+    <rect width="230" height="120" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" />
+    <circle cx="20" cy="24" r="4" fill="#c084fc" class="pulse-dot" />
+    <text x="32" y="27" class="card-title">SIGNAL EFFICIENCY SCORE</text>
+    <text x="20" y="66" class="card-value">89.2</text>
+    <text x="95" y="66" class="card-unit">/ 100</text>
+    <rect x="20" y="88" width="190" height="6" rx="3" fill="#1e293b" />
+    <rect x="20" y="88" width="170" height="6" rx="3" fill="url(#meterPurple)" class="bar-anim" />
+    <text x="20" y="106" fill="#c084fc" font-family="monospace" font-size="9">Muse Wonder Rated: OPTIMAL</text>
+  </g>
+</svg>

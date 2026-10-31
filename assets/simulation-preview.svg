@@ -1,0 +1,277 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="100%" height="100%">
+  <defs>
+    <!-- Dark asphalt gradient -->
+    <linearGradient id="roadAsphalt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Hazard Stripes for closed road -->
+    <pattern id="hazardStripes" width="20" height="20" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="20" stroke="#ef4444" stroke-width="10" />
+      <line x1="10" y1="0" x2="10" y2="20" stroke="#1e293b" stroke-width="10" />
+    </pattern>
+
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    /* Vehicle Animations */
+    .veh-ns-1 {
+      animation: driveSouth1 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    .veh-ns-2 {
+      animation: driveSouth2 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.2s;
+    }
+    .veh-ns-emergency {
+      animation: driveSouthEmergency 3s linear infinite 0.5s;
+    }
+    .veh-sn-1 {
+      animation: driveNorth1 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s;
+    }
+    .veh-we-1 {
+      animation: driveWestToSouth 5s ease-in-out infinite 0.2s;
+    }
+
+    @keyframes driveSouth1 {
+      0% { transform: translate(485px, -40px); }
+      40% { transform: translate(485px, 210px); } /* queuing/stopping */
+      60% { transform: translate(485px, 240px); }
+      100% { transform: translate(485px, 560px); }
+    }
+    @keyframes driveSouth2 {
+      0% { transform: translate(485px, -80px); }
+      100% { transform: translate(485px, 560px); }
+    }
+    @keyframes driveSouthEmergency {
+      0% { transform: translate(505px, -60px); }
+      100% { transform: translate(505px, 560px); }
+    }
+    @keyframes driveNorth1 {
+      0% { transform: translate(515px, 560px) rotate(180deg); }
+      100% { transform: translate(515px, -40px) rotate(180deg); }
+    }
+    @keyframes driveWestToSouth {
+      0% { transform: translate(-40px, 245px); }
+      45% { transform: translate(460px, 245px); }
+      55% { transform: translate(490px, 280px) rotate(90deg); }
+      100% { transform: translate(490px, 560px) rotate(90deg); }
+    }
+
+    /* Flashing Emergency Siren */
+    .siren-red {
+      animation: flashRed 0.4s infinite alternate;
+    }
+    .siren-blue {
+      animation: flashBlue 0.4s infinite alternate 0.2s;
+    }
+    @keyframes flashRed {
+      0% { fill: #ef4444; opacity: 0.2; }
+      100% { fill: #ef4444; opacity: 1; filter: drop-shadow(0 0 6px #ef4444); }
+    }
+    @keyframes flashBlue {
+      0% { fill: #38bdf8; opacity: 0.2; }
+      100% { fill: #38bdf8; opacity: 1; filter: drop-shadow(0 0 6px #38bdf8); }
+    }
+
+    /* Traffic Signals Animation Cycle */
+    .sig-ns-green {
+      animation: cycleNS 8s infinite;
+    }
+    .sig-ns-red {
+      animation: cycleNSRed 8s infinite;
+    }
+    .sig-ew-green {
+      animation: cycleEW 8s infinite;
+    }
+    .sig-ew-red {
+      animation: cycleEWRed 8s infinite;
+    }
+
+    @keyframes cycleNS {
+      0%, 55% { fill: #22c55e; filter: drop-shadow(0 0 5px #22c55e); }
+      56%, 65% { fill: #eab308; filter: drop-shadow(0 0 5px #eab308); }
+      66%, 100% { fill: #334155; filter: none; }
+    }
+    @keyframes cycleNSRed {
+      0%, 65% { fill: #334155; filter: none; }
+      66%, 100% { fill: #ef4444; filter: drop-shadow(0 0 5px #ef4444); }
+    }
+    @keyframes cycleEW {
+      0%, 65% { fill: #334155; filter: none; }
+      66%, 90% { fill: #22c55e; filter: drop-shadow(0 0 5px #22c55e); }
+      91%, 100% { fill: #eab308; filter: drop-shadow(0 0 5px #eab308); }
+    }
+    @keyframes cycleEWRed {
+      0%, 65% { fill: #ef4444; filter: drop-shadow(0 0 5px #ef4444); }
+      66%, 100% { fill: #334155; filter: none; }
+    }
+  </style>
+
+  <!-- Canvas Surface -->
+  <rect width="1000" height="520" rx="16" fill="#090d16" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Background Terrain Grids -->
+  <g stroke="#1e293b" stroke-width="0.8" opacity="0.3">
+    <line x1="0" y1="80" x2="1000" y2="80" />
+    <line x1="0" y1="160" x2="1000" y2="160" />
+    <line x1="0" y1="360" x2="1000" y2="360" />
+    <line x1="0" y1="440" x2="1000" y2="440" />
+    <line x1="200" y1="0" x2="200" y2="520" />
+    <line x1="360" y1="0" x2="360" y2="520" />
+    <line x1="640" y1="0" x2="640" y2="520" />
+    <line x1="800" y1="0" x2="800" y2="520" />
+  </g>
+
+  <!-- ==================== ROADS GEOMETRY ==================== -->
+  <!-- North-South Arterial Road (80px wide) -->
+  <rect x="460" y="0" width="80" height="520" fill="url(#roadAsphalt)" />
+  <line x1="460" y1="0" x2="460" y2="520" stroke="#334155" stroke-width="2" />
+  <line x1="540" y1="0" x2="540" y2="520" stroke="#334155" stroke-width="2" />
+  <!-- Centerline Yellow -->
+  <line x1="500" y1="0" x2="500" y2="220" stroke="#f59e0b" stroke-width="1.5" />
+  <line x1="500" y1="300" x2="500" y2="520" stroke="#f59e0b" stroke-width="1.5" />
+  <!-- Dashed Lane Dividers -->
+  <line x1="480" y1="0" x2="480" y2="220" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+  <line x1="480" y1="300" x2="480" y2="520" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+  <line x1="520" y1="0" x2="520" y2="220" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+  <line x1="520" y1="300" x2="520" y2="520" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+
+  <!-- East-West Arterial Road (80px wide) -->
+  <!-- West Road Segment (Open) -->
+  <rect x="0" y="220" width="460" height="80" fill="url(#roadAsphalt)" />
+  <line x1="0" y1="220" x2="460" y2="220" stroke="#334155" stroke-width="2" />
+  <line x1="0" y1="300" x2="460" y2="300" stroke="#334155" stroke-width="2" />
+  <line x1="0" y1="260" x2="460" y2="260" stroke="#f59e0b" stroke-width="1.5" />
+  <line x1="0" y1="240" x2="460" y2="240" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+  <line x1="0" y1="280" x2="460" y2="280" stroke="#64748b" stroke-width="1" stroke-dasharray="8 8" />
+
+  <!-- East Road Segment (CLOSED) with Hazard pattern -->
+  <rect x="540" y="220" width="460" height="80" fill="url(#hazardStripes)" opacity="0.8" />
+  <line x1="540" y1="220" x2="1000" y2="220" stroke="#ef4444" stroke-width="2" />
+  <line x1="540" y1="300" x2="1000" y2="300" stroke="#ef4444" stroke-width="2" />
+
+  <!-- Road Closure Barrier Sign -->
+  <g transform="translate(580, 235)">
+    <rect x="0" y="0" width="140" height="50" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="1.5" />
+    <text x="70" y="22" text-anchor="middle" fill="#fca5a5" font-family="sans-serif" font-weight="800" font-size="10">EAST ROAD CLOSED</text>
+    <text x="70" y="38" text-anchor="middle" fill="#ef4444" font-family="sans-serif" font-weight="600" font-size="9">INCIDENT DETOUR</text>
+  </g>
+
+  <!-- Central Junction Box -->
+  <rect x="460" y="220" width="80" height="80" fill="#0f172a" stroke="#38bdf8" stroke-width="1" opacity="0.9" />
+
+  <!-- Pedestrian Crosswalk Stripes -->
+  <g stroke="#ffffff" stroke-width="3" opacity="0.4">
+    <!-- North Crosswalk -->
+    <line x1="465" y1="215" x2="475" y2="215" />
+    <line x1="485" y1="215" x2="495" y2="215" />
+    <line x1="505" y1="215" x2="515" y2="215" />
+    <line x1="525" y1="215" x2="535" y2="215" />
+    <!-- South Crosswalk -->
+    <line x1="465" y1="305" x2="475" y2="305" />
+    <line x1="485" y1="305" x2="495" y2="305" />
+    <line x1="505" y1="305" x2="515" y2="305" />
+    <line x1="525" y1="305" x2="535" y2="305" />
+    <!-- West Crosswalk -->
+    <line x1="455" y1="225" x2="455" y2="235" />
+    <line x1="455" y1="245" x2="455" y2="255" />
+    <line x1="455" y1="265" x2="455" y2="275" />
+    <line x1="455" y1="285" x2="455" y2="295" />
+  </g>
+
+  <!-- ==================== ANIMATED TRAFFIC SIGNALS ==================== -->
+  <!-- North Approach Signal Head -->
+  <g transform="translate(442, 195)">
+    <rect x="0" y="0" width="12" height="24" rx="3" fill="#020617" stroke="#475569" stroke-width="1" />
+    <circle cx="6" cy="6" r="3.5" class="sig-ns-red" />
+    <circle cx="6" cy="18" r="3.5" class="sig-ns-green" />
+  </g>
+
+  <!-- South Approach Signal Head -->
+  <g transform="translate(546, 305)">
+    <rect x="0" y="0" width="12" height="24" rx="3" fill="#020617" stroke="#475569" stroke-width="1" />
+    <circle cx="6" cy="6" r="3.5" class="sig-ns-red" />
+    <circle cx="6" cy="18" r="3.5" class="sig-ns-green" />
+  </g>
+
+  <!-- West Approach Signal Head -->
+  <g transform="translate(435, 305)">
+    <rect x="0" y="0" width="24" height="12" rx="3" fill="#020617" stroke="#475569" stroke-width="1" />
+    <circle cx="6" cy="6" r="3.5" class="sig-ew-red" />
+    <circle cx="18" cy="6" r="3.5" class="sig-ew-green" />
+  </g>
+
+  <!-- ==================== ANIMATED VEHICLES ==================== -->
+  <!-- 1. Passenger Car (Sky Blue) Moving North to South -->
+  <g class="veh-ns-1">
+    <rect x="-8" y="-14" width="16" height="28" rx="4" fill="#38bdf8" stroke="#ffffff" stroke-width="0.8" />
+    <!-- Windshield -->
+    <rect x="-6" y="-6" width="12" height="6" rx="2" fill="#0284c7" />
+    <!-- Headlights -->
+    <circle cx="-5" cy="13" r="1.5" fill="#fef08a" />
+    <circle cx="5" cy="13" r="1.5" fill="#fef08a" />
+  </g>
+
+  <!-- 2. Public Transit Bus (Amber) Following -->
+  <g class="veh-ns-2">
+    <rect x="-10" y="-24" width="20" height="48" rx="4" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8" />
+    <rect x="-8" y="-18" width="16" height="6" rx="1" fill="#78350f" />
+    <rect x="-8" y="16" width="16" height="6" rx="1" fill="#78350f" />
+    <circle cx="-6" cy="23" r="1.5" fill="#fef08a" />
+    <circle cx="6" cy="23" r="1.5" fill="#fef08a" />
+  </g>
+
+  <!-- 3. Emergency Ambulance (Emerald/White with Flashing Beacons) -->
+  <g class="veh-ns-emergency">
+    <rect x="-9" y="-18" width="18" height="36" rx="4" fill="#10b981" stroke="#ffffff" stroke-width="1" />
+    <!-- Cross on roof -->
+    <rect x="-2" y="-6" width="4" height="12" fill="#ffffff" />
+    <rect x="-6" y="-2" width="12" height="4" fill="#ffffff" />
+    <!-- Flashing Sirens -->
+    <circle cx="-4" cy="-12" r="2.5" class="siren-red" />
+    <circle cx="4" cy="-12" r="2.5" class="siren-blue" />
+  </g>
+
+  <!-- 4. Motorcycle (Purple) Moving South to North -->
+  <g class="veh-sn-1">
+    <rect x="-4" y="-8" width="8" height="16" rx="2" fill="#c084fc" stroke="#ffffff" stroke-width="0.6" />
+    <circle cx="0" cy="7" r="1.5" fill="#fef08a" />
+  </g>
+
+  <!-- 5. West Car Turning South (Rerouting around closed East road) -->
+  <g class="veh-we-1">
+    <rect x="-14" y="-7" width="28" height="14" rx="4" fill="#38bdf8" stroke="#ffffff" stroke-width="0.8" />
+    <rect x="4" y="-5" width="6" height="10" rx="1" fill="#0284c7" />
+    <circle cx="13" cy="-4" r="1.5" fill="#fef08a" />
+    <circle cx="13" cy="4" r="1.5" fill="#fef08a" />
+  </g>
+
+  <!-- ==================== LIVE OVERLAY TELEMETRY ==================== -->
+  <g transform="translate(30, 30)">
+    <rect x="0" y="0" width="240" height="85" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.2" opacity="0.9" />
+    <circle cx="18" cy="18" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="1;0.4;1" dur="1s" repeatCount="indefinite" />
+    </circle>
+    <text x="30" y="22" fill="#e2e8f0" font-family="monospace" font-weight="700" font-size="11">SIMULATION ENGINE: ACTIVE</text>
+    <text x="18" y="44" fill="#94a3b8" font-family="monospace" font-size="10">Model: Intelligent Driver (IDM)</text>
+    <text x="18" y="60" fill="#94a3b8" font-family="monospace" font-size="10">Throughput: 1,416.0 VPH</text>
+    <text x="18" y="74" fill="#38bdf8" font-family="monospace" font-weight="600" font-size="10">FPS: 60 (WebGL PixiJS)</text>
+  </g>
+
+  <!-- Legend Overlay -->
+  <g transform="translate(740, 470)">
+    <rect x="0" y="0" width="230" height="34" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1" opacity="0.9" />
+    <circle cx="16" cy="17" r="4" fill="#38bdf8" />
+    <text x="25" y="21" fill="#94a3b8" font-family="sans-serif" font-size="10">Car</text>
+    <circle cx="62" cy="17" r="4" fill="#f59e0b" />
+    <text x="71" y="21" fill="#94a3b8" font-family="sans-serif" font-size="10">Bus</text>
+    <circle cx="106" cy="17" r="4" fill="#c084fc" />
+    <text x="115" y="21" fill="#94a3b8" font-family="sans-serif" font-size="10">Bike</text>
+    <circle cx="152" cy="17" r="4" fill="#10b981" />
+    <text x="161" y="21" fill="#94a3b8" font-family="sans-serif" font-size="10">Emergency</text>
+  </g>
+</svg>
