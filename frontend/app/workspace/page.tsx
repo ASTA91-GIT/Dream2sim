@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import PixiSimulationCanvas from "@/components/simulation/PixiSimulationCanvas";
 import MultimodalModal from "@/components/simulation/MultimodalModal";
 import { useTheme } from "@/context/ThemeContext";
@@ -17,8 +18,9 @@ import {
   TrajectorySnapshot,
 } from "@/lib/api";
 
-export default function WorkspacePage() {
+function WorkspaceContent() {
   const { theme, toggleTheme } = useTheme();
+  const searchParams = useSearchParams();
 
   // Prompt & Simulation State - Completely clean slate (no pre-inserted prompts or runs)
   const [promptText, setPromptText] = useState("");
@@ -122,6 +124,38 @@ export default function WorkspacePage() {
       setIsLoading(false);
     }
   };
+
+  // Listen to navigation query parameters (e.g. from Dashboard templates, projects, or Homepage)
+  useEffect(() => {
+    const promptQuery = searchParams.get("prompt");
+    const templateQuery = searchParams.get("template");
+    const modeQuery = searchParams.get("mode");
+
+    if (modeQuery === "ai") {
+      setIsInspectorOpen(true);
+      setActiveTab("insights");
+    } else if (modeQuery === "media") {
+      setModalTab("sam");
+      setModalOpen(true);
+    }
+
+    if (promptQuery) {
+      setPromptText(promptQuery);
+      handleExecuteSimulation(promptQuery);
+    } else if (templateQuery) {
+      const templateMap: Record<string, string> = {
+        four_way: "Four-way urban intersection with adaptive signal timing and heavy vehicular flow",
+        chokepoint: "Arterial corridor with 3 lanes narrowing into a bottleneck with high spillback risk",
+        adaptive_rl: "Multi-agent arterial network with reinforcement learning adaptive signal controllers",
+        drones: "15 autonomous medical delivery drones flying between 4 hospital rooftop helipads",
+        warehouse: "Automated fulfillment warehouse with 24 AGV sorting robots navigating pallet racks",
+        crowd: "High-density crowd egress simulation of 500 pedestrians through 3 stadium turnstile gates",
+      };
+      const p = templateMap[templateQuery] || "Four-way urban intersection";
+      setPromptText(p);
+      handleExecuteSimulation(p);
+    }
+  }, [searchParams]);
 
   // Apply slider changes
   const handleApplyTuning = async () => {
@@ -837,3 +871,12 @@ export default function WorkspacePage() {
     </div>
   );
 }
+
+export default function WorkspacePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#070014] text-white flex items-center justify-center font-mono text-xs">Loading simulation workspace...</div>}>
+      <WorkspaceContent />
+    </Suspense>
+  );
+}
+

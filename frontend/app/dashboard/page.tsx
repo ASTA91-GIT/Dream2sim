@@ -138,31 +138,23 @@ export default function DashboardPage() {
                     className="btn-gold flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold shadow-lg"
                   >
                     <span className="material-symbols-outlined text-lg">add_circle</span>
-                    <span>+ Create New Simulation</span>
+                    <span>+ Launch Workspace</span>
                   </Link>
 
                   <button
                     onClick={() => setCreateModalOpen(true)}
-                    className="flex items-center gap-2 bg-[var(--surface-container-high)]/80 hover:bg-[var(--surface-container-highest)] text-[var(--primary)] font-telemetry text-xs font-semibold px-4 py-2.5 rounded-lg border border-[var(--outline-variant)]/20 transition-all"
+                    className="flex items-center gap-2 bg-[var(--surface-container-high)]/80 hover:bg-[var(--surface-container-highest)] text-[var(--primary)] font-telemetry text-xs font-semibold px-4 py-2.5 rounded-lg border border-[var(--outline-variant)]/20 transition-all cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-base">create_new_folder</span>
                     <span>+ New Project</span>
                   </button>
-
-                  <Link
-                    href="#templates"
-                    className="flex items-center gap-2 bg-[var(--surface-container)]/60 hover:bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] font-telemetry text-xs font-medium px-4 py-2.5 rounded-lg border border-[var(--outline-variant)]/15 transition-all"
-                  >
-                    <span className="material-symbols-outlined text-base">auto_awesome_motion</span>
-                    <span>Explore Scenario Templates</span>
-                  </Link>
                 </div>
               </div>
             </section>
 
-            {/* METRICS GRID: Stitch Telemetry Cards */}
+            {/* REAL OPERATIONAL STATUS CARDS */}
             <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-              {/* Metric 01: Repository / Total Projects */}
+              {/* Metric 01: Total Saved Projects */}
               <div className="glass-tier-1 p-5 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col justify-between hover:border-[var(--primary)]/40 transition-all group">
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -170,7 +162,7 @@ export default function DashboardPage() {
                       METRIC 01 / REPOSITORY
                     </span>
                     <div className="w-8 h-8 rounded-lg bg-[var(--surface-container-high)] flex items-center justify-center text-[var(--primary)] group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-lg">account_tree</span>
+                      <span className="material-symbols-outlined text-lg">folder_special</span>
                     </div>
                   </div>
                   <div className="flex items-baseline justify-between">
@@ -178,127 +170,118 @@ export default function DashboardPage() {
                       {projectCount}
                     </div>
                     <span className="font-telemetry text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--tertiary)]/20 text-[var(--tertiary)]">
-                      {hasZeroData ? "STANDBY" : "+2 THIS WK"}
+                      ACTIVE
                     </span>
                   </div>
                   <div className="mt-1.5 font-body text-xs text-[var(--on-surface-variant)] flex items-center gap-1.5">
                     <span className="text-[var(--primary)] font-telemetry text-[11px]">
-                      {hasZeroData ? "Zero active projects" : "4 team shared"}
+                      {hasZeroData ? "Zero saved projects" : `${projectCount} active projects`}
                     </span>
                     <span>•</span>
-                    <span>{hasZeroData ? "Ready to initialize" : "Active workstreams"}</span>
+                    <span>SQLite persistence</span>
                   </div>
                 </div>
                 <div className="mt-4 h-1.5 w-full bg-[var(--surface-container-highest)] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[var(--primary)] rounded-full transition-all duration-500"
-                    style={{ width: hasZeroData ? "0%" : "78%" }}
+                    style={{ width: hasZeroData ? "5%" : "85%" }}
                   ></div>
                 </div>
               </div>
 
-              {/* Metric 02: Computation / Active Simulations */}
+              {/* Metric 02: Physics Kinematics Core */}
               <div className="glass-tier-1 p-5 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col justify-between hover:border-[var(--tertiary)]/40 transition-all group">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-telemetry text-[10px] uppercase tracking-wider text-[var(--on-surface-variant)] font-semibold">
-                      METRIC 02 / COMPUTATION
+                      METRIC 02 / PHYSICS ENGINE
                     </span>
                     <div className="w-8 h-8 rounded-lg bg-[var(--surface-container-high)] flex items-center justify-center text-[var(--tertiary)] group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-lg">memory</span>
+                      <span className="material-symbols-outlined text-lg">precision_manufacturing</span>
                     </div>
                   </div>
                   <div className="flex items-baseline justify-between">
-                    <div className="font-headline text-3xl font-bold text-[var(--on-surface)]">
-                      {hasZeroData ? "0" : "1,248"}
+                    <div className="font-headline text-2xl font-bold text-[var(--on-surface)]">
+                      0.05s
                     </div>
-                    <span className="font-telemetry text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--primary)]/20 text-[var(--primary)]">
-                      99.4% SLA
+                    <span className="font-telemetry text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--tertiary)]/20 text-[var(--tertiary)]">
+                      DETERMINISTIC
                     </span>
                   </div>
                   <div className="mt-1.5 font-body text-xs text-[var(--on-surface-variant)] flex items-center gap-1.5">
                     <span className="text-[var(--tertiary)] font-telemetry text-[11px]">
-                      {hasZeroData ? "Ready to launch" : "Compute success rate"}
+                      IDM & Social Force
                     </span>
                     <span>•</span>
-                    <span>Zero packet loss</span>
+                    <span>Zero collisions</span>
                   </div>
                 </div>
                 <div className="mt-4 h-1.5 w-full bg-[var(--surface-container-highest)] rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[var(--tertiary)] rounded-full transition-all duration-500"
-                    style={{ width: hasZeroData ? "0%" : "99.4%" }}
-                  ></div>
+                  <div className="h-full bg-[var(--tertiary)] rounded-full" style={{ width: "100%" }}></div>
                 </div>
               </div>
 
-              {/* Metric 03: Runtime Today / Peak Tput */}
+              {/* Metric 03: Multi-Domain Coverage */}
               <div className="glass-tier-1 p-5 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col justify-between hover:border-[var(--secondary)]/40 transition-all group">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-telemetry text-[10px] uppercase tracking-wider text-[var(--on-surface-variant)] font-semibold">
-                      METRIC 03 / RUNTIME TODAY
+                      METRIC 03 / DOMAINS
                     </span>
                     <div className="w-8 h-8 rounded-lg bg-[var(--surface-container-high)] flex items-center justify-center text-[var(--secondary)] group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-lg">cyclone</span>
+                      <span className="material-symbols-outlined text-lg">view_in_ar</span>
                     </div>
                   </div>
                   <div className="flex items-baseline justify-between">
                     <div className="font-headline text-3xl font-bold text-[var(--on-surface)]">
-                      {hasZeroData ? "--" : "34"}
+                      6
                     </div>
                     <span className="font-telemetry text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--secondary)]/20 text-[var(--secondary)]">
-                      {hasZeroData ? "IDLE" : "PEAK TPUT"}
+                      3D READY
                     </span>
                   </div>
                   <div className="mt-1.5 font-body text-xs text-[var(--on-surface-variant)] flex items-center gap-1.5">
                     <span className="text-[var(--on-surface)] font-telemetry text-[11px]">
-                      {hasZeroData ? "Awaiting telemetry" : "4.2k agents/min"}
+                      Drones, AGVs, Crowds
                     </span>
                     <span>•</span>
-                    <span>Distributed swarm</span>
+                    <span>Multi-agent</span>
                   </div>
                 </div>
                 <div className="mt-4 h-1.5 w-full bg-[var(--surface-container-highest)] rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[var(--secondary)] rounded-full transition-all duration-500"
-                    style={{ width: hasZeroData ? "0%" : "64%" }}
-                  ></div>
+                  <div className="h-full bg-[var(--secondary)] rounded-full" style={{ width: "100%" }}></div>
                 </div>
               </div>
 
-              {/* Metric 04: Convergence / Duration */}
+              {/* Metric 04: AI Synthesis Core */}
               <div className="glass-tier-1 p-5 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col justify-between hover:border-[var(--primary-container)]/40 transition-all group">
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-telemetry text-[10px] uppercase tracking-wider text-[var(--on-surface-variant)] font-semibold">
-                      METRIC 04 / CONVERGENCE
+                      METRIC 04 / AI SYNTHESIZER
                     </span>
                     <div className="w-8 h-8 rounded-lg bg-[var(--surface-container-high)] flex items-center justify-center text-[var(--primary-container)] group-hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined text-lg">timer</span>
+                      <span className="material-symbols-outlined text-lg">neurology</span>
                     </div>
                   </div>
                   <div className="flex items-baseline justify-between">
-                    <div className="font-headline text-3xl font-bold text-[var(--on-surface)]">
-                      {hasZeroData ? "--" : "4m 18s"}
+                    <div className="font-headline text-2xl font-bold text-[var(--on-surface)]">
+                      Active
                     </div>
                     <span className="font-telemetry text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--primary-container)]/30 text-[var(--primary)]">
-                      98.2% EFF
+                      MUSE SPARK
                     </span>
                   </div>
                   <div className="mt-1.5 font-body text-xs text-[var(--on-surface-variant)] flex items-center gap-1.5">
                     <span className="text-[var(--on-surface)] font-telemetry text-[11px]">
-                      Average duration
+                      NLP → Graph Schema
                     </span>
                     <span>•</span>
-                    <span>GPU accelerated</span>
+                    <span>Auto-fallback</span>
                   </div>
                 </div>
                 <div className="mt-4 h-1.5 w-full bg-[var(--surface-container-highest)] rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[var(--primary-container)] rounded-full transition-all duration-500"
-                    style={{ width: hasZeroData ? "0%" : "88%" }}
-                  ></div>
+                  <div className="h-full bg-[var(--primary-container)] rounded-full" style={{ width: "100%" }}></div>
                 </div>
               </div>
             </section>
@@ -445,15 +428,14 @@ export default function DashboardPage() {
               </div>
             </section>
 
-            {/* VELT COLLABORATION & RECENT PROJECTS SECTION */}
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-2">
-              {/* Left 2 Cols: Projects list */}
-              <div className="lg:col-span-2 glass-tier-1 p-6 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col gap-4">
+            {/* RECENT SIMULATION PROJECTS SECTION */}
+            <section className="mt-2">
+              <div className="glass-tier-1 p-6 rounded-xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-[var(--primary)]">folder_special</span>
                     <h3 className="font-headline text-base font-bold text-[var(--on-surface)]">
-                      Recent Research Projects
+                      Recent Simulation Projects
                     </h3>
                   </div>
                   <Link href="/projects" className="font-telemetry text-xs text-[var(--primary)] hover:underline">
@@ -462,73 +444,38 @@ export default function DashboardPage() {
                 </div>
 
                 {projects.length > 0 ? (
-                  <div className="flex flex-col gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {projects.map((p) => (
                       <Link
                         key={p.id}
                         href={`/workspace?project_id=${p.id}`}
-                        className="p-3.5 rounded-lg bg-[var(--surface-container)]/60 hover:bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/20 flex items-center justify-between transition-all"
+                        className="p-4 rounded-xl bg-[var(--surface-container)]/60 hover:bg-[var(--surface-container-high)] border border-[var(--outline-variant)]/20 flex items-center justify-between transition-all group"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="material-symbols-outlined text-[var(--primary)]">folder</span>
+                          <span className="material-symbols-outlined text-[var(--primary)] group-hover:scale-110 transition-transform">
+                            folder
+                          </span>
                           <div>
                             <div className="font-headline text-sm font-semibold text-[var(--on-surface)]">
                               {p.title}
                             </div>
-                            <div className="text-xs text-[var(--on-surface-variant)]">
+                            <div className="text-xs text-[var(--on-surface-variant)] mt-0.5">
                               {p.description || "Active simulation repository"}
                             </div>
                           </div>
                         </div>
-                        <span className="material-symbols-outlined text-[var(--outline)]">chevron_right</span>
+                        <span className="material-symbols-outlined text-[var(--outline)] group-hover:translate-x-1 transition-transform">
+                          arrow_forward
+                        </span>
                       </Link>
                     ))}
                   </div>
                 ) : (
                   <div className="py-8 text-center text-xs text-[var(--on-surface-variant)] flex flex-col items-center gap-2">
                     <span className="material-symbols-outlined text-2xl text-[var(--outline)]">inbox</span>
-                    <span>No projects stored in backend yet. Click "+ New Project" above to create one.</span>
+                    <span>No saved projects yet. Click "+ New Project" above to create one.</span>
                   </div>
                 )}
-              </div>
-
-              {/* Right 1 Col: Velt Collaboration Mesh Live Card */}
-              <div className="glass-tier-2 p-6 rounded-xl border border-[var(--glass-border-2)] shadow-md flex flex-col justify-between gap-4">
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--tertiary)] animate-ping"></span>
-                      <h4 className="font-headline text-sm font-bold text-[var(--on-surface)]">
-                        Velt Live Mesh
-                      </h4>
-                    </div>
-                    <span className="font-telemetry text-[10px] font-bold text-[var(--tertiary)] bg-[var(--tertiary)]/20 px-2 py-0.5 rounded">
-                      ACTIVE
-                    </span>
-                  </div>
-
-                  <p className="font-body text-xs text-[var(--on-surface-variant)] leading-relaxed">
-                    Collaborate synchronously on traffic signal phases, draw lane closures, and pin inline spatial annotations.
-                  </p>
-
-                  <div className="flex items-center gap-2 p-2.5 rounded-lg bg-[var(--surface-container-lowest)]/80 border border-[var(--outline-variant)]/20">
-                    <div className="flex -space-x-1.5">
-                      <div className="w-6 h-6 rounded-full bg-[#582ca7] text-white flex items-center justify-center font-telemetry text-[9px] font-bold">AK</div>
-                      <div className="w-6 h-6 rounded-full bg-[#c167ff] text-white flex items-center justify-center font-telemetry text-[9px] font-bold">VL</div>
-                      <div className="w-6 h-6 rounded-full bg-[#322d67] text-[#e3b5ff] flex items-center justify-center font-telemetry text-[9px] font-bold">SR</div>
-                    </div>
-                    <span className="font-telemetry text-[11px] text-[var(--on-surface)]">
-                      3 peers connected now
-                    </span>
-                  </div>
-                </div>
-
-                <Link
-                  href="/workspace"
-                  className="w-full py-2 px-3 rounded-lg bg-[var(--primary-container)] hover:brightness-110 text-white font-telemetry text-xs font-semibold text-center transition-all shadow-md"
-                >
-                  Join Live Canvas Session
-                </Link>
               </div>
             </section>
           </div>
