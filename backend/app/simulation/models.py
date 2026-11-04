@@ -72,7 +72,103 @@ VEHICLE_PROFILES: Dict[str, VehicleTypeProfile] = {
         time_headway_T=1.0,
         color_hex="#10b981",  # Emerald / siren green
     ),
+    "pedestrian": VehicleTypeProfile(
+        name="pedestrian",
+        length_m=0.8,
+        width_m=0.8,
+        max_speed_ms=2.5,  # 9 km/h walking/running
+        max_accel_ms2=1.5,
+        comf_decel_ms2=1.5,
+        min_gap_s0=0.5,
+        time_headway_T=0.8,
+        color_hex="#ec4899",  # Vibrant Pink / Human dot
+    ),
+    "agv": VehicleTypeProfile(
+        name="agv",
+        length_m=2.0,
+        width_m=1.2,
+        max_speed_ms=4.0,  # 14 km/h warehouse robot
+        max_accel_ms2=1.8,
+        comf_decel_ms2=2.0,
+        min_gap_s0=1.0,
+        time_headway_T=1.0,
+        color_hex="#eab308",  # Industrial Yellow
+    ),
+    "drone": VehicleTypeProfile(
+        name="drone",
+        length_m=1.5,
+        width_m=1.5,
+        max_speed_ms=20.0,  # 72 km/h flight speed
+        max_accel_ms2=4.0,
+        comf_decel_ms2=3.0,
+        min_gap_s0=3.0,
+        time_headway_T=1.2,
+        color_hex="#06b6d4",  # Cyan airspace beacon
+    ),
+    "train": VehicleTypeProfile(
+        name="train",
+        length_m=28.0,
+        width_m=3.0,
+        max_speed_ms=25.0,  # 90 km/h transit
+        max_accel_ms2=1.0,
+        comf_decel_ms2=1.2,
+        min_gap_s0=8.0,
+        time_headway_T=3.0,
+        color_hex="#6366f1",  # Indigo rail
+    ),
+    "ship": VehicleTypeProfile(
+        name="ship",
+        length_m=35.0,
+        width_m=6.0,
+        max_speed_ms=8.0,  # 28 km/h nautical
+        max_accel_ms2=0.5,
+        comf_decel_ms2=0.8,
+        min_gap_s0=12.0,
+        time_headway_T=4.0,
+        color_hex="#14b8a6",  # Teal maritime
+    ),
 }
+
+
+def get_or_create_profile(vehicle_type: str) -> VehicleTypeProfile:
+    vt = (vehicle_type or "car").lower().strip()
+    if vt in VEHICLE_PROFILES:
+        return VEHICLE_PROFILES[vt]
+
+    # Keyword-based matching
+    if any(k in vt for k in ["pedestrian", "person", "crowd", "human", "walker", "passenger", "fan", "patient", "student", "shopper"]):
+        return VEHICLE_PROFILES["pedestrian"]
+    if any(k in vt for k in ["agv", "robot", "forklift", "bot", "cart", "pallet", "trolley"]):
+        return VEHICLE_PROFILES["agv"]
+    if any(k in vt for k in ["drone", "uav", "air", "plane", "flight", "quadcopter"]):
+        return VEHICLE_PROFILES["drone"]
+    if any(k in vt for k in ["cycle", "bike", "scooter", "motorcycle", "rickshaw", "auto", "tuk"]):
+        return VEHICLE_PROFILES["motorcycle"]
+    if any(k in vt for k in ["bus", "van", "shuttle", "transit", "coach", "tram"]):
+        return VEHICLE_PROFILES["bus"]
+    if any(k in vt for k in ["train", "metro", "rail", "monorail"]):
+        return VEHICLE_PROFILES["train"]
+    if any(k in vt for k in ["ship", "boat", "vessel", "ferry", "barge"]):
+        return VEHICLE_PROFILES["ship"]
+    if any(k in vt for k in ["truck", "freight", "cargo", "lorry", "container", "semi"]):
+        return VEHICLE_PROFILES["truck"]
+    if any(k in vt for k in ["emergency", "ambulance", "police", "fire", "paramedic", "siren"]):
+        return VEHICLE_PROFILES["emergency"]
+
+    # Dynamic deterministic color generation
+    import hashlib
+    color_hex = "#" + hashlib.md5(vt.encode()).hexdigest()[:6]
+    return VehicleTypeProfile(
+        name=vt,
+        length_m=4.5,
+        width_m=2.0,
+        max_speed_ms=15.0,
+        max_accel_ms2=2.5,
+        comf_decel_ms2=2.0,
+        min_gap_s0=2.0,
+        time_headway_T=1.5,
+        color_hex=color_hex,
+    )
 
 
 @dataclass

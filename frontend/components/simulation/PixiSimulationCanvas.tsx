@@ -433,24 +433,51 @@ export default function PixiSimulationCanvas({
         vehG.eventMode = "static";
         vehG.cursor = "pointer";
 
-        // Dimensions by vehicle type
+        // Dimensions and shape by agent/vehicle type
+        const vtype = (veh.type || "car").toLowerCase();
         let length = 14;
         let width = 7;
-        let bodyColor = 0x38bdf8; // Default car: cyan
+        let bodyColor = 0x38bdf8; // Default: cyan
 
-        if (veh.type === "bus") {
+        const isPedestrian = vtype.includes("pedestrian") || vtype.includes("person") || vtype.includes("crowd") || vtype.includes("human");
+        const isDrone = vtype.includes("drone") || vtype.includes("uav") || vtype.includes("air");
+        const isRobot = vtype.includes("agv") || vtype.includes("robot") || vtype.includes("forklift");
+        const isShip = vtype.includes("ship") || vtype.includes("boat") || vtype.includes("vessel");
+        const isTrain = vtype.includes("train") || vtype.includes("metro") || vtype.includes("rail");
+
+        if (isPedestrian) {
+          length = 6;
+          width = 6;
+          bodyColor = 0xec4899; // Pink
+        } else if (isDrone) {
+          length = 12;
+          width = 12;
+          bodyColor = 0x06b6d4; // Cyan
+        } else if (isRobot) {
+          length = 12;
+          width = 9;
+          bodyColor = 0xeab308; // Industrial Yellow
+        } else if (isShip) {
+          length = 36;
+          width = 12;
+          bodyColor = 0x14b8a6; // Teal maritime
+        } else if (isTrain) {
+          length = 40;
+          width = 9;
+          bodyColor = 0x6366f1; // Indigo rail
+        } else if (vtype.includes("bus")) {
           length = 26;
           width = 9;
-          bodyColor = 0xf1c100; // BEST bus: gold/amber
-        } else if (veh.type === "truck") {
+          bodyColor = 0xf1c100; // Bus: amber
+        } else if (vtype.includes("truck")) {
           length = 24;
           width = 9;
           bodyColor = 0xf97316; // Freight: orange
-        } else if (veh.type === "motorcycle") {
+        } else if (vtype.includes("motorcycle") || vtype.includes("bike") || vtype.includes("scooter")) {
           length = 9;
           width = 4;
           bodyColor = 0xc084fc; // 2-wheeler: violet
-        } else if (veh.type === "emergency") {
+        } else if (vtype.includes("emergency") || vtype.includes("ambulance") || vtype.includes("police")) {
           length = 16;
           width = 8;
           bodyColor = 0x10b981; // Emergency: emerald
@@ -462,24 +489,51 @@ export default function PixiSimulationCanvas({
           if (!isNaN(parsed)) bodyColor = parsed;
         }
 
-        // Vehicle Chassis
-        vehG.roundRect(-length / 2, -width / 2, length, width, 2.5);
-        vehG.fill({ color: bodyColor });
-        vehG.stroke({ width: 1, color: 0xffffff, alpha: 0.8 });
+        if (isPedestrian) {
+          // Circular pedestrian dot with halo
+          vehG.circle(0, 0, 4);
+          vehG.fill({ color: bodyColor });
+          vehG.stroke({ width: 1.5, color: 0xffffff, alpha: 0.9 });
+          // Direction indicator
+          vehG.circle(3, 0, 1.2);
+          vehG.fill({ color: 0xffffff });
+        } else if (isDrone) {
+          // Quadcopter cross shape
+          vehG.rect(-1.5, -6, 3, 12);
+          vehG.rect(-6, -1.5, 12, 3);
+          vehG.fill({ color: 0x334155 });
+          // 4 rotor points
+          vehG.circle(-5, -5, 2.2);
+          vehG.fill({ color: 0x06b6d4 });
+          vehG.circle(5, -5, 2.2);
+          vehG.fill({ color: 0x06b6d4 });
+          vehG.circle(-5, 5, 2.2);
+          vehG.fill({ color: 0x06b6d4 });
+          vehG.circle(5, 5, 2.2);
+          vehG.fill({ color: 0x06b6d4 });
+          // Center core
+          vehG.circle(0, 0, 3);
+          vehG.fill({ color: bodyColor });
+        } else {
+          // Vehicle / Robot / Vessel Chassis
+          vehG.roundRect(-length / 2, -width / 2, length, width, 2.5);
+          vehG.fill({ color: bodyColor });
+          vehG.stroke({ width: 1, color: 0xffffff, alpha: 0.8 });
 
-        // Headlights (front)
-        vehG.circle(length / 2 - 1, -width / 4, 1.2);
-        vehG.fill({ color: 0xfffbeb, alpha: 0.95 });
-        vehG.circle(length / 2 - 1, width / 4, 1.2);
-        vehG.fill({ color: 0xfffbeb, alpha: 0.95 });
+          // Headlights (front)
+          vehG.circle(length / 2 - 1, -width / 4, 1.2);
+          vehG.fill({ color: 0xfffbeb, alpha: 0.95 });
+          vehG.circle(length / 2 - 1, width / 4, 1.2);
+          vehG.fill({ color: 0xfffbeb, alpha: 0.95 });
 
-        // Taillights / Brake Lights (rear)
-        const brakeAlpha = veh.is_queued ? 1.0 : 0.4;
-        const brakeColor = veh.is_queued ? 0xff0000 : 0xaa2222;
-        vehG.circle(-length / 2 + 1, -width / 4, 1.3);
-        vehG.fill({ color: brakeColor, alpha: brakeAlpha });
-        vehG.circle(-length / 2 + 1, width / 4, 1.3);
-        vehG.fill({ color: brakeColor, alpha: brakeAlpha });
+          // Taillights / Brake Lights (rear)
+          const brakeAlpha = veh.is_queued ? 1.0 : 0.4;
+          const brakeColor = veh.is_queued ? 0xff0000 : 0xaa2222;
+          vehG.circle(-length / 2 + 1, -width / 4, 1.3);
+          vehG.fill({ color: brakeColor, alpha: brakeAlpha });
+          vehG.circle(-length / 2 + 1, width / 4, 1.3);
+          vehG.fill({ color: brakeColor, alpha: brakeAlpha });
+        }
 
         // Flashing beacon for emergency vehicles
         if (veh.type === "emergency") {

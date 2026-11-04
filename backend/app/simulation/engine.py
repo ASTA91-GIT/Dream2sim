@@ -2,7 +2,13 @@ import math
 import random
 from typing import List, Dict, Optional, Tuple, Any
 from app.schemas.simulation_schema import SimulationConfig, SimulationMetrics
-from app.simulation.models import VEHICLE_PROFILES, VehicleTypeProfile, VehicleState, RoadGeometry
+from app.simulation.models import (
+    VEHICLE_PROFILES,
+    VehicleTypeProfile,
+    VehicleState,
+    RoadGeometry,
+    get_or_create_profile,
+)
 
 
 class SimulationEngine:
@@ -147,7 +153,7 @@ class SimulationEngine:
                             break
 
                     if can_spawn:
-                        prof = VEHICLE_PROFILES.get(v_mix.vehicle_type, VEHICLE_PROFILES["car"])
+                        prof = get_or_create_profile(v_mix.vehicle_type)
                         v_id = f"veh_{self.next_vehicle_id}"
                         self.next_vehicle_id += 1
 
