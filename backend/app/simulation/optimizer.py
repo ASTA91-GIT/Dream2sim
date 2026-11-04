@@ -1,5 +1,5 @@
 import copy
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Optional
 from app.schemas.simulation_schema import SimulationConfig, SimulationMetrics
 from app.simulation.engine import SimulationEngine
 

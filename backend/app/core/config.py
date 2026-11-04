@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Any
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
+from pydantic import Field, field_validator
 
 # Dynamic path resolution to detect .env in backend/ or repository root
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
@@ -20,8 +20,23 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
     ENVIRONMENT: str = "development"
-    DEBUG: bool = True
+    DEBUG: bool = Field(default=True)
     LOG_LEVEL: str = "INFO"
+
+    @field_validator("DEBUG", mode="before")
+    @classmethod
+    def parse_debug(cls, v: Any) -> bool:
+        if isinstance(v, bool):
+            return v
+        if isinstance(v, str):
+            val = v.strip().lower()
+            if val in ("true", "1", "yes", "on", "t", "y"):
+                return True
+            if val in ("false", "0", "no", "off", "f", "n"):
+                return False
+            # Handle non-boolean DEBUG env vars (e.g. from npm/node debug 'WARN', 'INFO', '*')
+            return val in ("debug", "trace", "verbose")
+        return bool(v)
 
     # Security
     SECRET_KEY: str = "dream2sim-super-secret-development-key-change-in-production-min-32-chars"
