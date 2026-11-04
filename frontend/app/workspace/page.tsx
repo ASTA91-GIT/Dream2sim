@@ -443,7 +443,7 @@ function WorkspaceContent() {
         {/* Fullscreen Canvas Container */}
         <div
           ref={canvasContainerRef}
-          className={`relative w-full h-full bg-[#090040] overflow-hidden transition-all duration-300 ${
+          className={`relative w-full h-full bg-[var(--surface-container-lowest)] overflow-hidden transition-all duration-300 ${
             isTiltView ? "perspective-[1000px] rotate-x-6 scale-[0.98]" : ""
           }`}
         >
@@ -451,7 +451,7 @@ function WorkspaceContent() {
           {config && (
             <div className="absolute top-4 left-4 right-4 z-30 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
               {/* Playback Controls (Left) */}
-              <div className="pointer-events-auto flex items-center gap-1.5 bg-[#090040]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-[#322d67]/60 shadow-xl">
+              <div className="pointer-events-auto flex items-center gap-1.5 bg-[var(--surface-container-low)]/90 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-[var(--outline-variant)]/20 shadow-xl">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
                   className="w-8 h-8 rounded-lg bg-[#B13BFF] hover:brightness-110 text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
@@ -463,23 +463,23 @@ function WorkspaceContent() {
                 </button>
                 <button
                   onClick={() => setCurrentTime((t) => Math.min(duration, t + 5))}
-                  className="p-1.5 rounded-lg bg-[#18114c]/80 hover:bg-[#27215b] text-[#9a8ca0] hover:text-white transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[var(--surface-container)] hover:bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] transition-colors cursor-pointer"
                   title="Step +5s"
                 >
                   <span className="material-symbols-outlined text-base">redo</span>
                 </button>
                 <button
                   onClick={() => setCurrentTime(0)}
-                  className="p-1.5 rounded-lg bg-[#18114c]/80 hover:bg-[#27215b] text-[#9a8ca0] hover:text-white transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[var(--surface-container)] hover:bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] transition-colors cursor-pointer"
                   title="Rewind to start"
                 >
                   <span className="material-symbols-outlined text-base">restart_alt</span>
                 </button>
 
-                <div className="h-4 w-px bg-[#4e4354]/40 mx-1"></div>
+                <div className="h-4 w-px bg-[var(--outline-variant)]/30 mx-1"></div>
 
                 {/* Speed Multipliers */}
-                <div className="flex items-center bg-[#090040]/80 p-0.5 rounded-lg border border-[#322d67]/40">
+                <div className="flex items-center bg-[var(--surface-container)] p-0.5 rounded-lg border border-[var(--outline-variant)]/20">
                   {[0.5, 1.0, 2.0, 5.0, 10.0].map((spd) => (
                     <button
                       key={spd}
@@ -487,7 +487,7 @@ function WorkspaceContent() {
                       className={`px-2 py-0.5 rounded font-telemetry text-[11px] transition-all cursor-pointer ${
                         playbackSpeed === spd
                           ? "bg-[#B13BFF] text-white font-bold"
-                          : "text-[#9a8ca0] hover:text-white"
+                          : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                       }`}
                     >
                       {spd === 10.0 ? "MAX" : `${spd}x`}
@@ -497,19 +497,19 @@ function WorkspaceContent() {
               </div>
 
               {/* Live Clock & View Mode Toggles (Right) */}
-              <div className="pointer-events-auto flex items-center gap-2 bg-[#090040]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-[#322d67]/60 shadow-xl">
-                <div className="flex items-center gap-1.5 font-telemetry text-xs font-bold text-white px-2">
+              <div className="pointer-events-auto flex items-center gap-2 bg-[var(--surface-container-low)]/90 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-[var(--outline-variant)]/20 shadow-xl">
+                <div className="flex items-center gap-1.5 font-telemetry text-xs font-bold text-[var(--on-surface)] px-2">
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      isPlaying ? "bg-[#f1c100] animate-pulse" : "bg-[#4e4354]"
+                      isPlaying ? "bg-[#f1c100] animate-pulse" : "bg-[var(--outline)]"
                     }`}
                   ></span>
                   <span>{formatTimecode(currentTime)}</span>
-                  <span className="text-[#4e4354]">/</span>
-                  <span className="text-[#9a8ca0]">{formatTimecode(duration)}</span>
+                  <span className="text-[var(--outline)]">/</span>
+                  <span className="text-[var(--on-surface-variant)]">{formatTimecode(duration)}</span>
                 </div>
 
-                <div className="h-4 w-px bg-[#4e4354]/40"></div>
+                <div className="h-4 w-px bg-[var(--outline-variant)]/30"></div>
 
                 {/* Heatmap Toggle */}
                 <button
@@ -517,7 +517,7 @@ function WorkspaceContent() {
                   className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                     showHeatmap
                       ? "bg-[#ef4444] text-white shadow-md shadow-[#ef4444]/30"
-                      : "text-[#9a8ca0] hover:text-white hover:bg-[#18114c]"
+                      : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)]"
                   }`}
                   title="Toggle Congestion Heatmaps"
                 >
@@ -530,7 +530,7 @@ function WorkspaceContent() {
                   className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                     showVectors
                       ? "bg-[#06b6d4] text-white shadow-md shadow-[#06b6d4]/30"
-                      : "text-[#9a8ca0] hover:text-white hover:bg-[#18114c]"
+                      : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)]"
                   }`}
                   title="Toggle Velocity Vectors"
                 >
@@ -543,7 +543,7 @@ function WorkspaceContent() {
                   className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                     isTiltView
                       ? "bg-[#f1c100] text-black shadow-md font-bold"
-                      : "text-[#9a8ca0] hover:text-white hover:bg-[#18114c]"
+                      : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)]"
                   }`}
                   title="3D Tilt Perspective"
                 >
@@ -553,7 +553,7 @@ function WorkspaceContent() {
                 {/* Fullscreen */}
                 <button
                   onClick={toggleFullscreen}
-                  className="p-1.5 rounded-lg text-[#9a8ca0] hover:text-white hover:bg-[#18114c] transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)] transition-colors cursor-pointer"
                   title="Fullscreen"
                 >
                   <span className="material-symbols-outlined text-base">
@@ -575,6 +575,7 @@ function WorkspaceContent() {
               playbackSpeed={playbackSpeed}
               showHeatmap={showHeatmap}
               showVectors={showVectors}
+              theme={theme}
               onTimeUpdate={(t) => setCurrentTime(t)}
             />
           </div>
@@ -582,15 +583,15 @@ function WorkspaceContent() {
           {/* Clean Slate Ambient Empty State (When no simulation is loaded yet) */}
           {!config && !isLoading && (
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-6 text-center z-10">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#B13BFF]/25 to-[#f1c100]/25 border border-[#B13BFF]/40 flex items-center justify-center mb-4 shadow-2xl backdrop-blur-md">
-                <span className="material-symbols-outlined text-3xl text-[#e3b5ff] animate-pulse">
+              <div className="w-16 h-16 rounded-2xl bg-[var(--surface-container)] border border-[var(--outline-variant)]/30 flex items-center justify-center mb-4 shadow-xl backdrop-blur-md">
+                <span className="material-symbols-outlined text-3xl text-[var(--primary)] animate-pulse">
                   neurology
                 </span>
               </div>
-              <h2 className="font-headline font-bold text-xl text-white mb-2 tracking-tight">
+              <h2 className="font-headline font-bold text-xl text-[var(--on-surface)] mb-2 tracking-tight">
                 Dream2Sim Engine Ready
               </h2>
-              <p className="font-body text-xs text-[#9a8ca0] max-w-md leading-relaxed">
+              <p className="font-body text-xs text-[var(--on-surface-variant)] max-w-md leading-relaxed">
                 Describe any world, system, network, or phenomenon in the prompt bar below to synthesize and run its simulation.
               </p>
             </div>
@@ -598,12 +599,12 @@ function WorkspaceContent() {
 
           {/* Loading Indicator */}
           {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#090040]/70 backdrop-blur-md z-20">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[var(--surface-container-lowest)]/85 backdrop-blur-md z-20">
               <div className="w-12 h-12 border-3 border-[#B13BFF] border-t-transparent rounded-full animate-spin mb-3"></div>
-              <span className="font-headline font-bold text-sm text-white">
+              <span className="font-headline font-bold text-sm text-[var(--on-surface)]">
                 Synthesizing World & Physics...
               </span>
-              <span className="font-telemetry text-xs text-[#9a8ca0] mt-1">
+              <span className="font-telemetry text-xs text-[var(--on-surface-variant)] mt-1">
                 Meta Muse Spark calculating topology, kinematics & constraints
               </span>
             </div>
@@ -611,8 +612,8 @@ function WorkspaceContent() {
 
           {/* Bottom Scrubbing Timeline Bar (Visible when simulation is active) */}
           {config && (
-            <div className="absolute bottom-20 left-6 right-6 z-30 flex items-center gap-3 bg-[#090040]/80 backdrop-blur-xl px-4 py-2 rounded-xl border border-[#322d67]/40 shadow-xl pointer-events-auto">
-              <span className="font-telemetry text-xs font-semibold text-[#e3b5ff] shrink-0">
+            <div className="absolute bottom-20 left-6 right-6 z-30 flex items-center gap-3 bg-[var(--surface-container-low)]/90 backdrop-blur-xl px-4 py-2 rounded-xl border border-[var(--outline-variant)]/20 shadow-xl pointer-events-auto">
+              <span className="font-telemetry text-xs font-semibold text-[var(--primary)] shrink-0">
                 T = {currentTime.toFixed(1)}s
               </span>
               <input
@@ -622,9 +623,9 @@ function WorkspaceContent() {
                 step={0.5}
                 value={currentTime}
                 onChange={(e) => setCurrentTime(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-[#18114c] rounded-lg appearance-none cursor-pointer accent-[#B13BFF]"
+                className="w-full h-1.5 bg-[var(--surface-container-high)] rounded-lg appearance-none cursor-pointer accent-[#B13BFF]"
               />
-              <span className="font-telemetry text-xs text-[#9a8ca0] shrink-0">{duration}s</span>
+              <span className="font-telemetry text-xs text-[var(--on-surface-variant)] shrink-0">{duration}s</span>
             </div>
           )}
 
@@ -635,7 +636,7 @@ function WorkspaceContent() {
                 e.preventDefault();
                 handleExecuteSimulation(promptText);
               }}
-              className="w-full max-w-4xl bg-[#090040]/90 backdrop-blur-2xl p-2 rounded-2xl border border-[#322d67]/80 shadow-2xl flex items-center gap-2 pointer-events-auto"
+              className="w-full max-w-4xl bg-[var(--surface-container-low)]/95 backdrop-blur-2xl p-2 rounded-2xl border border-[var(--outline-variant)]/30 shadow-2xl flex items-center gap-2 pointer-events-auto"
             >
               {/* Multimodal Buttons */}
               <button
@@ -644,7 +645,7 @@ function WorkspaceContent() {
                   setModalTab("voice");
                   setModalOpen(true);
                 }}
-                className="p-2 rounded-xl text-[#f1c100] hover:bg-[#18114c] transition-colors cursor-pointer shrink-0"
+                className="p-2 rounded-xl text-[var(--tertiary)] hover:bg-[var(--surface-container)] transition-colors cursor-pointer shrink-0"
                 title="Muse Voice Sync"
               >
                 <span className="material-symbols-outlined text-xl">mic</span>
@@ -656,7 +657,7 @@ function WorkspaceContent() {
                   setModalTab("sam");
                   setModalOpen(true);
                 }}
-                className="p-2 rounded-xl text-[#e3b5ff] hover:bg-[#18114c] transition-colors cursor-pointer shrink-0"
+                className="p-2 rounded-xl text-[var(--primary)] hover:bg-[var(--surface-container)] transition-colors cursor-pointer shrink-0"
                 title="SAM 3.1 Vision Segment"
               >
                 <span className="material-symbols-outlined text-xl">add_photo_alternate</span>
@@ -668,7 +669,7 @@ function WorkspaceContent() {
                 value={promptText}
                 onChange={(e) => setPromptText(e.target.value)}
                 placeholder="Describe any system you want to simulate..."
-                className="flex-1 bg-transparent border-0 outline-none text-xs sm:text-sm text-white placeholder-[#79747e] px-2 font-medium"
+                className="flex-1 bg-transparent border-0 outline-none text-xs sm:text-sm text-[var(--on-surface)] placeholder-[var(--outline)] px-2 font-medium"
               />
 
               {/* Generate CTA Button */}
@@ -695,29 +696,29 @@ function WorkspaceContent() {
 
         {/* ================= 4. SLIDE-OUT INSPECTOR & TUNING DRAWER ================= */}
         {isInspectorOpen && (
-          <aside className="absolute top-0 right-0 bottom-0 w-full sm:w-96 bg-[#090040]/95 backdrop-blur-2xl border-l border-[#322d67] shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-200">
+          <aside className="absolute top-0 right-0 bottom-0 w-full sm:w-96 bg-[var(--surface-container-low)]/95 backdrop-blur-2xl border-l border-[var(--outline-variant)]/20 shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-200">
             {/* Drawer Header */}
-            <div className="p-4 border-b border-[#322d67] flex items-center justify-between">
+            <div className="p-4 border-b border-[var(--outline-variant)]/20 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#B13BFF] text-xl">tune</span>
-                <h2 className="font-headline font-bold text-sm text-white">Simulation Inspector</h2>
+                <h2 className="font-headline font-bold text-sm text-[var(--on-surface)]">Simulation Inspector</h2>
               </div>
               <button
                 onClick={() => setIsInspectorOpen(false)}
-                className="p-1 rounded-lg text-[#9a8ca0] hover:text-white hover:bg-[#18114c] transition-colors cursor-pointer"
+                className="p-1 rounded-lg text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)] transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-lg">close</span>
               </button>
             </div>
 
             {/* Drawer Tabs */}
-            <div className="flex border-b border-[#322d67] p-1.5 bg-[#060026]/50">
+            <div className="flex border-b border-[var(--outline-variant)]/20 p-1.5 bg-[var(--surface-container)]/50">
               <button
                 onClick={() => setActiveTab("insights")}
                 className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
                   activeTab === "insights"
                     ? "bg-[#B13BFF] text-white"
-                    : "text-[#9a8ca0] hover:text-white"
+                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                 }`}
               >
                 AI Insights
@@ -727,7 +728,7 @@ function WorkspaceContent() {
                 className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
                   activeTab === "tune"
                     ? "bg-[#B13BFF] text-white"
-                    : "text-[#9a8ca0] hover:text-white"
+                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                 }`}
               >
                 Parameters
@@ -737,7 +738,7 @@ function WorkspaceContent() {
                 className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
                   activeTab === "json"
                     ? "bg-[#B13BFF] text-white"
-                    : "text-[#9a8ca0] hover:text-white"
+                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
                 }`}
               >
                 JSON Config
@@ -749,12 +750,12 @@ function WorkspaceContent() {
               {activeTab === "insights" && (
                 <div className="space-y-4">
                   {/* Muse Wonder Card */}
-                  <div className="p-3.5 rounded-xl bg-[#18114c]/70 border border-[#B13BFF]/30 space-y-2">
-                    <div className="flex items-center gap-1.5 text-xs font-telemetry font-bold text-[#e3b5ff]">
+                  <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--primary)]/30 space-y-2">
+                    <div className="flex items-center gap-1.5 text-xs font-telemetry font-bold text-[var(--primary)]">
                       <span className="material-symbols-outlined text-sm">psychology</span>
                       <span>MUSE WONDER ANALYSIS</span>
                     </div>
-                    <p className="text-xs text-[#e4dfff] leading-relaxed">
+                    <p className="text-xs text-[var(--on-surface)] leading-relaxed">
                       {analysisText ||
                         (config
                           ? "Simulation dynamics verified. Waiting for metric convergence."
@@ -764,16 +765,16 @@ function WorkspaceContent() {
 
                   {/* RL Signal Optimizer Action */}
                   {config && (
-                    <div className="p-3.5 rounded-xl bg-[#18114c]/50 border border-[#322d67] space-y-2.5">
+                    <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--outline-variant)]/20 space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-headline font-bold text-[#f1c100]">
+                        <span className="text-xs font-headline font-bold text-[var(--tertiary)]">
                           Meta RL Optimizer
                         </span>
-                        <span className="text-[10px] font-telemetry font-bold bg-[#f1c100]/20 text-[#f1c100] px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-telemetry font-bold bg-[var(--tertiary)]/20 text-[var(--tertiary)] px-2 py-0.5 rounded-full">
                           ACTIVE
                         </span>
                       </div>
-                      <p className="text-xs text-[#9a8ca0] leading-relaxed">
+                      <p className="text-xs text-[var(--on-surface-variant)] leading-relaxed">
                         Computes optimal phase splits and corridor green-waves to minimize queue buildup.
                       </p>
                       <button
@@ -798,23 +799,23 @@ function WorkspaceContent() {
 
                   {/* Topology Overview */}
                   {config && (
-                    <div className="p-3.5 rounded-xl bg-[#18114c]/50 border border-[#322d67] text-xs font-telemetry space-y-2">
-                      <div className="text-[#e3b5ff] font-bold">Network Summary</div>
+                    <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--outline-variant)]/20 text-xs font-telemetry space-y-2">
+                      <div className="text-[var(--primary)] font-bold">Network Summary</div>
                       <div className="flex justify-between">
-                        <span className="text-[#9a8ca0]">Intersections / Waypoints:</span>
-                        <span className="text-white font-bold">
+                        <span className="text-[var(--on-surface-variant)]">Intersections / Waypoints:</span>
+                        <span className="text-[var(--on-surface)] font-bold">
                           {config.network.intersections.length}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[#9a8ca0]">Corridors / Channels:</span>
-                        <span className="text-white font-bold">
+                        <span className="text-[var(--on-surface-variant)]">Corridors / Channels:</span>
+                        <span className="text-[var(--on-surface)] font-bold">
                           {config.network.roads.length}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[#9a8ca0]">Active Controllers:</span>
-                        <span className="text-white font-bold">
+                        <span className="text-[var(--on-surface-variant)]">Active Controllers:</span>
+                        <span className="text-[var(--on-surface)] font-bold">
                           {config.signals.length}
                         </span>
                       </div>
@@ -830,8 +831,8 @@ function WorkspaceContent() {
                       {/* Flow Rate Slider */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between">
-                          <span className="text-[#9a8ca0]">Ingress Flow</span>
-                          <span className="text-[#e3b5ff] font-bold">{arrivalVolume} VPH</span>
+                          <span className="text-[var(--on-surface-variant)]">Ingress Flow</span>
+                          <span className="text-[var(--primary)] font-bold">{arrivalVolume} VPH</span>
                         </div>
                         <input
                           type="range"
@@ -849,8 +850,8 @@ function WorkspaceContent() {
                       {/* Speed Limit Slider */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between">
-                          <span className="text-[#9a8ca0]">Speed Limit</span>
-                          <span className="text-[#f1c100] font-bold">{speedLimit} km/h</span>
+                          <span className="text-[var(--on-surface-variant)]">Speed Limit</span>
+                          <span className="text-[var(--tertiary)] font-bold">{speedLimit} km/h</span>
                         </div>
                         <input
                           type="range"
@@ -868,7 +869,7 @@ function WorkspaceContent() {
                       {/* Cycle Length Slider */}
                       <div className="space-y-1.5">
                         <div className="flex justify-between">
-                          <span className="text-[#9a8ca0]">Cycle / Timing Length</span>
+                          <span className="text-[var(--on-surface-variant)]">Cycle / Timing Length</span>
                           <span className="text-[#38bdf8] font-bold">{cycleLength}s</span>
                         </div>
                         <input
@@ -886,13 +887,13 @@ function WorkspaceContent() {
 
                       <button
                         onClick={handleApplyTuning}
-                        className="w-full py-2.5 rounded-lg bg-[#27215b] hover:bg-[#322d67] text-white font-bold border border-[#322d67] transition-all cursor-pointer"
+                        className="w-full py-2.5 rounded-lg bg-[var(--surface-container-high)] hover:bg-[var(--surface-container-highest)] text-[var(--on-surface)] font-bold border border-[var(--outline-variant)]/20 transition-all cursor-pointer"
                       >
                         Apply Parameter Changes
                       </button>
                     </>
                   ) : (
-                    <p className="text-[#9a8ca0] text-center py-6">
+                    <p className="text-[var(--on-surface-variant)] text-center py-6">
                       No active simulation parameters to tune yet.
                     </p>
                   )}
@@ -900,7 +901,7 @@ function WorkspaceContent() {
               )}
 
               {activeTab === "json" && (
-                <div className="p-2 rounded-xl bg-[#060026] border border-[#322d67] overflow-x-auto text-[10px] font-telemetry text-[#22c55e]">
+                <div className="p-2 rounded-xl bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/20 overflow-x-auto text-[10px] font-telemetry text-[#22c55e]">
                   <pre>
                     <code>{JSON.stringify(config, null, 2)}</code>
                   </pre>

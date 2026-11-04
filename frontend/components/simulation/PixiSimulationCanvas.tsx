@@ -13,6 +13,7 @@ interface CanvasProps {
   playbackSpeed: number;
   showHeatmap?: boolean;
   showVectors?: boolean;
+  theme?: "dark" | "light";
   onTimeUpdate: (time: number) => void;
   onSelectVehicle?: (vehicle: any | null) => void;
 }
@@ -26,6 +27,7 @@ export default function PixiSimulationCanvas({
   playbackSpeed,
   showHeatmap = false,
   showVectors = false,
+  theme = "dark",
   onTimeUpdate,
   onSelectVehicle,
 }: CanvasProps) {
@@ -65,11 +67,12 @@ export default function PixiSimulationCanvas({
       const width = containerRef.current.clientWidth || 900;
       const height = containerRef.current.clientHeight || 560;
 
+      const isLight = theme === "light";
       const app = new PIXI.Application();
       await app.init({
         width,
         height,
-        backgroundColor: 0x090040,
+        backgroundColor: isLight ? 0xf4f1fa : 0x090040,
         antialias: true,
         resolution: typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
         autoDensity: true,
@@ -112,7 +115,7 @@ export default function PixiSimulationCanvas({
       overlayLayerRef.current = overlayLayer;
 
       if (config) {
-        fitAndDrawRoadNetwork(app, worldContainer, roadLayer, gridLayer, config);
+        fitAndDrawRoadNetwork(app, worldContainer, roadLayer, gridLayer, config, isLight);
       } else {
         // Ambient background grid for clean slate
         gridLayer.clear();
@@ -124,7 +127,11 @@ export default function PixiSimulationCanvas({
           gridLayer.moveTo(0, y);
           gridLayer.lineTo(width, y);
         }
-        gridLayer.stroke({ width: 0.8, color: 0xb13bff, alpha: 0.1 });
+        gridLayer.stroke({
+          width: 0.8,
+          color: isLight ? 0x7a609d : 0xb13bff,
+          alpha: isLight ? 0.15 : 0.1,
+        });
       }
     }
 
@@ -137,7 +144,7 @@ export default function PixiSimulationCanvas({
       const h = containerRef.current.clientHeight;
       if (w > 0 && h > 0) {
         appRef.current.renderer.resize(w, h);
-        fitAndDrawRoadNetwork(appRef.current, worldContainerRef.current, roadLayerRef.current, gridLayerRef.current, config);
+        fitAndDrawRoadNetwork(appRef.current, worldContainerRef.current, roadLayerRef.current, gridLayerRef.current, config, theme === "light");
       }
     };
 
@@ -159,7 +166,8 @@ export default function PixiSimulationCanvas({
     world: PIXI.Container,
     roadGraphics: PIXI.Graphics,
     gridGraphics: PIXI.Graphics,
-    cfg: SimulationConfig
+    cfg: SimulationConfig,
+    isLight: boolean = false
   ) => {
     if (!cfg.network || !cfg.network.intersections.length) return;
 
@@ -202,44 +210,58 @@ export default function PixiSimulationCanvas({
       gridGraphics.moveTo(gMinX, y);
       gridGraphics.lineTo(gMaxX, y);
     }
-    gridGraphics.stroke({ width: 0.8, color: 0xb13bff, alpha: 0.12 });
+    gridGraphics.stroke({
+      width: 0.8,
+      color: isLight ? 0x7a609d : 0xb13bff,
+      alpha: isLight ? 0.15 : 0.12,
+    });
 
     // Draw Roads & Intersections
-    drawRoadNetwork(roadGraphics, cfg);
+    drawRoadNetwork(roadGraphics, cfg, isLight);
   };
 
-  // Redraw when config changes
+  // Redraw when config or theme changes
   useEffect(() => {
-    if (appRef.current && worldContainerRef.current) {
-      if (config && roadLayerRef.current && gridLayerRef.current) {
-        fitAndDrawRoadNetwork(
-          appRef.current,
-          worldContainerRef.current,
-          roadLayerRef.current,
-          gridLayerRef.current,
-          config
-        );
-      } else {
-        roadLayerRef.current?.clear();
-        signalLayerRef.current?.clear();
-        vehicleLayerRef.current?.removeChildren();
-        heatmapLayerRef.current?.clear();
-        if (gridLayerRef.current && appRef.current) {
-          const g = gridLayerRef.current;
-          g.clear();
-          for (let x = 0; x < appRef.current.screen.width; x += 40) {
-            g.moveTo(x, 0);
-            g.lineTo(x, appRef.current.screen.height);
+    if (appRef.current) {
+      const isLight = theme === "light";
+      appRef.current.renderer.background.color = isLight ? 0xf4f1fa : 0x090040;
+
+      if (worldContainerRef.current) {
+        if (config && roadLayerRef.current && gridLayerRef.current) {
+          fitAndDrawRoadNetwork(
+            appRef.current,
+            worldContainerRef.current,
+            roadLayerRef.current,
+            gridLayerRef.current,
+            config,
+            isLight
+          );
+        } else {
+          roadLayerRef.current?.clear();
+          signalLayerRef.current?.clear();
+          vehicleLayerRef.current?.removeChildren();
+          heatmapLayerRef.current?.clear();
+          if (gridLayerRef.current) {
+            const g = gridLayerRef.current;
+            g.clear();
+            for (let x = 0; x < appRef.current.screen.width; x += 40) {
+              g.moveTo(x, 0);
+              g.lineTo(x, appRef.current.screen.height);
+            }
+            for (let y = 0; y < appRef.current.screen.height; y += 40) {
+              g.moveTo(0, y);
+              g.lineTo(appRef.current.screen.width, y);
+            }
+            g.stroke({
+              width: 0.8,
+              color: isLight ? 0x7a609d : 0xb13bff,
+              alpha: isLight ? 0.15 : 0.1,
+            });
           }
-          for (let y = 0; y < appRef.current.screen.height; y += 40) {
-            g.moveTo(0, y);
-            g.lineTo(appRef.current.screen.width, y);
-          }
-          g.stroke({ width: 0.8, color: 0xb13bff, alpha: 0.1 });
         }
       }
     }
-  }, [config]);
+  }, [config, theme]);
 
   // Main playback animation loop
   useEffect(() => {
@@ -268,7 +290,7 @@ export default function PixiSimulationCanvas({
   }, [snapshots, durationSeconds, onTimeUpdate]);
 
   // Draw roads, lane dividers, zebra crossings, and closures
-  const drawRoadNetwork = (graphics: PIXI.Graphics, cfg: SimulationConfig) => {
+  const drawRoadNetwork = (graphics: PIXI.Graphics, cfg: SimulationConfig, isLight: boolean = false) => {
     graphics.clear();
     const nodeMap = new Map<string, { x: number; y: number; name: string }>();
     cfg.network.intersections.forEach((n) => {
@@ -287,7 +309,7 @@ export default function PixiSimulationCanvas({
       graphics.beginPath();
       graphics.moveTo(src.x, src.y);
       graphics.lineTo(tgt.x, tgt.y);
-      const roadColor = road.is_closed ? 0x27191d : 0x18114c;
+      const roadColor = road.is_closed ? 0x27191d : (isLight ? 0x241d3d : 0x18114c);
       graphics.stroke({ width: roadWidth, color: roadColor, cap: "round" });
 
       // Outer curbstones / edge borders
@@ -296,7 +318,7 @@ export default function PixiSimulationCanvas({
       graphics.lineTo(tgt.x, tgt.y);
       graphics.stroke({
         width: roadWidth + 2.5,
-        color: road.is_closed ? 0xef4444 : 0x36316c,
+        color: road.is_closed ? 0xef4444 : (isLight ? 0x6e668c : 0x36316c),
         alpha: 0.6,
       });
 
