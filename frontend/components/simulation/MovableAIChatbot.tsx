@@ -165,6 +165,111 @@ function getExpertProjectReply(query: string): string {
   );
 }
 
+function parseInlineFormatting(str: string): React.ReactNode[] {
+  // Tokenize by markers: **bold**, *italic*, $math$, `code`
+  const regex = /(\*\*[^*]+\*\*|\*[^*]+\*|\$[^$]+\$|`[^`]+`)/g;
+  const parts = str.split(regex);
+
+  return parts.map((part, idx) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={idx} className="font-semibold text-[var(--on-surface)]">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith("*") && part.endsWith("*")) {
+      return (
+        <em key={idx} className="italic text-[var(--tertiary)] font-normal">
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+    if (part.startsWith("$") && part.endsWith("$")) {
+      return (
+        <span
+          key={idx}
+          className="font-mono text-[10.5px] px-1 py-0.5 rounded bg-[var(--surface-container-high)] text-[#f1c100] border border-[var(--outline-variant)]/20 mx-0.5"
+        >
+          {part.slice(1, -1)}
+        </span>
+      );
+    }
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return (
+        <code
+          key={idx}
+          className="font-mono text-[10.5px] px-1 py-0.5 rounded bg-[var(--surface-container-high)] text-[#B13BFF] border border-[var(--outline-variant)]/20 mx-0.5"
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    return part;
+  });
+}
+
+function renderFormattedMessage(text: string) {
+  // Split into paragraphs by double newlines
+  const paragraphs = text.split(/\n\n+/);
+
+  return (
+    <div className="space-y-2 text-xs leading-relaxed">
+      {paragraphs.map((para, pIdx) => {
+        const trimmed = para.trim();
+
+        // 1. Math equation block: $$...$$
+        if (trimmed.startsWith("$$") && trimmed.endsWith("$$")) {
+          const formula = trimmed.slice(2, -2).trim();
+          return (
+            <div
+              key={pIdx}
+              className="my-1.5 p-2 rounded-lg bg-[var(--surface-container-high)]/90 border border-[#B13BFF]/30 font-mono text-[11px] text-[#f1c100] text-center overflow-x-auto select-all shadow-inner"
+            >
+              {formula}
+            </div>
+          );
+        }
+
+        const lines = trimmed.split("\n");
+        // 2. Bullet list
+        const isList = lines.every((line) => {
+          const t = line.trim();
+          return t.startsWith("•") || t.startsWith("- ") || t.startsWith("* ");
+        });
+
+        if (isList) {
+          return (
+            <ul key={pIdx} className="space-y-1.5 pl-0.5 my-1">
+              {lines.map((line, lIdx) => {
+                const cleanLine = line.trim().replace(/^[•\-\*]\s*/, "");
+                return (
+                  <li key={lIdx} className="flex items-start gap-1.5">
+                    <span className="text-[#f1c100] font-bold text-xs shrink-0 select-none">•</span>
+                    <span className="flex-1">{parseInlineFormatting(cleanLine)}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        }
+
+        // 3. Normal paragraph
+        return (
+          <p key={pIdx}>
+            {lines.map((line, lIdx) => (
+              <React.Fragment key={lIdx}>
+                {parseInlineFormatting(line)}
+                {lIdx < lines.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 export function MovableAIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
@@ -402,7 +507,11 @@ export function MovableAIChatbot() {
                       : "bg-[var(--surface-container)] text-[var(--on-surface)] border border-[var(--outline-variant)]/20 rounded-tl-none"
                   }`}
                 >
-                  <p className="whitespace-pre-wrap">{m.text}</p>
+                  {m.sender === "user" ? (
+                    <p className="whitespace-pre-wrap">{m.text}</p>
+                  ) : (
+                    renderFormattedMessage(m.text)
+                  )}
                 </div>
                 <span className="text-[9px] text-[var(--on-surface-variant)]/70 px-1 mt-1 font-telemetry">
                   {m.timestamp}
