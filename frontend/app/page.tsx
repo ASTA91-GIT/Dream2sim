@@ -124,11 +124,18 @@ export default function LandingPage() {
           <span className="tracking-wide">Beyond 2D Roads • Microscopic Multi-Domain 3D Simulation</span>
         </div>
 
-        {/* Headline */}
-        <h1 className="font-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center max-w-5xl leading-[1.08]">
-          Idea-to-Simulation. <br />
+        {/* Headline with Calligraphic Contrast */}
+        <h1 className="font-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center max-w-5xl leading-[1.1]">
+          Idea-to-
+          <span className="font-calligraphy font-normal italic text-[#00f0ff] hover:text-[#FFCC00] transition-colors duration-300 pr-1">
+            Simulation
+          </span>
+          . <br />
+          <span className="font-editorial italic font-normal text-white/90 pr-2">
+            Any Domain.
+          </span>
           <span className="bg-gradient-to-r from-[#00f0ff] via-[#FFCC00] to-[#B13BFF] bg-clip-text text-transparent">
-            Any Domain. In Full 3D.
+            In Full 3D.
           </span>
         </h1>
 
