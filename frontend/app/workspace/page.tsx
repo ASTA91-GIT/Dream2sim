@@ -10,7 +10,6 @@ import { useTheme } from "@/context/ThemeContext";
 import {
   interpretNaturalPrompt,
   runSimulationExecution,
-  optimizeSignals,
   analyzeMetricsWithMuseWonder,
   getExportPdfUrl,
   getExportCsvUrl,
@@ -40,22 +39,14 @@ function WorkspaceContent() {
   const [isTiltView, setIsTiltView] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-  // Drawer & Modal State
-  const [isInspectorOpen, setIsInspectorOpen] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<"insights" | "tune" | "json">("insights");
+  // Modal State
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [modalTab, setModalTab] = useState<"voice" | "sam">("voice");
-
-  // Telemetry Sliders
-  const [arrivalVolume, setArrivalVolume] = useState<number>(1000);
-  const [speedLimit, setSpeedLimit] = useState<number>(50);
-  const [cycleLength, setCycleLength] = useState<number>(90);
 
   // Status & Insights
   const [simStatus, setSimStatus] = useState<"IDLE" | "RUNNING" | "READY" | "OPTIMIZED">("IDLE");
   const [analysisText, setAnalysisText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isOptimizing, setIsOptimizing] = useState<boolean>(false);
 
   const canvasContainerRef = useRef<HTMLDivElement>(null);
 
@@ -79,19 +70,6 @@ function WorkspaceContent() {
       // 1. Meta Muse Spark Universal Interpretation
       const interp = await interpretNaturalPrompt(prompt);
       const parsedConfig: SimulationConfig = interp.suggested_configuration;
-
-      // Extract parameter hints into sliders
-      if (parsedConfig.signals?.[0]?.cycle_time_seconds) {
-        setCycleLength(parsedConfig.signals[0].cycle_time_seconds);
-      }
-      if (parsedConfig.network.roads?.[0]?.speed_limit_kmh) {
-        setSpeedLimit(parsedConfig.network.roads[0].speed_limit_kmh);
-      }
-      const totalFlow = (parsedConfig.demands || []).reduce(
-        (sum, d) => sum + (d.vehicle_mix || []).reduce((s, vm) => s + (vm.flow_rate_vph || 0), 0),
-        0
-      );
-      if (totalFlow > 0) setArrivalVolume(Math.round(totalFlow));
 
       setConfig(parsedConfig);
 
@@ -136,10 +114,7 @@ function WorkspaceContent() {
     const modeQuery = searchParams.get("mode");
     const projectIdQuery = searchParams.get("project_id");
 
-    if (modeQuery === "ai") {
-      setIsInspectorOpen(true);
-      setActiveTab("insights");
-    } else if (modeQuery === "media") {
+    if (modeQuery === "media") {
       setModalTab("sam");
       setModalOpen(true);
     }
@@ -187,82 +162,6 @@ function WorkspaceContent() {
     }
   }, [searchParams]);
 
-  // Apply slider changes
-  const handleApplyTuning = async () => {
-    if (!config) return;
-    setIsLoading(true);
-    try {
-      const updatedConfig: SimulationConfig = JSON.parse(JSON.stringify(config));
-      updatedConfig.network.roads.forEach((r) => {
-        if (!r.is_closed) r.speed_limit_kmh = speedLimit;
-      });
-      if (updatedConfig.signals?.[0]) {
-        updatedConfig.signals[0].cycle_time_seconds = cycleLength;
-      }
-      const currentSum = (updatedConfig.demands || []).reduce(
-        (sum, d) => sum + (d.vehicle_mix || []).reduce((s, vm) => s + (vm.flow_rate_vph || 0), 0),
-        0
-      );
-      if (currentSum > 0) {
-        const factor = arrivalVolume / currentSum;
-        updatedConfig.demands.forEach((d) => {
-          d.vehicle_mix.forEach((vm) => {
-            vm.flow_rate_vph = Math.round(vm.flow_rate_vph * factor);
-          });
-        });
-      }
-      setConfig(updatedConfig);
-      const runRes = await runSimulationExecution({
-        configuration: updatedConfig,
-        duration_seconds: updatedConfig.parameters?.duration_seconds || 300.0,
-      });
-      setSimulationId(runRes.simulation_id);
-      setMetrics(runRes.metrics);
-      setSnapshots(runRes.snapshots || []);
-      setIsPlaying(true);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Reinforcement Learning Optimizer
-  const handleRunOptimization = async () => {
-    if (!config || !simulationId) return;
-    setIsOptimizing(true);
-    try {
-      const optRes = await optimizeSignals({
-        simulation_id: simulationId,
-        configuration: config,
-      });
-      if (optRes.metrics) {
-        setMetrics(optRes.metrics);
-        setSimStatus("OPTIMIZED");
-        const delayRed = optRes.delay_reduction_percentage || 24.6;
-        setAnalysisText(
-          `Adaptive AI Optimization Converged: Bottleneck wait time reduced by ${delayRed.toFixed(
-            1
-          )}%. Green-wave allocation improved system throughput to 94.2%.`
-        );
-        if (optRes.optimized_configuration) {
-          setConfig(optRes.optimized_configuration);
-          const runRes = await runSimulationExecution({
-            configuration: optRes.optimized_configuration,
-            duration_seconds: optRes.optimized_configuration.parameters?.duration_seconds || 300.0,
-          });
-          setSnapshots(runRes.snapshots || []);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-      setAnalysisText(
-        "Adaptive AI Optimization completed: Dynamic controller adjustments applied successfully."
-      );
-    } finally {
-      setIsOptimizing(false);
-    }
-  };
 
   // Toggle Fullscreen
   const toggleFullscreen = () => {
@@ -395,18 +294,6 @@ function WorkspaceContent() {
               </div>
             )}
 
-            {/* Inspect & Tune Slide-over Button */}
-            <button
-              onClick={() => setIsInspectorOpen(!isInspectorOpen)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-telemetry font-medium border transition-all cursor-pointer ${
-                isInspectorOpen
-                  ? "bg-[#B13BFF] text-white border-[#B13BFF] shadow-lg shadow-[#B13BFF]/25"
-                  : "bg-[var(--surface-container-high)] hover:bg-[var(--surface-container-highest)] text-[var(--on-surface)] border-[var(--outline-variant)]/20"
-              }`}
-            >
-              <span className="material-symbols-outlined text-sm">tune</span>
-              <span className="hidden sm:inline">Inspect & Tune</span>
-            </button>
 
             {/* Dual Pill Dark / Light Mode Switcher */}
             <div className="flex items-center bg-[var(--surface-container)]/70 border border-[var(--outline-variant)]/20 rounded-full p-1">
@@ -694,222 +581,7 @@ function WorkspaceContent() {
           </div>
         </div>
 
-        {/* ================= 4. SLIDE-OUT INSPECTOR & TUNING DRAWER ================= */}
-        {isInspectorOpen && (
-          <aside className="absolute top-0 right-0 bottom-0 w-full sm:w-96 bg-[var(--surface-container-low)]/95 backdrop-blur-2xl border-l border-[var(--outline-variant)]/20 shadow-2xl z-50 flex flex-col animate-in slide-in-from-right duration-200">
-            {/* Drawer Header */}
-            <div className="p-4 border-b border-[var(--outline-variant)]/20 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#B13BFF] text-xl">tune</span>
-                <h2 className="font-headline font-bold text-sm text-[var(--on-surface)]">Simulation Inspector</h2>
-              </div>
-              <button
-                onClick={() => setIsInspectorOpen(false)}
-                className="p-1 rounded-lg text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] hover:bg-[var(--surface-container)] transition-colors cursor-pointer"
-              >
-                <span className="material-symbols-outlined text-lg">close</span>
-              </button>
-            </div>
 
-            {/* Drawer Tabs */}
-            <div className="flex border-b border-[var(--outline-variant)]/20 p-1.5 bg-[var(--surface-container)]/50">
-              <button
-                onClick={() => setActiveTab("insights")}
-                className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
-                  activeTab === "insights"
-                    ? "bg-[#B13BFF] text-white"
-                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
-                }`}
-              >
-                AI Insights
-              </button>
-              <button
-                onClick={() => setActiveTab("tune")}
-                className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
-                  activeTab === "tune"
-                    ? "bg-[#B13BFF] text-white"
-                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
-                }`}
-              >
-                Parameters
-              </button>
-              <button
-                onClick={() => setActiveTab("json")}
-                className={`flex-1 py-1.5 text-xs font-telemetry rounded font-semibold transition-all cursor-pointer ${
-                  activeTab === "json"
-                    ? "bg-[#B13BFF] text-white"
-                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
-                }`}
-              >
-                JSON Config
-              </button>
-            </div>
-
-            {/* Drawer Content */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {activeTab === "insights" && (
-                <div className="space-y-4">
-                  {/* Muse Wonder Card */}
-                  <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--primary)]/30 space-y-2">
-                    <div className="flex items-center gap-1.5 text-xs font-telemetry font-bold text-[var(--primary)]">
-                      <span className="material-symbols-outlined text-sm">psychology</span>
-                      <span>MUSE WONDER ANALYSIS</span>
-                    </div>
-                    <p className="text-xs text-[var(--on-surface)] leading-relaxed">
-                      {analysisText ||
-                        (config
-                          ? "Simulation dynamics verified. Waiting for metric convergence."
-                          : "No active simulation. Enter a prompt to generate insights.")}
-                    </p>
-                  </div>
-
-                  {/* RL Signal Optimizer Action */}
-                  {config && (
-                    <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--outline-variant)]/20 space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-headline font-bold text-[var(--tertiary)]">
-                          Meta RL Optimizer
-                        </span>
-                        <span className="text-[10px] font-telemetry font-bold bg-[var(--tertiary)]/20 text-[var(--tertiary)] px-2 py-0.5 rounded-full">
-                          ACTIVE
-                        </span>
-                      </div>
-                      <p className="text-xs text-[var(--on-surface-variant)] leading-relaxed">
-                        Computes optimal phase splits and corridor green-waves to minimize queue buildup.
-                      </p>
-                      <button
-                        onClick={handleRunOptimization}
-                        disabled={isOptimizing}
-                        className="btn-gold w-full py-2.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-                      >
-                        {isOptimizing ? (
-                          <>
-                            <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
-                            <span>Solving Q-Matrix...</span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="material-symbols-outlined text-base">auto_fix_high</span>
-                            <span>Optimize Controllers (-24% Delay)</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Topology Overview */}
-                  {config && (
-                    <div className="p-3.5 rounded-xl bg-[var(--surface-container)] border border-[var(--outline-variant)]/20 text-xs font-telemetry space-y-2">
-                      <div className="text-[var(--primary)] font-bold">Network Summary</div>
-                      <div className="flex justify-between">
-                        <span className="text-[var(--on-surface-variant)]">Intersections / Waypoints:</span>
-                        <span className="text-[var(--on-surface)] font-bold">
-                          {config.network.intersections.length}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-[var(--on-surface-variant)]">Corridors / Channels:</span>
-                        <span className="text-[var(--on-surface)] font-bold">
-                          {config.network.roads.length}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-[var(--on-surface-variant)]">Active Controllers:</span>
-                        <span className="text-[var(--on-surface)] font-bold">
-                          {config.signals.length}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {activeTab === "tune" && (
-                <div className="space-y-4 text-xs font-telemetry">
-                  {config ? (
-                    <>
-                      {/* Flow Rate Slider */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between">
-                          <span className="text-[var(--on-surface-variant)]">Ingress Flow</span>
-                          <span className="text-[var(--primary)] font-bold">{arrivalVolume} VPH</span>
-                        </div>
-                        <input
-                          type="range"
-                          min={300}
-                          max={4000}
-                          step={50}
-                          value={arrivalVolume}
-                          onChange={(e) => setArrivalVolume(Number(e.target.value))}
-                          onMouseUp={handleApplyTuning}
-                          onTouchEnd={handleApplyTuning}
-                          className="w-full accent-[#B13BFF] cursor-pointer"
-                        />
-                      </div>
-
-                      {/* Speed Limit Slider */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between">
-                          <span className="text-[var(--on-surface-variant)]">Speed Limit</span>
-                          <span className="text-[var(--tertiary)] font-bold">{speedLimit} km/h</span>
-                        </div>
-                        <input
-                          type="range"
-                          min={10}
-                          max={120}
-                          step={5}
-                          value={speedLimit}
-                          onChange={(e) => setSpeedLimit(Number(e.target.value))}
-                          onMouseUp={handleApplyTuning}
-                          onTouchEnd={handleApplyTuning}
-                          className="w-full accent-[#f1c100] cursor-pointer"
-                        />
-                      </div>
-
-                      {/* Cycle Length Slider */}
-                      <div className="space-y-1.5">
-                        <div className="flex justify-between">
-                          <span className="text-[var(--on-surface-variant)]">Cycle / Timing Length</span>
-                          <span className="text-[#38bdf8] font-bold">{cycleLength}s</span>
-                        </div>
-                        <input
-                          type="range"
-                          min={30}
-                          max={180}
-                          step={5}
-                          value={cycleLength}
-                          onChange={(e) => setCycleLength(Number(e.target.value))}
-                          onMouseUp={handleApplyTuning}
-                          onTouchEnd={handleApplyTuning}
-                          className="w-full accent-[#38bdf8] cursor-pointer"
-                        />
-                      </div>
-
-                      <button
-                        onClick={handleApplyTuning}
-                        className="w-full py-2.5 rounded-lg bg-[var(--surface-container-high)] hover:bg-[var(--surface-container-highest)] text-[var(--on-surface)] font-bold border border-[var(--outline-variant)]/20 transition-all cursor-pointer"
-                      >
-                        Apply Parameter Changes
-                      </button>
-                    </>
-                  ) : (
-                    <p className="text-[var(--on-surface-variant)] text-center py-6">
-                      No active simulation parameters to tune yet.
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {activeTab === "json" && (
-                <div className="p-2 rounded-xl bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/20 overflow-x-auto text-[10px] font-telemetry text-[#22c55e]">
-                  <pre>
-                    <code>{JSON.stringify(config, null, 2)}</code>
-                  </pre>
-                </div>
-              )}
-            </div>
-          </aside>
-        )}
       </div>
       </div>
 
