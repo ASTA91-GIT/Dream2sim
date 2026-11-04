@@ -10,6 +10,7 @@ export default function LandingPage() {
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const [heroPrompt, setHeroPrompt] = useState("");
+  const [calligraphyStyle, setCalligraphyStyle] = useState<"half" | "full">("half");
 
   const handlePromptSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,25 +119,60 @@ export default function LandingPage() {
 
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-16 px-4 sm:px-6 max-w-7xl mx-auto w-full flex flex-col items-center z-10">
-        {/* Top Eyebrow Pill */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md text-xs font-telemetry text-[#00f0ff] border border-[#00f0ff]/30 shadow-xl mb-6">
-          <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse shadow-[0_0_8px_#00ff88]"></span>
-          <span className="tracking-wide">Beyond 2D Roads • Microscopic Multi-Domain 3D Simulation</span>
+        {/* Eyebrow Pill & Typography Switcher */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md text-xs font-telemetry text-[#00f0ff] border border-[#00f0ff]/30 shadow-xl">
+            <span className="w-2 h-2 rounded-full bg-[#00ff88] animate-pulse shadow-[0_0_8px_#00ff88]"></span>
+            <span className="tracking-wide">Beyond 2D Roads • Microscopic Multi-Domain 3D Simulation</span>
+          </div>
+
+          <div className="inline-flex items-center p-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-telemetry backdrop-blur-md shadow-lg">
+            <button
+              type="button"
+              onClick={() => setCalligraphyStyle("half")}
+              className={`px-3 py-1 rounded-full transition-all ${
+                calligraphyStyle === "half"
+                  ? "bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff]/40 font-bold shadow"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              Half Calligraphic
+            </button>
+            <button
+              type="button"
+              onClick={() => setCalligraphyStyle("full")}
+              className={`px-3 py-1 rounded-full transition-all ${
+                calligraphyStyle === "full"
+                  ? "bg-[#FFCC00]/20 text-[#FFCC00] border border-[#FFCC00]/40 font-bold shadow"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              Full Calligraphic
+            </button>
+          </div>
         </div>
 
-        {/* Headline with Calligraphic Contrast */}
-        <h1 className="font-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white text-center max-w-5xl leading-[1.1]">
-          Idea-to-
-          <span className="font-calligraphy font-normal italic text-[#00f0ff] hover:text-[#FFCC00] transition-colors duration-300 pr-1">
-            Simulation
-          </span>
-          . <br />
-          <span className="font-editorial italic font-normal text-white/90 pr-2">
-            Any Domain.
-          </span>
-          <span className="bg-gradient-to-r from-[#00f0ff] via-[#FFCC00] to-[#B13BFF] bg-clip-text text-transparent">
-            In Full 3D.
-          </span>
+        {/* Creative Headline: Half or Full Calligraphic */}
+        <h1 className="text-center max-w-5xl leading-[1.08] select-none">
+          {calligraphyStyle === "half" ? (
+            <>
+              <span className="block font-headline text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-1">
+                Idea to Simulation.
+              </span>
+              <span className="block font-calligraphy text-5xl sm:text-7xl lg:text-8xl font-normal italic tracking-tight bg-gradient-to-r from-[#00f0ff] via-[#FFCC00] to-[#E3B5FF] bg-clip-text text-transparent py-1">
+                Any Domain, in Full 3D.
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="block font-calligraphy text-5xl sm:text-7xl lg:text-8xl font-normal italic tracking-tight text-white/95 mb-1">
+                Idea to Simulation.
+              </span>
+              <span className="block font-calligraphy text-5xl sm:text-7xl lg:text-8xl font-normal italic tracking-tight bg-gradient-to-r from-[#00f0ff] via-[#FFCC00] to-[#E3B5FF] bg-clip-text text-transparent py-1">
+                Any Domain, in Full 3D.
+              </span>
+            </>
+          )}
         </h1>
 
         {/* Subtitle */}

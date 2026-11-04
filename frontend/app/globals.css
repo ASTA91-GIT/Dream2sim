@@ -87,14 +87,14 @@ h1, h2, h3, h4, .font-headline {
 }
 
 .font-calligraphy {
-  font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  font-family: 'Instrument Serif', 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
 .font-script {
-  font-family: 'Alex Brush', cursive;
+  font-family: 'Alex Brush', 'Italianno', cursive;
   font-weight: 400;
   letter-spacing: 0.04em;
 }
@@ -103,6 +103,12 @@ h1, h2, h3, h4, .font-headline {
   font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 500;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
 }
 
 code, pre, .font-telemetry {
