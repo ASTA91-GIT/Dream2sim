@@ -20,6 +20,7 @@ from app.schemas.simulation_schema import SimulationConfig, SimulationMetrics
 from pydantic import ValidationError
 from app.services.ai.orchestrator import AIOrchestrator, MetaAPIConfigurationError
 from app.api.deps import get_current_user_optional
+from app.services.rag import knowledge_retriever
 
 router = APIRouter(prefix="/ai", tags=["AI Engine (Meta Model API)"])
 orchestrator = AIOrchestrator()
@@ -148,28 +149,40 @@ async def analyze_results(
     return analysis
 
 
-def _prepare_chat_messages(messages: list) -> list:
+def _prepare_chat_messages(messages: list, retrieved_context: Optional[str] = None) -> list:
     """
-    Constructs message list with system prompt and conversation history window.
+    Constructs message list with system prompt, multi-turn history window,
+    and optional retrieved RAG project/database context.
     """
     chat_messages = [{"role": "system", "content": CHATGPT_LEVEL_SYSTEM_PROMPT}]
-    # Window the last 14 messages for rich conversational context
-    for m in messages[-14:]:
+
+    # Multi-turn window: previous messages (except the very latest query)
+    for m in messages[-14:-1]:
         role = "assistant" if m.role in ("assistant", "ai") else "user"
         content = m.content.strip()
         if content:
             chat_messages.append({"role": role, "content": content})
+
+    # Inject verified RAG project knowledge if retrieved
+    if retrieved_context:
+        chat_messages.append({"role": "system", "content": retrieved_context})
+
+    # Append latest user query
+    if messages:
+        chat_messages.append({"role": "user", "content": messages[-1].content.strip()})
+
     return chat_messages
 
 
 @router.post("/chat/stream")
 async def chat_stream_with_assistant(
     request: AIChatRequest,
+    db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user_optional),
 ):
     """
     Real-time Server-Sent Events (SSE) streaming endpoint powered directly by Meta Muse Spark.
-    Streams token-by-token with natural multi-turn context awareness.
+    Augmented with secure read-only RAG retrieval across authorized database projects and files.
     """
     if not orchestrator.client.is_configured:
         raise HTTPException(
@@ -177,7 +190,14 @@ async def chat_stream_with_assistant(
             detail="Meta Model API is not configured. Please set META_API_KEY in backend/.env.",
         )
 
-    chat_messages = _prepare_chat_messages(request.messages)
+    user_msg = request.messages[-1].content.strip() if request.messages else ""
+    retrieved_context = await knowledge_retriever.retrieve_context(
+        query=user_msg,
+        user_id=current_user.id,
+        db=db,
+    )
+
+    chat_messages = _prepare_chat_messages(request.messages, retrieved_context=retrieved_context)
 
     async def event_generator():
         try:
@@ -208,11 +228,12 @@ async def chat_stream_with_assistant(
 @router.post("/chat")
 async def chat_with_assistant(
     request: AIChatRequest,
+    db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user_optional),
 ):
     """
     Standard completion endpoint powered directly by Meta Muse Spark.
-    Maintains full multi-turn conversation context and honest error handling.
+    Maintains full multi-turn conversation context and secure RAG database search.
     """
     if not orchestrator.client.is_configured:
         raise HTTPException(
@@ -220,7 +241,14 @@ async def chat_with_assistant(
             detail="Meta Model API is not configured. Please set META_API_KEY in backend/.env.",
         )
 
-    chat_messages = _prepare_chat_messages(request.messages)
+    user_msg = request.messages[-1].content.strip() if request.messages else ""
+    retrieved_context = await knowledge_retriever.retrieve_context(
+        query=user_msg,
+        user_id=current_user.id,
+        db=db,
+    )
+
+    chat_messages = _prepare_chat_messages(request.messages, retrieved_context=retrieved_context)
 
     try:
         resp = await orchestrator.client.chat_completion(
