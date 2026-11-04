@@ -10,7 +10,37 @@ interface ChatMessage {
 }
 
 function getExpertProjectReply(query: string): string {
-  const q = query.toLowerCase();
+  const q = query.toLowerCase().trim();
+
+  // 0. Natural Greetings & Pleasantries
+  const greetings = ["hi", "hii", "hiii", "hello", "hey", "heyy", "good morning", "good afternoon", "good evening", "howdy", "yo", "sup"];
+  const words = q.split(/\s+/).map((w) => w.replace(/[!?.,]/g, ""));
+  if (words.some((w) => greetings.includes(w)) || greetings.includes(q) || q.startsWith("hello") || q.startsWith("hey")) {
+    return (
+      "Hello! 👋 I'm your **Dream2Sim Engineering Assistant**.\n\n" +
+      "I'm here to help you design, test, and understand microscopic multi-agent simulations. Here are a few things you can ask me:\n\n" +
+      "• **Physics & Equations**: *\"Explain the IDM car-following formula\"*\n" +
+      "• **Signal Timing**: *\"How does Webster's formula optimize traffic lights?\"*\n" +
+      "• **Bottleneck Analysis**: *\"How do I simulate a corridor chokepoint?\"*\n" +
+      "• **Multi-Domain Swarms**: *\"Tell me about drone airspaces or warehouse AGVs\"*\n" +
+      "• **Exports**: *\"How do I export PDF reports and raw telemetry CSVs?\"*\n\n" +
+      "How can I assist you with your project today?"
+    );
+  }
+
+  // 0.1 Gratitude & Politeness
+  if (
+    q.includes("thank you") ||
+    q.includes("thanks") ||
+    q.includes("thx") ||
+    q.includes("awesome") ||
+    q.includes("great job") ||
+    q.includes("perfect")
+  ) {
+    return (
+      "You're very welcome! 😊 Let me know if you need any other scenario setups, math formulas, or simulation tuning."
+    );
+  }
 
   if (
     q.includes("idm") ||

@@ -105,7 +105,29 @@ def _generate_expert_chat_response(query: str) -> str:
     Covers platform architecture, physics models (IDM/Social Force), signal optimization,
     multi-domain swarms (drones, AGVs, crowds), and workflow usage.
     """
-    q = query.lower()
+    q = query.lower().strip()
+
+    # 0. Conversational Greetings & Social Pleasantries
+    greetings = ["hi", "hii", "hiii", "hello", "hey", "heyy", "good morning", "good afternoon", "good evening", "howdy", "yo", "sup"]
+    words = [w.strip("!?,.") for w in q.split()]
+    if any(w in greetings for w in words) or q in greetings or q.startswith("hello") or q.startswith("hey"):
+        return (
+            "Hello! 👋 I'm your **Dream2Sim Engineering Assistant**.\n\n"
+            "I'm here to help you design, test, and understand microscopic multi-agent simulations. Here are a few things you can ask me:\n\n"
+            "• **Physics & Equations**: *\"Explain the IDM car-following formula\"*\n"
+            "• **Signal Timing**: *\"How does Webster's formula optimize traffic lights?\"*\n"
+            "• **Bottleneck Analysis**: *\"How do I simulate a corridor chokepoint?\"*\n"
+            "• **Multi-Domain Swarms**: *\"Tell me about drone airspaces or warehouse AGVs\"*\n"
+            "• **Exports**: *\"How do I export PDF reports and raw telemetry CSVs?\"*\n\n"
+            "How can I assist you with your project today?"
+        )
+
+    # 0.1 Gratitude & Pleasantries
+    if any(k in q for k in ["thank you", "thanks", "thx", "awesome", "great job", "perfect"]):
+        return (
+            "You're very welcome! 😊 Feel free to ask whenever you need help tuning simulation parameters, "
+            "inspecting bottlenecks, or comparing traffic scenarios."
+        )
 
     # 1. Platform & Mission Overview
     if any(k in q for k in ["what is dream2sim", "about", "project", "what does this do", "overview"]):
