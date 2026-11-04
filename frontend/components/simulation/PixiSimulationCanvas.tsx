@@ -113,6 +113,18 @@ export default function PixiSimulationCanvas({
 
       if (config) {
         fitAndDrawRoadNetwork(app, worldContainer, roadLayer, gridLayer, config);
+      } else {
+        // Ambient background grid for clean slate
+        gridLayer.clear();
+        for (let x = 0; x < width; x += 40) {
+          gridLayer.moveTo(x, 0);
+          gridLayer.lineTo(x, height);
+        }
+        for (let y = 0; y < height; y += 40) {
+          gridLayer.moveTo(0, y);
+          gridLayer.lineTo(width, y);
+        }
+        gridLayer.stroke({ width: 0.8, color: 0xb13bff, alpha: 0.1 });
       }
     }
 
@@ -198,20 +210,34 @@ export default function PixiSimulationCanvas({
 
   // Redraw when config changes
   useEffect(() => {
-    if (
-      appRef.current &&
-      worldContainerRef.current &&
-      roadLayerRef.current &&
-      gridLayerRef.current &&
-      config
-    ) {
-      fitAndDrawRoadNetwork(
-        appRef.current,
-        worldContainerRef.current,
-        roadLayerRef.current,
-        gridLayerRef.current,
-        config
-      );
+    if (appRef.current && worldContainerRef.current) {
+      if (config && roadLayerRef.current && gridLayerRef.current) {
+        fitAndDrawRoadNetwork(
+          appRef.current,
+          worldContainerRef.current,
+          roadLayerRef.current,
+          gridLayerRef.current,
+          config
+        );
+      } else {
+        roadLayerRef.current?.clear();
+        signalLayerRef.current?.clear();
+        vehicleLayerRef.current?.removeChildren();
+        heatmapLayerRef.current?.clear();
+        if (gridLayerRef.current && appRef.current) {
+          const g = gridLayerRef.current;
+          g.clear();
+          for (let x = 0; x < appRef.current.screen.width; x += 40) {
+            g.moveTo(x, 0);
+            g.lineTo(x, appRef.current.screen.height);
+          }
+          for (let y = 0; y < appRef.current.screen.height; y += 40) {
+            g.moveTo(0, y);
+            g.lineTo(appRef.current.screen.width, y);
+          }
+          g.stroke({ width: 0.8, color: 0xb13bff, alpha: 0.1 });
+        }
+      }
     }
   }, [config]);
 
