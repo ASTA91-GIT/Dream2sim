@@ -36,45 +36,62 @@ export default function LandingPage() {
       </div>
 
       {/* Floating Glassmorphic Top Bar */}
-      <header className="fixed top-4 left-4 right-4 z-50 max-w-7xl mx-auto glass-tier-2 px-6 py-3 rounded-2xl border border-white/10 shadow-2xl flex items-center justify-between backdrop-blur-xl">
-        <Link href="/" className="flex items-center gap-2.5 group">
+      <header className="fixed top-4 left-4 right-4 z-50 max-w-7xl mx-auto glass-tier-2 h-16 px-4 sm:px-6 rounded-2xl border border-white/10 shadow-2xl flex items-center justify-between gap-4 backdrop-blur-xl">
+        {/* Left: Brand Identity & Version */}
+        <Link href="/" className="flex items-center gap-3 shrink-0 group">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#B13BFF] to-[#00f0ff] p-0.5 shadow-md flex items-center justify-center">
             <div className="w-full h-full rounded-[6px] bg-[#090040] flex items-center justify-center">
               <span className="material-symbols-outlined text-[var(--primary)] text-lg">view_in_ar</span>
             </div>
           </div>
-          <span className="font-headline text-lg font-bold tracking-tight text-white">
+          <span className="font-headline text-base sm:text-lg font-bold tracking-tight text-white whitespace-nowrap">
             Dream2Sim
           </span>
-          <span className="font-telemetry text-[10px] font-bold bg-[#00f0ff]/10 text-[#00f0ff] px-2 py-0.5 rounded border border-[#00f0ff]/30">
-            3D VOLUMETRIC v2.5
+          <span className="hidden sm:inline-flex items-center font-telemetry text-[10px] font-bold bg-[#00f0ff]/10 text-[#00f0ff] px-2 py-0.5 rounded border border-[#00f0ff]/30 whitespace-nowrap tracking-wide">
+            3D v2.5
           </span>
         </Link>
 
-        {/* Center Nav Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs font-telemetry text-[var(--on-surface-variant)]">
-          <Link href="/workspace" className="hover:text-white transition-colors">
-            Interactive Workspace
+        {/* Center: Clean Non-Wrapping Navigation Links */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-xs font-telemetry text-[var(--on-surface-variant)] shrink min-w-0">
+          <Link
+            href="/workspace"
+            className="px-3 py-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+          >
+            Workspace
           </Link>
-          <Link href="/dashboard" className="hover:text-white transition-colors">
-            Analytics Dashboard
+          <Link
+            href="/dashboard"
+            className="px-3 py-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+          >
+            Dashboard
           </Link>
-          <Link href="/projects" className="hover:text-white transition-colors">
-            Simulation Library
+          <Link
+            href="/projects"
+            className="px-3 py-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+          >
+            Simulations
           </Link>
-          <Link href="/scenario-comparison" className="hover:text-white transition-colors">
-            Multi-Run Diff
+          <Link
+            href="/scenario-comparison"
+            className="px-3 py-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+          >
+            Comparison
           </Link>
-          <Link href="http://localhost:8000/docs" target="_blank" className="hover:text-white transition-colors">
+          <Link
+            href="http://localhost:8000/docs"
+            target="_blank"
+            className="px-3 py-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+          >
             API Docs
           </Link>
         </nav>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        {/* Right: Actions */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all"
+            className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center shrink-0"
             title="Toggle Light/Dark Theme"
           >
             <span className="material-symbols-outlined text-base">
@@ -84,14 +101,14 @@ export default function LandingPage() {
 
           <Link
             href="/login"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-telemetry font-semibold text-white/80 hover:text-white hover:bg-white/5 transition-all"
+            className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-telemetry font-semibold text-white/80 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap shrink-0"
           >
             <span>Sign In</span>
           </Link>
 
           <Link
             href="/workspace"
-            className="btn-gold flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold shadow-lg"
+            className="btn-gold flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold shadow-lg whitespace-nowrap shrink-0"
           >
             <span className="material-symbols-outlined text-sm">play_arrow</span>
             <span>Launch Engine</span>
