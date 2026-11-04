@@ -240,55 +240,145 @@ class AIOrchestrator:
                 reasoning="Mapped rooftop coordinates to a radial waypoint graph with green flight corridors at central intersection.",
             )
 
-        # 2. AUTOMATED WAREHOUSE / ROBOTICS / AGV
-        if any(k in p_lower for k in ["agv", "robot", "warehouse", "fulfillment", "logistics", "conveyor", "rack", "factory", "sort"]):
+        # 2. AUTOMATED HIGH-BAY WAREHOUSE / ROBOTICS / AGV SWARM
+        if any(k in p_lower for k in ["agv", "robot", "warehouse", "fulfillment", "logistics", "conveyor", "rack", "high-bay", "storage rack"]):
+            # 12 Storage Rack Aisles (Grid Layout: 3 Rows x 4 Columns)
             nodes = [
-                IntersectionNode(id="wh_pack", name="Central Packing Hub", x=450.0, y=300.0, type="traffic_signal"),
-                IntersectionNode(id="wh_inbound", name="Inbound Loading Bay", x=150.0, y=300.0, type="uncontrolled"),
-                IntersectionNode(id="wh_rack_a", name="Aisle Rack Section A", x=450.0, y=100.0, type="uncontrolled"),
-                IntersectionNode(id="wh_rack_b", name="Aisle Rack Section B", x=450.0, y=500.0, type="uncontrolled"),
-                IntersectionNode(id="wh_outbound", name="Outbound Dispatch Dock", x=750.0, y=300.0, type="uncontrolled"),
+                # Stations & Bays
+                IntersectionNode(id="wh_receiving", name="Inbound Receiving Area", x=90.0, y=300.0, type="uncontrolled"),
+                IntersectionNode(id="wh_station_load1", name="Central Loading Station 1", x=330.0, y=300.0, type="traffic_signal"),
+                IntersectionNode(id="wh_station_unload2", name="Central Unloading Station 2", x=570.0, y=300.0, type="traffic_signal"),
+                IntersectionNode(id="wh_dispatch", name="Outbound Dispatch Area", x=810.0, y=300.0, type="uncontrolled"),
+                IntersectionNode(id="wh_charging", name="Designated AGV Charging Station", x=450.0, y=520.0, type="uncontrolled"),
+
+                # Row 1 (Top Racks 1-4)
+                IntersectionNode(id="rack_01", name="Storage Rack Aisle 01", x=220.0, y=130.0, type="uncontrolled"),
+                IntersectionNode(id="rack_02", name="Storage Rack Aisle 02", x=370.0, y=130.0, type="uncontrolled"),
+                IntersectionNode(id="rack_03", name="Storage Rack Aisle 03", x=530.0, y=130.0, type="uncontrolled"),
+                IntersectionNode(id="rack_04", name="Storage Rack Aisle 04", x=680.0, y=130.0, type="uncontrolled"),
+
+                # Row 2 (Middle Racks 5-8)
+                IntersectionNode(id="rack_05", name="Storage Rack Aisle 05", x=220.0, y=230.0, type="uncontrolled"),
+                IntersectionNode(id="rack_06", name="Storage Rack Aisle 06", x=370.0, y=230.0, type="uncontrolled"),
+                IntersectionNode(id="rack_07", name="Storage Rack Aisle 07", x=530.0, y=230.0, type="uncontrolled"),
+                IntersectionNode(id="rack_08", name="Storage Rack Aisle 08", x=680.0, y=230.0, type="uncontrolled"),
+
+                # Row 3 (Bottom Racks 9-12)
+                IntersectionNode(id="rack_09", name="Storage Rack Aisle 09", x=220.0, y=410.0, type="uncontrolled"),
+                IntersectionNode(id="rack_10", name="Storage Rack Aisle 10", x=370.0, y=410.0, type="uncontrolled"),
+                IntersectionNode(id="rack_11", name="Storage Rack Aisle 11", x=530.0, y=410.0, type="uncontrolled"),
+                IntersectionNode(id="rack_12", name="Storage Rack Aisle 12", x=680.0, y=410.0, type="uncontrolled"),
             ]
+
             roads = [
-                RoadSegment(id="aisle_in", source="wh_inbound", target="wh_pack", lanes=2, speed_limit_kmh=20.0),
-                RoadSegment(id="aisle_out", source="wh_pack", target="wh_outbound", lanes=2, speed_limit_kmh=20.0),
-                RoadSegment(id="aisle_rack_n_in", source="wh_rack_a", target="wh_pack", lanes=1, speed_limit_kmh=18.0),
-                RoadSegment(id="aisle_rack_n_out", source="wh_pack", target="wh_rack_a", lanes=1, speed_limit_kmh=18.0),
-                RoadSegment(id="aisle_rack_s_in", source="wh_rack_b", target="wh_pack", lanes=1, speed_limit_kmh=18.0),
-                RoadSegment(id="aisle_rack_s_out", source="wh_pack", target="wh_rack_b", lanes=1, speed_limit_kmh=18.0),
-                RoadSegment(id="aisle_in_return", source="wh_pack", target="wh_inbound", lanes=1, speed_limit_kmh=20.0),
+                # Main Central Arterial Flow (Receiving -> Load1 -> Unload2 -> Dispatch)
+                RoadSegment(id="corr_recv_load1", source="wh_receiving", target="wh_station_load1", lanes=2, speed_limit_kmh=14.0),
+                RoadSegment(id="corr_load1_unload2", source="wh_station_load1", target="wh_station_unload2", lanes=2, speed_limit_kmh=14.0),
+                RoadSegment(id="corr_unload2_dispatch", source="wh_station_unload2", target="wh_dispatch", lanes=2, speed_limit_kmh=14.0),
+                RoadSegment(id="corr_dispatch_return", source="wh_dispatch", target="wh_receiving", lanes=2, speed_limit_kmh=14.0),
+
+                # Station to Charging Hub
+                RoadSegment(id="corr_unload2_charge", source="wh_station_unload2", target="wh_charging", lanes=1, speed_limit_kmh=10.0),
+                RoadSegment(id="corr_charge_load1", source="wh_charging", target="wh_station_load1", lanes=1, speed_limit_kmh=10.0),
+
+                # Top Row Rack Corridors (Aisles 1-4)
+                RoadSegment(id="corr_load1_r01", source="wh_station_load1", target="rack_01", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r01_r02", source="rack_01", target="rack_02", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r02_r03", source="rack_02", target="rack_03", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r03_r04", source="rack_03", target="rack_04", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r04_unload2", source="rack_04", target="wh_station_unload2", lanes=1, speed_limit_kmh=12.0),
+
+                # Middle Row Rack Corridors (Aisles 5-8 with simulated corridor blockage)
+                RoadSegment(id="corr_load1_r05", source="wh_station_load1", target="rack_05", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r05_r06", source="rack_05", target="rack_06", lanes=1, speed_limit_kmh=12.0),
+                # Temporary blockage in middle corridor between rack 6 and rack 7 (is_closed: True)
+                RoadSegment(id="corr_r06_r07_blocked", source="rack_06", target="rack_07", lanes=1, speed_limit_kmh=12.0, is_closed=True),
+                # Rerouting bypass corridor
+                RoadSegment(id="corr_r06_r10_bypass", source="rack_06", target="rack_10", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r07_r08", source="rack_07", target="rack_08", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r08_unload2", source="rack_08", target="wh_station_unload2", lanes=1, speed_limit_kmh=12.0),
+
+                # Bottom Row Rack Corridors (Aisles 9-12)
+                RoadSegment(id="corr_load1_r09", source="wh_station_load1", target="rack_09", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r09_r10", source="rack_09", target="rack_10", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r10_r11", source="rack_10", target="rack_11", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r11_r12", source="rack_11", target="rack_12", lanes=1, speed_limit_kmh=12.0),
+                RoadSegment(id="corr_r12_unload2", source="rack_12", target="wh_station_unload2", lanes=1, speed_limit_kmh=12.0),
             ]
+
             signals = [
+                # Anti-deadlock priority controller at Loading Station 1
                 TrafficSignalConfig(
-                    id="sig_wh",
-                    intersection_id="wh_pack",
-                    cycle_time_seconds=40.0,
+                    id="sig_station_load1",
+                    intersection_id="wh_station_load1",
+                    cycle_time_seconds=30.0,
                     phases=[
-                        SignalPhase(id="p_dock", name="Inbound to Outbound Conveyance", duration_seconds=20.0, active_green_roads=["aisle_in"], yellow_seconds=2.0),
-                        SignalPhase(id="p_rack", name="Rack Restock Transfer", duration_seconds=20.0, active_green_roads=["aisle_rack_n_in", "aisle_rack_s_in"], yellow_seconds=2.0),
+                        SignalPhase(id="p_inbound_main", name="Inbound Receiving Priority", duration_seconds=15.0, active_green_roads=["corr_recv_load1", "corr_charge_load1"], yellow_seconds=2.0),
+                        SignalPhase(id="p_rack_dispatch", name="Aisle Extraction Phase", duration_seconds=13.0, active_green_roads=["corr_load1_unload2"], yellow_seconds=2.0),
+                    ]
+                ),
+                # Anti-deadlock priority controller at Unloading Station 2
+                TrafficSignalConfig(
+                    id="sig_station_unload2",
+                    intersection_id="wh_station_unload2",
+                    cycle_time_seconds=30.0,
+                    phases=[
+                        SignalPhase(id="p_dock_out", name="Outbound Dispatch Clear", duration_seconds=15.0, active_green_roads=["corr_load1_unload2", "corr_r04_unload2"], yellow_seconds=2.0),
+                        SignalPhase(id="p_rack_return", name="Aisle Rack Staging", duration_seconds=13.0, active_green_roads=["corr_r08_unload2", "corr_r12_unload2"], yellow_seconds=2.0),
                     ]
                 )
             ]
+
+            # 15 Autonomous AGVs actively circulating across 12 aisles and stations
             demands = [
-                DemandConfig(id="d_agv_main", source_node="wh_inbound", target_node="wh_outbound", vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=500.0)]),
-                DemandConfig(id="d_agv_racks", source_node="wh_rack_a", target_node="wh_outbound", vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=300.0)]),
+                DemandConfig(
+                    id="d_agv_recv_racks",
+                    source_node="wh_receiving",
+                    target_node="rack_04",
+                    vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=1400.0)]
+                ),
+                DemandConfig(
+                    id="d_agv_racks_dispatch",
+                    source_node="rack_01",
+                    target_node="wh_dispatch",
+                    vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=1200.0)]
+                ),
+                DemandConfig(
+                    id="d_agv_bypass_flow",
+                    source_node="rack_05",
+                    target_node="rack_12",
+                    vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=1000.0)]
+                ),
+                DemandConfig(
+                    id="d_agv_charging_cycle",
+                    source_node="wh_station_unload2",
+                    target_node="wh_charging",
+                    vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=600.0)]
+                ),
+                DemandConfig(
+                    id="d_agv_return_loop",
+                    source_node="wh_dispatch",
+                    target_node="wh_receiving",
+                    vehicle_mix=[VehicleDemand(vehicle_type="agv", flow_rate_vph=1400.0)]
+                ),
             ]
+
             config = SimulationConfig(
-                title="Automated Logistics Warehouse AGV Swarm",
-                description="Automated guided vehicles traversing warehouse aisles between storage racks and shipping bays.",
+                title="Automated High-Bay Warehouse (12 Aisles, 15 AGVs)",
+                description="High-density microscopic multi-agent simulation of 15 autonomous AGVs operating across 12 storage rack aisles, 2 central loading stations, receiving/dispatch bays, and charging hub with dynamic corridor rerouting around maintenance blockage.",
                 domain="logistics",
                 network=RoadNetwork(intersections=nodes, roads=roads),
                 signals=signals,
                 demands=demands,
                 parameters=SimulationParameters(duration_seconds=duration_s, time_step=0.1, random_seed=42),
-                metadata={"source_prompt": prompt, "parsed_by": "Universal Architect"}
+                metadata={"source_prompt": prompt, "parsed_by": "Universal Architect", "active_agvs": 15, "rack_aisles": 12}
             )
             return AIInterpretationResponse(
-                summary="Industrial AGV robot fulfillment network with automated staging queues and aisle dispatch.",
-                identified_entities=["Automated Guided Vehicles (AGVs)", "Warehouse Storage Racks", "Automated Dispatch Gates"],
-                identified_constraints=["20 km/h factory safety limit", "Anti-collision turnstile gating"],
+                summary="Synthesized realistic 12-aisle automated high-bay warehouse with 15 autonomous AGVs, dual loading stations, charging hub, and dynamic obstacle rerouting.",
+                identified_entities=["15 Autonomous AGVs", "12 Storage Rack Aisles", "Central Loading & Unloading Stations", "Inbound Receiving Bay", "Outbound Dispatch Bay", "AGV Charging Hub"],
+                identified_constraints=["14 km/h industrial safety speed limit", "Corridor blockage on Aisle 06-07 with bypass routing", "Anti-deadlock priority signal phase control"],
                 suggested_configuration=config,
-                reasoning="Converted warehouse floor layout into corridor network with dedicated picking and packing lanes.",
+                reasoning="Mapped warehouse spatial topology into a 17-node interconnected grid with 12 rack aisles, collision-free IDM spacing, and active deadlock prevention.",
             )
 
         # 3. PEDESTRIAN / CROWD EVACUATION / STADIUM

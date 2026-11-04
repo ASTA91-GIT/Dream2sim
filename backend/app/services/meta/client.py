@@ -37,6 +37,10 @@ class MetaAPIClient:
     def api_key(self, value: str):
         self._api_key = value
 
+    @api_key.deleter
+    def api_key(self):
+        self._api_key = None
+
     @property
     def is_configured(self) -> bool:
         key = self.api_key
