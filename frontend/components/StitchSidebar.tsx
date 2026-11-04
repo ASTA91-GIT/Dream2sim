@@ -17,10 +17,6 @@ const navItems: NavItem[] = [
   { label: "Simulation Workspace", href: "/workspace", icon: "science" },
   { label: "Scenario Comparison", href: "/scenario-comparison", icon: "compare_arrows" },
   { label: "Analytics & Telemetry", href: "/analytics", icon: "insights" },
-  { label: "AI Assistant (Muse)", href: "/workspace?mode=ai", icon: "neurology", badge: "3.1" },
-  { label: "Media Studio (SAM 3.1)", href: "/workspace?mode=media", icon: "video_settings" },
-  { label: "Settings & Integrations", href: "/settings", icon: "tune" },
-  { label: "Documentation & API", href: "http://localhost:8000/docs", icon: "terminal" },
 ];
 
 interface StitchSidebarProps {

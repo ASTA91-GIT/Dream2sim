@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "../context/ThemeContext";
+import { MovableAIChatbot } from "@/components/simulation/MovableAIChatbot";
 
 export const metadata: Metadata = {
   title: "Dream2Sim — AI-Powered Urban Simulation Platform",
@@ -28,6 +29,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           {children}
+          <MovableAIChatbot />
         </ThemeProvider>
       </body>
     </html>
