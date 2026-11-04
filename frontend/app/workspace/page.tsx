@@ -147,12 +147,26 @@ function WorkspaceContent() {
             const token = localStorage.getItem("dream2sim_token");
             if (token) headers["Authorization"] = `Bearer ${token}`;
           }
-          const res = await fetch(`http://localhost:8000/api/projects/${projectIdQuery}`, { headers });
-          if (res.ok) {
+          let res: Response | null = null;
+          try {
+            res = await fetch(`/api/projects/${projectIdQuery}`, { headers });
+          } catch {
+            try {
+              res = await fetch(`http://localhost:8000/api/projects/${projectIdQuery}`, { headers });
+            } catch {
+              res = null;
+            }
+          }
+          if (res && res.ok) {
             const proj = await res.json();
             const p = proj.description?.trim() || proj.title || "Urban arterial network simulation";
             setPromptText(p);
             handleExecuteSimulation(p);
+          } else {
+            // Default scenario if project cannot be fetched
+            const defaultPrompt = "Urban arterial network simulation with synchronized signal controllers";
+            setPromptText(defaultPrompt);
+            handleExecuteSimulation(defaultPrompt);
           }
         } catch (e) {
           console.error("Failed to load project from query param:", e);

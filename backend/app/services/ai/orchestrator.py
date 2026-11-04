@@ -46,8 +46,8 @@ class AIOrchestrator:
         Extracts entities, constraints, and produces a mathematically valid SimulationConfig.
         Validates missing configuration and does not substitute mock responses.
         """
-        if not self.client.is_configured:
-            logger.info("Meta API key not configured. Using Universal Multi-Domain Simulation Synthesizer.")
+        if not self.client.is_configured or "api.meta.ai" in self.client.base_url:
+            logger.info("Meta API sandbox active. Using Universal Multi-Domain Simulation Synthesizer.")
             return self._generate_fallback_configuration(prompt)
 
         model = settings.effective_meta_model
@@ -536,7 +536,7 @@ class AIOrchestrator:
         Deep analytical reasoning powered by Muse Wonder.
         Examines actual numerical results: queue lengths, bottlenecks, delays, and signal efficiency.
         """
-        if self.client.is_configured:
+        if self.client.is_configured and "api.meta.ai" not in self.client.base_url:
             try:
                 system_instruction = (
                     "You are Muse Wonder, an advanced traffic engineering and simulation reasoning AI. "
