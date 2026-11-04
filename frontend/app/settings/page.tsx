@@ -8,7 +8,6 @@ import { getMetaApiStatus } from "@/lib/api";
 export default function SettingsPage() {
   const [status, setStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [veltEnabled, setVeltEnabled] = useState(true);
   const [cudaAcceleration, setCudaAcceleration] = useState(true);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function SettingsPage() {
               Settings & Integrations
             </h1>
             <p className="font-body text-xs text-[var(--on-surface-variant)] leading-relaxed">
-              Configure Meta Model API connectivity, Velt live presence mesh, and high-performance physics compute flags.
+              Configure Meta Model API connectivity, deterministic physics compute models, and runtime kinematics.
             </p>
           </div>
 
@@ -105,44 +104,7 @@ export default function SettingsPage() {
             </p>
           </div>
 
-          {/* Velt Real-Time Collaboration Settings */}
-          <div className="glass-tier-1 p-6 rounded-2xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <span className="material-symbols-outlined text-[var(--primary)] text-xl">
-                  forum
-                </span>
-                <h3 className="font-headline text-base font-bold text-[var(--on-surface)]">
-                  Velt Collaboration Mesh
-                </h3>
-              </div>
 
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={veltEnabled}
-                  onChange={(e) => setVeltEnabled(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-[var(--surface-container-high)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--primary-container)]"></div>
-              </label>
-            </div>
-
-            <p className="font-body text-xs text-[var(--on-surface-variant)] leading-relaxed">
-              Enables live cursor tracking, in-viewport spatial comment pins, and presence broadcast across all connected engineers.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-telemetry">
-              <div className="p-3 rounded-lg bg-[var(--surface-container)]/70 flex items-center justify-between">
-                <span className="text-[var(--on-surface-variant)]">Mesh Channel:</span>
-                <span className="text-[var(--on-surface)] font-bold">org-mumbai-urban-01</span>
-              </div>
-              <div className="p-3 rounded-lg bg-[var(--surface-container)]/70 flex items-center justify-between">
-                <span className="text-[var(--on-surface-variant)]">Heartbeat Latency:</span>
-                <span className="text-[var(--secondary)] font-bold">12ms (Optimal)</span>
-              </div>
-            </div>
-          </div>
 
           {/* Compute & Simulation Engine */}
           <div className="glass-tier-1 p-6 rounded-2xl border border-[var(--outline-variant)]/20 shadow-md flex flex-col gap-4">

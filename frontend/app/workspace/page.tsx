@@ -125,11 +125,14 @@ function WorkspaceContent() {
     }
   };
 
+  const executedQueryRef = useRef<string | null>(null);
+
   // Listen to navigation query parameters (e.g. from Dashboard templates, projects, or Homepage)
   useEffect(() => {
     const promptQuery = searchParams.get("prompt");
     const templateQuery = searchParams.get("template");
     const modeQuery = searchParams.get("mode");
+    const projectIdQuery = searchParams.get("project_id");
 
     if (modeQuery === "ai") {
       setIsInspectorOpen(true);
@@ -138,6 +141,11 @@ function WorkspaceContent() {
       setModalTab("sam");
       setModalOpen(true);
     }
+
+    const currentKey = `${promptQuery || ""}_${templateQuery || ""}_${projectIdQuery || ""}`;
+    if (!promptQuery && !templateQuery && !projectIdQuery) return;
+    if (executedQueryRef.current === currentKey) return;
+    executedQueryRef.current = currentKey;
 
     if (promptQuery) {
       setPromptText(promptQuery);
@@ -154,6 +162,26 @@ function WorkspaceContent() {
       const p = templateMap[templateQuery] || "Four-way urban intersection";
       setPromptText(p);
       handleExecuteSimulation(p);
+    } else if (projectIdQuery) {
+      const loadProject = async () => {
+        try {
+          const headers: Record<string, string> = {};
+          if (typeof window !== "undefined") {
+            const token = localStorage.getItem("dream2sim_token");
+            if (token) headers["Authorization"] = `Bearer ${token}`;
+          }
+          const res = await fetch(`http://localhost:8000/api/projects/${projectIdQuery}`, { headers });
+          if (res.ok) {
+            const proj = await res.json();
+            const p = proj.description?.trim() || proj.title || "Urban arterial network simulation";
+            setPromptText(p);
+            handleExecuteSimulation(p);
+          }
+        } catch (e) {
+          console.error("Failed to load project from query param:", e);
+        }
+      };
+      loadProject();
     }
   }, [searchParams]);
 

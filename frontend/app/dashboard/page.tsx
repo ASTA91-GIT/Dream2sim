@@ -97,8 +97,8 @@ export default function DashboardPage() {
       <div className="pl-72">
         <StitchHeader
           breadcrumbs={[
-            { label: "Urban Transit Labs", href: "/projects" },
-            { label: "Mumbai Intersections" },
+            { label: "Dream2Sim Engine", href: "/dashboard" },
+            { label: "Operations & Overview" },
           ]}
         />
 

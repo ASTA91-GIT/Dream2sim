@@ -226,7 +226,7 @@ export default function ProjectsPage() {
                 <p className="font-body text-xs text-[var(--on-surface-variant)] leading-relaxed">
                   {filterQuery
                     ? "Try adjusting your search criteria."
-                    : "No project workspaces exist yet. Create your first urban transit study to organize simulation runs, scenarios, and spatial graphs."}
+                    : "No project workspaces exist yet. Create your first multi-domain simulation project to organize simulation runs, scenarios, and spatial graphs."}
                 </p>
               </div>
               <button
