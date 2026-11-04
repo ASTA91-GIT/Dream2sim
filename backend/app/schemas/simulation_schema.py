@@ -7,12 +7,12 @@ class IntersectionNode(BaseModel):
     name: str = ""
     x: float
     y: float
-    type: Literal["traffic_signal", "priority", "roundabout", "uncontrolled"] = "traffic_signal"
+    type: str = "traffic_signal"
 
 
 class LaneConfig(BaseModel):
     lane_id: int
-    allowed_turns: List[Literal["left", "through", "right", "u_turn"]] = ["through"]
+    allowed_turns: List[str] = ["through"]
     width_m: float = 3.5
     is_closed: bool = False
 
@@ -45,7 +45,7 @@ class TrafficSignalConfig(BaseModel):
 
 
 class VehicleDemand(BaseModel):
-    vehicle_type: Literal["car", "bus", "truck", "motorcycle", "emergency"] = "car"
+    vehicle_type: str = "car"
     flow_rate_vph: float = Field(default=600.0, ge=0.0, le=10000.0)  # Vehicles Per Hour
     priority: int = 1  # Higher for emergency
 
@@ -77,7 +77,7 @@ class RoadNetwork(BaseModel):
 class SimulationConfig(BaseModel):
     title: str = "Urban Traffic Simulation"
     description: str = ""
-    domain: Literal["traffic", "pedestrian", "multimodal"] = "traffic"
+    domain: str = "traffic"
     network: RoadNetwork
     signals: List[TrafficSignalConfig] = Field(default_factory=list)
     demands: List[DemandConfig] = Field(default_factory=list)

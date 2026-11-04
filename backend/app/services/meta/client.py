@@ -23,7 +23,7 @@ class MetaAPIClient:
         self,
         api_key: Optional[str] = None,
         base_url: Optional[str] = None,
-        timeout: float = 60.0,
+        timeout: float = 10.0,
     ):
         self._api_key = api_key
         self.base_url = (base_url or settings.META_API_BASE_URL).rstrip("/")
