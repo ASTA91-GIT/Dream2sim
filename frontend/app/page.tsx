@@ -187,21 +187,12 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ASYMMETRIC ENGINEERING BENTO DOSSIER */}
+      {/* ASYMMETRIC ENGINEERING BENTO */}
       <section className="py-16 px-4 sm:px-6 max-w-7xl mx-auto w-full z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-telemetry uppercase tracking-wider text-[#00f0ff] font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00f0ff]"></span>
-              <span>ENGINEERING DOSSIER</span>
-            </div>
-            <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-white mt-1">
-              Deterministic Kinetics. Real AI Reasoning.
-            </h2>
-          </div>
-          <p className="font-body text-xs sm:text-sm text-white/60 max-w-md">
-            Built from first physical principles—combining microscopic Intelligent Driver Model (IDM), Social Force crowd dynamics, and Meta AI intelligence.
-          </p>
+        <div className="mb-8">
+          <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Deterministic Kinetics. Real AI Reasoning.
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
