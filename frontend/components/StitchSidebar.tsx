@@ -23,11 +23,19 @@ const navItems: NavItem[] = [
   { label: "Documentation & API", href: "http://localhost:8000/docs", icon: "terminal" },
 ];
 
-export function StitchSidebar() {
+interface StitchSidebarProps {
+  isOpen?: boolean;
+}
+
+export function StitchSidebar({ isOpen = true }: StitchSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-72 bg-[var(--surface-container-low)]/80 backdrop-blur-2xl z-50 flex flex-col justify-between border-r border-[var(--outline-variant)]/20 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <aside
+      className={`fixed left-0 top-0 h-full w-72 bg-[var(--surface-container-low)]/80 backdrop-blur-2xl z-50 flex flex-col justify-between border-r border-[var(--outline-variant)]/20 shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-transform duration-300 ease-in-out ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
       <div className="flex flex-col">
         {/* Brand Header */}
         <div className="h-16 flex items-center px-6 gap-2 bg-[var(--surface-container)]/30 border-b border-[var(--outline-variant)]/10">

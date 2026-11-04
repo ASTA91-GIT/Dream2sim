@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { StitchSidebar } from "@/components/StitchSidebar";
 import PixiSimulationCanvas from "@/components/simulation/PixiSimulationCanvas";
 import MultimodalModal from "@/components/simulation/MultimodalModal";
 import { useTheme } from "@/context/ThemeContext";
@@ -21,6 +22,7 @@ import {
 function WorkspaceContent() {
   const { theme, toggleTheme } = useTheme();
   const searchParams = useSearchParams();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // Prompt & Simulation State - Completely clean slate (no pre-inserted prompts or runs)
   const [promptText, setPromptText] = useState("");
@@ -293,125 +295,148 @@ function WorkspaceContent() {
   const throughputVph = metrics?.throughput_vph ?? 0;
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#060026] text-[#e4dfff] overflow-hidden selection:bg-[#B13BFF] selection:text-white font-sans">
-      {/* ================= 1. MINIMAL UNIFIED TOP NAVBAR ================= */}
-      <header className="h-14 px-5 bg-[#090040]/90 backdrop-blur-xl border-b border-[#322d67]/60 flex items-center justify-between shrink-0 z-40">
-        {/* Brand & Scenario Title */}
-        <div className="flex items-center gap-4 min-w-0">
-          <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#B13BFF] to-[#f1c100] p-0.5 shadow-md flex items-center justify-center">
-              <div className="w-full h-full bg-[#090040] rounded-[6px] flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#e3b5ff] text-lg group-hover:scale-110 transition-transform">
-                  hub
-                </span>
+    <div className="h-screen w-screen flex bg-[var(--surface-container-lowest)] text-[var(--on-surface)] overflow-hidden selection:bg-[#B13BFF] selection:text-white font-sans">
+      <StitchSidebar isOpen={sidebarOpen} />
+      <div className={`flex-1 flex flex-col h-screen min-w-0 overflow-hidden transition-all duration-300 ease-in-out ${sidebarOpen ? "pl-72" : "pl-0"}`}>
+        {/* ================= 1. UNIFIED TOP HEADER ================= */}
+        <header className="h-16 px-6 bg-[var(--surface-container-low)]/80 backdrop-blur-2xl border-b border-[var(--outline-variant)]/15 flex items-center justify-between shrink-0 z-40">
+          {/* Left: Sidebar Toggle, Brand, Breadcrumb, Scenario Title */}
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-1.5 rounded-lg bg-[var(--surface-container)] hover:bg-[var(--surface-container-high)] text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] border border-[var(--outline-variant)]/20 transition-all cursor-pointer flex items-center justify-center shrink-0"
+              title={sidebarOpen ? "Collapse navigation sidebar" : "Expand navigation sidebar"}
+              aria-label="Toggle navigation sidebar"
+            >
+              <span className="material-symbols-outlined text-lg">
+                {sidebarOpen ? "menu_open" : "menu"}
+              </span>
+            </button>
+
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 truncate">
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-[var(--on-surface-variant)] hover:text-[var(--on-surface)] transition-colors hidden sm:inline"
+              >
+                Dashboard
+              </Link>
+              <span className="material-symbols-outlined text-sm text-[var(--outline)] hidden sm:inline select-none">
+                chevron_right
+              </span>
+              <h1 className="font-headline font-semibold text-sm text-[var(--on-surface)] truncate">
+                {config?.title || "Simulation Workspace"}
+              </h1>
+              <span
+                className={`shrink-0 flex items-center gap-1 text-[10px] font-telemetry font-bold px-2 py-0.5 rounded-full border ${
+                  simStatus === "OPTIMIZED"
+                    ? "bg-[#22c55e]/15 text-[#22c55e] border-[#22c55e]/30"
+                    : simStatus === "RUNNING"
+                    ? "bg-[#f1c100]/15 text-[#f1c100] border-[#f1c100]/30"
+                    : "bg-[var(--outline-variant)]/20 text-[var(--on-surface-variant)] border-[var(--outline-variant)]/30"
+                }`}
+              >
+                {simStatus === "RUNNING" && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping"></span>
+                )}
+                {simStatus}
+              </span>
+            </nav>
+          </div>
+
+          {/* Right: Live Telemetry Counters, Reports, Inspect & Tune, and Light/Dark Switcher */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Quick Telemetry Counters */}
+            {config && (
+              <div className="hidden lg:flex items-center gap-3 px-3 py-1 bg-[var(--surface-container)]/70 rounded-full border border-[var(--outline-variant)]/20 text-xs font-telemetry">
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>
+                  <span className="text-[var(--on-surface-variant)]">Active:</span>
+                  <strong className="text-[var(--on-surface)] font-semibold">{activeCount}</strong>
+                </div>
+                <span className="text-[var(--outline)]">•</span>
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#f1c100]"></span>
+                  <span className="text-[var(--on-surface-variant)]">Queue:</span>
+                  <strong className="text-[var(--on-surface)] font-semibold">{queuedCount}</strong>
+                </div>
+                <span className="text-[var(--outline)]">•</span>
+                <div className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
+                  <span className="text-[var(--on-surface-variant)]">Throughput:</span>
+                  <strong className="text-[var(--on-surface)] font-semibold">{throughputVph} VPH</strong>
+                </div>
               </div>
-            </div>
-            <span className="font-headline font-bold text-base tracking-tight text-white hidden sm:inline">
-              Dream2Sim
-            </span>
-          </Link>
+            )}
 
-          <div className="h-4 w-px bg-[#4e4354]/40 shrink-0"></div>
+            {/* Export Report Buttons */}
+            {simulationId && (
+              <div className="flex items-center bg-[var(--surface-container)]/70 rounded-lg p-0.5 border border-[var(--outline-variant)]/20 text-xs font-telemetry">
+                <a
+                  href={getExportPdfUrl(simulationId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2 py-1 text-[var(--primary)] hover:text-[var(--on-surface)] transition-colors flex items-center gap-1"
+                  title="Download PDF Engineering Report"
+                >
+                  <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
+                  <span>PDF</span>
+                </a>
+                <span className="text-[var(--outline)]">|</span>
+                <a
+                  href={getExportCsvUrl(simulationId)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2 py-1 text-[var(--primary)] hover:text-[var(--on-surface)] transition-colors flex items-center gap-1"
+                  title="Download CSV Telemetry"
+                >
+                  <span className="material-symbols-outlined text-sm">table_view</span>
+                  <span>CSV</span>
+                </a>
+              </div>
+            )}
 
-          {/* Active Scenario Title */}
-          <div className="flex items-center gap-2.5 truncate">
-            <h1 className="font-headline font-semibold text-xs sm:text-sm text-[#e4dfff] truncate">
-              {config?.title || "New Simulation"}
-            </h1>
-            <span
-              className={`shrink-0 flex items-center gap-1 text-[10px] font-telemetry font-bold px-2 py-0.5 rounded-full border ${
-                simStatus === "OPTIMIZED"
-                  ? "bg-[#22c55e]/15 text-[#22c55e] border-[#22c55e]/30"
-                  : simStatus === "RUNNING"
-                  ? "bg-[#f1c100]/15 text-[#f1c100] border-[#f1c100]/30"
-                  : "bg-[#9a8ca0]/15 text-[#9a8ca0] border-[#9a8ca0]/30"
+            {/* Inspect & Tune Slide-over Button */}
+            <button
+              onClick={() => setIsInspectorOpen(!isInspectorOpen)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-telemetry font-medium border transition-all cursor-pointer ${
+                isInspectorOpen
+                  ? "bg-[#B13BFF] text-white border-[#B13BFF] shadow-lg shadow-[#B13BFF]/25"
+                  : "bg-[var(--surface-container-high)] hover:bg-[var(--surface-container-highest)] text-[var(--on-surface)] border-[var(--outline-variant)]/20"
               }`}
             >
-              {simStatus === "RUNNING" && (
-                <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping"></span>
-              )}
-              {simStatus}
-            </span>
+              <span className="material-symbols-outlined text-sm">tune</span>
+              <span className="hidden sm:inline">Inspect & Tune</span>
+            </button>
+
+            {/* Dual Pill Dark / Light Mode Switcher */}
+            <div className="flex items-center bg-[var(--surface-container)]/70 border border-[var(--outline-variant)]/20 rounded-full p-1">
+              <button
+                onClick={() => theme !== "dark" && toggleTheme()}
+                className={`p-1.5 rounded-full transition-all ${
+                  theme === "dark"
+                    ? "bg-[var(--surface-container-highest)] text-[var(--primary)] shadow-sm"
+                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
+                }`}
+                title="Switch to Dark Mode"
+                aria-label="Dark mode"
+              >
+                <span className="material-symbols-outlined text-[16px]">dark_mode</span>
+              </button>
+              <button
+                onClick={() => theme !== "light" && toggleTheme()}
+                className={`p-1.5 rounded-full transition-all ${
+                  theme === "light"
+                    ? "bg-[var(--surface-container-highest)] text-[var(--tertiary)] shadow-sm"
+                    : "text-[var(--on-surface-variant)] hover:text-[var(--on-surface)]"
+                }`}
+                title="Switch to Light Mode"
+                aria-label="Light mode"
+              >
+                <span className="material-symbols-outlined text-[16px]">light_mode</span>
+              </button>
+            </div>
           </div>
-        </div>
-
-        {/* Live Telemetry Pill & Quick Actions */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Quick Telemetry Counters */}
-          {config && (
-            <div className="hidden md:flex items-center gap-3 px-3 py-1 bg-[#18114c]/70 rounded-full border border-[#322d67]/50 text-xs font-telemetry">
-              <div className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]"></span>
-                <span className="text-[#9a8ca0]">Active:</span>
-                <strong className="text-white font-semibold">{activeCount}</strong>
-              </div>
-              <span className="text-[#4e4354]">•</span>
-              <div className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#f1c100]"></span>
-                <span className="text-[#9a8ca0]">Queue:</span>
-                <strong className="text-white font-semibold">{queuedCount}</strong>
-              </div>
-              <span className="text-[#4e4354]">•</span>
-              <div className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]"></span>
-                <span className="text-[#9a8ca0]">Throughput:</span>
-                <strong className="text-white font-semibold">{throughputVph} VPH</strong>
-              </div>
-            </div>
-          )}
-
-          {/* Export Report Buttons */}
-          {simulationId && (
-            <div className="flex items-center bg-[#18114c]/60 rounded-lg p-0.5 border border-[#322d67]/40 text-xs font-telemetry">
-              <a
-                href={getExportPdfUrl(simulationId)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-2 py-1 text-[#e3b5ff] hover:text-white transition-colors flex items-center gap-1"
-                title="Download PDF Engineering Report"
-              >
-                <span className="material-symbols-outlined text-sm">picture_as_pdf</span>
-                <span>PDF</span>
-              </a>
-              <span className="text-[#4e4354]">|</span>
-              <a
-                href={getExportCsvUrl(simulationId)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-2 py-1 text-[#e3b5ff] hover:text-white transition-colors flex items-center gap-1"
-                title="Download CSV Telemetry"
-              >
-                <span className="material-symbols-outlined text-sm">table_view</span>
-                <span>CSV</span>
-              </a>
-            </div>
-          )}
-
-          {/* Inspect & Tune Slide-over Button */}
-          <button
-            onClick={() => setIsInspectorOpen(!isInspectorOpen)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-telemetry font-medium border transition-all cursor-pointer ${
-              isInspectorOpen
-                ? "bg-[#B13BFF] text-white border-[#B13BFF] shadow-lg shadow-[#B13BFF]/25"
-                : "bg-[#18114c]/80 hover:bg-[#27215b] text-[#e4dfff] border-[#322d67]/60"
-            }`}
-          >
-            <span className="material-symbols-outlined text-sm">tune</span>
-            <span className="hidden sm:inline">Inspect & Tune</span>
-          </button>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="p-1.5 rounded-lg bg-[#18114c]/60 hover:bg-[#27215b] text-[#9a8ca0] hover:text-white border border-[#322d67]/40 transition-colors cursor-pointer"
-            title="Toggle theme"
-          >
-            <span className="material-symbols-outlined text-base">
-              {theme === "dark" ? "light_mode" : "dark_mode"}
-            </span>
-          </button>
-        </div>
-      </header>
+        </header>
 
       {/* ================= 2. MAXIMIZED CINEMATIC CANVAS VIEWPORT ================= */}
       <div className="relative flex-1 w-full overflow-hidden flex flex-col">
@@ -884,6 +909,7 @@ function WorkspaceContent() {
             </div>
           </aside>
         )}
+      </div>
       </div>
 
       {/* Multimodal Modal */}
