@@ -30,8 +30,8 @@ export default function SettingsPage() {
       <div className="pl-72">
         <StitchHeader
           breadcrumbs={[
-            { label: "Overview", href: "/dashboard" },
-            { label: "Settings & Integrations" },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Settings" },
           ]}
         />
 

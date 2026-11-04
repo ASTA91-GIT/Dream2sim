@@ -12,8 +12,8 @@ export default function AnalyticsPage() {
       <div className="pl-72">
         <StitchHeader
           breadcrumbs={[
-            { label: "Overview", href: "/dashboard" },
-            { label: "Analytics & Telemetry" },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Analytics" },
           ]}
         />
 

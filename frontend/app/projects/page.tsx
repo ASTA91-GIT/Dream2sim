@@ -112,8 +112,8 @@ export default function ProjectsPage() {
       <div className="pl-72">
         <StitchHeader
           breadcrumbs={[
-            { label: "Overview", href: "/dashboard" },
-            { label: "My Projects" },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Projects" },
           ]}
         />
 

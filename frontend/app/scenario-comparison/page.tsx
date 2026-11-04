@@ -66,8 +66,8 @@ export default function ScenarioComparisonPage() {
       <div className="pl-72">
         <StitchHeader
           breadcrumbs={[
-            { label: "Overview", href: "/dashboard" },
-            { label: "Scenario Comparison" },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Comparison" },
           ]}
         />
 
