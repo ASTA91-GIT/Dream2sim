@@ -130,7 +130,7 @@ export default function LandingPage() {
 
         {/* Subtitle */}
         <p className="mt-5 font-body text-base sm:text-lg text-white/70 text-center max-w-3xl leading-relaxed">
-          From <strong className="text-[#00f0ff] font-medium">autonomous medical drone airspace</strong> and <strong className="text-[#FFCC00] font-medium">automated high-bay warehouse AGVs</strong> to <strong className="text-[#00ff88] font-medium">stadium crowd evacuations</strong>. Describe anything in plain words—Dream2Sim translates your intent into a collision-free, deterministic 3D physics digital twin.
+          From <strong className="text-[#00f0ff] font-medium">autonomous drone corridors</strong> and <strong className="text-[#FFCC00] font-medium">automated warehouse robotics</strong> to <strong className="text-[#00ff88] font-medium">stadium crowd evacuations</strong>, Dream2Sim translates your natural language descriptions into collision-free, deterministic 3D digital twins in real time.
         </p>
 
         {/* INTERACTIVE 3D SIMULATION CENTERPIECE */}
@@ -150,7 +150,7 @@ export default function LandingPage() {
                 type="text"
                 value={heroPrompt}
                 onChange={(e) => setHeroPrompt(e.target.value)}
-                placeholder="Describe any simulation (e.g. 15 medical drones flying between 4 hospital rooftops)..."
+                placeholder="Describe any simulation (e.g. 15 medical delivery drones flying between 4 hospital rooftops)..."
                 className="w-full bg-transparent border-0 outline-none text-xs sm:text-sm text-white placeholder:text-white/35 font-body font-medium"
               />
             </div>
@@ -165,9 +165,9 @@ export default function LandingPage() {
             </button>
           </form>
 
-          {/* Quick Preset Chips for Non-Road Domains */}
+          {/* Quick Preset Chips for Multi-Agent Domains */}
           <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs font-telemetry">
-            <span className="text-white/40">Try non-road domains:</span>
+            <span className="text-white/40">Explore multi-agent domains:</span>
             {[
               { label: "🚁 Hospital Rooftop Drones", prompt: "15 autonomous medical delivery drones flying between 4 hospital rooftop helipads" },
               { label: "📦 High-Bay AGV Warehouse", prompt: "Automated fulfillment warehouse with 24 AGV sorting robots navigating pallet racks" },
@@ -209,7 +209,7 @@ export default function LandingPage() {
                 Zero-Collision Microscopic Physics Engine
               </h3>
               <p className="font-body text-xs sm:text-sm text-white/70 mt-2 leading-relaxed">
-                Every vehicle, drone, AGV, and pedestrian runs continuous acceleration calculations calibrated at 0.05-second time steps. IDM car-following and Social Force crowd physics ensure mathematically guaranteed collision-free navigation.
+                Every vehicle, drone, AGV, and pedestrian executes continuous kinematic equations calibrated at 0.05-second intervals. Integrated IDM car-following and Social Force crowd dynamics provide mathematically guaranteed, collision-free navigation.
               </p>
             </div>
 
@@ -220,11 +220,11 @@ export default function LandingPage() {
               </div>
               <div className="bg-black/30 p-2 rounded-lg border border-white/5">
                 <div className="text-base font-bold text-[#00ff88]">0.00%</div>
-                <div className="text-[10px] text-white/50">Defect Collision Rate</div>
+                <div className="text-[10px] text-white/50">Collision Rate</div>
               </div>
               <div className="bg-black/30 p-2 rounded-lg border border-white/5">
                 <div className="text-base font-bold text-[#FFCC00]">10,000+</div>
-                <div className="text-[10px] text-white/50">Multi-Agent Swarm Cap</div>
+                <div className="text-[10px] text-white/50">Max Agent Capacity</div>
               </div>
             </div>
           </div>
@@ -242,11 +242,11 @@ export default function LandingPage() {
                 Voice & Vision Scene Parsing
               </h3>
               <p className="font-body text-xs text-white/70 mt-2 leading-relaxed">
-                Talk directly to the simulator with Meta Muse Voice, or upload CAD aerial footage parsed via SAM 3.1 to extract geometries and boundary barriers automatically.
+                Direct your simulation using natural speech via Meta Muse Voice, or upload aerial footage parsed by SAM 3.1 to automatically extract corridor geometries and physical boundaries.
               </p>
             </div>
 
-            {/* Fake Audio Waveform */}
+            {/* Simulated Audio Waveform */}
             <div className="mt-6 flex items-center justify-center gap-1 h-12 bg-black/40 rounded-xl p-2 border border-white/5">
               {[40, 70, 30, 90, 60, 100, 45, 80, 55, 95, 30, 75, 50, 85, 40].map((h, i) => (
                 <div
@@ -271,12 +271,12 @@ export default function LandingPage() {
                 Meta Muse Wonder Analytics
               </h3>
               <p className="font-body text-xs text-white/70 mt-2 leading-relaxed">
-                Rather than generic summaries, Muse Wonder ingests actual trajectory time-series to pinpoint bottlenecks, evaluate queue dissipation, and calculate Webster signal optimizations.
+                Rather than generating generic summaries, Muse Wonder analyzes actual trajectory time-series to diagnose bottlenecks, quantify queue dissipation, and calculate optimal controller timings.
               </p>
             </div>
 
             <div className="mt-6 p-3 rounded-xl bg-black/40 border border-white/5 font-telemetry text-[11px] text-white/60">
-              <span className="text-[#00f0ff] font-bold">Insight:</span> Phase 2 green duration increased by 14s clears downstream corridor spillback.
+              <span className="text-[#00f0ff] font-bold">Insight:</span> Increasing Phase 2 green duration by 14 seconds prevents downstream corridor spillback.
             </div>
           </div>
         </div>
@@ -291,7 +291,7 @@ export default function LandingPage() {
                 Universal Multi-Domain Capabilities
               </h3>
               <p className="font-body text-xs sm:text-sm text-white/60 mt-1">
-                Dream2Sim generalizes every discrete physical system into a topological graph: Nodes, Corridors, Kinematic Agents, and Phase Controllers.
+                Dream2Sim abstracts physical multi-agent environments into structured topological graphs: Nodes, Corridors, Kinematic Agents, and Phase Controllers.
               </p>
             </div>
             <Link
@@ -309,7 +309,7 @@ export default function LandingPage() {
               { icon: "precision_manufacturing", name: "Warehouse AGVs", desc: "Storage Racks & Aisles", color: "text-[#FFCC00]" },
               { icon: "directions_walk", name: "Crowd Evacuation", desc: "Plazas & Stadium Gates", color: "text-[#00ff88]" },
               { icon: "sailing", name: "Maritime Harbors", desc: "Deepwater Fairways & Berths", color: "text-[#38bdf8]" },
-              { icon: "train", name: "Rail Transit", desc: "Mainline & Freight Switch", color: "text-[#e879f9]" },
+              { icon: "train", name: "Rail Transit", desc: "Mainline & Freight Switching", color: "text-[#e879f9]" },
               { icon: "traffic", name: "Smart Cities", desc: "Adaptive Signal Arterials", color: "text-[#fb923c]" },
             ].map((domain) => (
               <div

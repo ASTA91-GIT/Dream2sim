@@ -103,7 +103,7 @@ export default function LoginPage() {
               </span>
             </div>
             <p className="font-body text-xs text-[var(--on-surface-variant)] max-w-xs">
-              Sign in to your high-fidelity urban simulation orchestrator and multi-agent workspace.
+              Sign in to your high-fidelity multi-agent simulation workspace.
             </p>
           </div>
 
@@ -144,7 +144,7 @@ export default function LoginPage() {
               <label className="font-telemetry text-[11px] uppercase tracking-wider text-[var(--on-surface-variant)] flex items-center justify-between">
                 <span>Access Key / Password</span>
                 <a href="#" className="text-[10px] text-[var(--primary)] hover:underline">
-                  Reset key?
+                  Forgot key?
                 </a>
               </label>
               <div className="flex items-center bg-[var(--surface-container-lowest)] border border-[var(--outline-variant)]/30 rounded-lg px-3 py-2.5 focus-within:border-[var(--primary)] transition-all">

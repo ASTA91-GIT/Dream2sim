@@ -124,10 +124,10 @@ export default function DashboardPage() {
                     </span>
                   </div>
                   <h1 className="font-headline text-2xl sm:text-3xl text-[var(--on-surface)] font-bold tracking-tight">
-                    Good afternoon, Dr. Kulkarni
+                    Simulation Operations & Overview
                   </h1>
                   <p className="font-body text-sm text-[var(--on-surface-variant)] leading-relaxed">
-                    Here's what's happening with your urban transit and multi-agent simulations across 12 active models.
+                    Here is the real-time operational overview of your active simulations, network topologies, and multi-agent systems.
                   </p>
                 </div>
 

@@ -691,13 +691,13 @@ export default function Volumetric3DSimulation() {
           <span className="text-white/20">|</span>
           <div className="flex items-center gap-1.5">
             <span className="text-[var(--on-surface-variant)]">Collisions:</span>
-            <span className="font-bold text-[#00ff88]">0.00 (Zero Defect)</span>
+            <span className="font-bold text-[#00ff88]">0 (Zero Defects)</span>
           </div>
         </div>
 
         <div className="pointer-events-auto flex items-center gap-2">
           <span className="text-[11px] font-telemetry text-white/50 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 backdrop-blur-sm">
-            Three.js WebGL • 60Hz Microscopic Physics Engine
+            Three.js WebGL • 60 FPS Microscopic Physics Engine
           </span>
         </div>
       </div>
