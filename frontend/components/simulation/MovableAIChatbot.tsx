@@ -7,162 +7,7 @@ interface ChatMessage {
   sender: "user" | "ai";
   text: string;
   timestamp: string;
-}
-
-function getExpertProjectReply(query: string): string {
-  const q = query.toLowerCase().trim();
-
-  // 0. Natural Greetings & Pleasantries
-  const greetings = ["hi", "hii", "hiii", "hello", "hey", "heyy", "good morning", "good afternoon", "good evening", "howdy", "yo", "sup"];
-  const words = q.split(/\s+/).map((w) => w.replace(/[!?.,]/g, ""));
-  if (words.some((w) => greetings.includes(w)) || greetings.includes(q) || q.startsWith("hello") || q.startsWith("hey")) {
-    return (
-      "Hello! 👋 I'm your **Dream2Sim Engineering Assistant**.\n\n" +
-      "I'm here to help you design, test, and understand microscopic multi-agent simulations. Here are a few things you can ask me:\n\n" +
-      "• **Physics & Equations**: *\"Explain the IDM car-following formula\"*\n" +
-      "• **Signal Timing**: *\"How does Webster's formula optimize traffic lights?\"*\n" +
-      "• **Bottleneck Analysis**: *\"How do I simulate a corridor chokepoint?\"*\n" +
-      "• **Multi-Domain Swarms**: *\"Tell me about drone airspaces or warehouse AGVs\"*\n" +
-      "• **Exports**: *\"How do I export PDF reports and raw telemetry CSVs?\"*\n\n" +
-      "How can I assist you with your project today?"
-    );
-  }
-
-  // 0.1 Gratitude & Politeness
-  if (
-    q.includes("thank you") ||
-    q.includes("thanks") ||
-    q.includes("thx") ||
-    q.includes("awesome") ||
-    q.includes("great job") ||
-    q.includes("perfect")
-  ) {
-    return (
-      "You're very welcome! 😊 Let me know if you need any other scenario setups, math formulas, or simulation tuning."
-    );
-  }
-
-  if (
-    q.includes("idm") ||
-    q.includes("car-following") ||
-    q.includes("car following") ||
-    q.includes("physics") ||
-    q.includes("kinematic") ||
-    q.includes("equation") ||
-    q.includes("formula")
-  ) {
-    return (
-      "**Deterministic Microscopic Kinematics (IDM):**\n\n" +
-      "Dream2Sim uses the **Intelligent Driver Model (IDM)** to calculate collision-free acceleration for every agent:\n\n" +
-      "$$\\dot{v} = a \\left[ 1 - \\left(\\frac{v}{v_0}\\right)^\\delta - \\left(\\frac{s^*(v, \\Delta v)}{s}\\right)^2 \\right]$$\n\n" +
-      "• **$v_0$**: Target free-flow speed (e.g. 50 km/h)\n" +
-      "• **$s_0$**: Standstill safety buffer (2.0 m)\n" +
-      "• **$T$**: Safe time headway (1.5 s)\n" +
-      "• **$a, b$**: Max acceleration & comfortable braking limits\n" +
-      "• **$\\delta = 4$**: Acceleration decay exponent\n\n" +
-      "For pedestrian swarms and warehouse AGVs, Dream2Sim couples this with the **Helbing Social Force model** for repulsive boundary avoidance."
-    );
-  }
-
-  if (
-    q.includes("signal") ||
-    q.includes("timing") ||
-    q.includes("webster") ||
-    q.includes("light") ||
-    q.includes("optimize") ||
-    q.includes("green wave") ||
-    q.includes("cycle")
-  ) {
-    return (
-      "**Traffic Signal Optimization & Timing:**\n\n" +
-      "Dream2Sim integrates **Webster's Optimal Cycle Formula** to balance throughput and minimize total intersection delay:\n\n" +
-      "$$C_0 = \\frac{1.5L + 5}{1 - Y}$$\n\n" +
-      "• **$L$**: Total lost time per cycle (yellow clearance + all-red intervals)\n" +
-      "• **$Y = \\sum y_i$**: Sum of critical lane flow ratios ($q_i / s_i$)\n\n" +
-      "Signals dynamically allocate green splits between North-South and East-West corridors to prevent queue spillbacks."
-    );
-  }
-
-  if (
-    q.includes("chokepoint") ||
-    q.includes("bottleneck") ||
-    q.includes("corridor") ||
-    q.includes("jam") ||
-    q.includes("shockwave")
-  ) {
-    return (
-      "**Bottleneck & Chokepoint Diagnostics:**\n\n" +
-      "Bottlenecks occur when incoming demand exceeds roadway discharge capacity ($s \\approx 1800\\text{ veh/hr/lane}$), creating backward-propagating traffic shockwaves.\n\n" +
-      "**How to test in Dream2Sim:**\n" +
-      "1. Navigate to the **Simulation Workspace**.\n" +
-      "2. Enter: *\"Two converging 3-lane arterials merging into a single lane bottleneck with 1400 veh/hr arrival volume.\"*\n" +
-      "3. Click **Simulate** to observe queue propagation and speed drops in real time.\n" +
-      "4. Open the **Analytics** page to inspect throughput drop and vehicle delay curves."
-    );
-  }
-
-  if (
-    q.includes("drone") ||
-    q.includes("agv") ||
-    q.includes("warehouse") ||
-    q.includes("crowd") ||
-    q.includes("multi-agent") ||
-    q.includes("domain") ||
-    q.includes("hospital")
-  ) {
-    return (
-      "**Universal Multi-Domain Capabilities:**\n\n" +
-      "Dream2Sim simulates 6 distinct real-world physical systems:\n\n" +
-      "1. **Urban Traffic Junctions**: Multi-approach signalized intersections & roundabouts.\n" +
-      "2. **Medical Drone Airspaces**: Autonomous delivery flight corridors with 3D deconfliction.\n" +
-      "3. **High-Bay Warehouse AGVs**: Automated guided vehicles navigating rack aisles and transfer docks.\n" +
-      "4. **Pedestrian Crowd Dynamics**: Stadium & airport emergency evacuation corridors.\n" +
-      "5. **Container Harbor Ports**: Automated container cranes & terminal tractor routing.\n" +
-      "6. **Hospital Emergency Logistics**: Urgent patient triage, stretcher routing, and surgical care queues."
-    );
-  }
-
-  if (
-    q.includes("export") ||
-    q.includes("report") ||
-    q.includes("pdf") ||
-    q.includes("csv") ||
-    q.includes("download")
-  ) {
-    return (
-      "**Exporting Simulation Data:**\n\n" +
-      "Dream2Sim provides comprehensive export options:\n\n" +
-      "• **PDF Executive Report**: Go to **Scenario Comparison** or **Analytics** and click **Export PDF Report** for a complete engineering whitepaper with metrics.\n" +
-      "• **CSV Raw Telemetry**: Click **Export Raw CSV** to download timestep-level agent velocities, coordinates, and queue delays for external analysis in Python or Excel."
-    );
-  }
-
-  if (
-    q.includes("what is dream2sim") ||
-    q.includes("about") ||
-    q.includes("project") ||
-    q.includes("overview")
-  ) {
-    return (
-      "**Dream2Sim Platform Overview:**\n\n" +
-      "**Dream2Sim** is an AI-native microscopic multi-agent simulation platform. It translates natural language prompts into deterministic, physics-accurate digital twins across traffic, drones, warehouse AGVs, and pedestrian crowds.\n\n" +
-      "Key Capabilities:\n" +
-      "• **Natural Language Synthesis**: Describe any system in plain English to auto-generate nodes, edges, and agents.\n" +
-      "• **Sub-second Kinematics**: Deterministic IDM and Social Force physics running at 60 FPS.\n" +
-      "• **Scenario Comparison**: Benchmark A/B designs (e.g., fixed vs adaptive signals).\n" +
-      "• **Deep Analytics**: Live heatmaps, velocity distributions, and downloadable PDF/CSV reports."
-    );
-  }
-
-  return (
-    `I've analyzed your query regarding "${query}".\n\n` +
-    "**Dream2Sim Engineering Assistant:**\n" +
-    "• **Physics Engine**: Microscopic Intelligent Driver Model (IDM) & Social Force dynamics.\n" +
-    "• **Traffic Control**: Webster signal timing, adaptive cycle splits, and green waves.\n" +
-    "• **Multi-Domain**: Simulates urban traffic, medical drones, warehouse AGVs, and stadium crowds.\n" +
-    "• **Analysis**: Scenario A/B benchmarking, bottleneck detection, and PDF/CSV telemetry export.\n\n" +
-    "Feel free to ask for specific formulas, scenario configurations, or how to run a simulation!"
-  );
+  isError?: boolean;
 }
 
 function parseInlineFormatting(str: string): React.ReactNode[] {
@@ -227,6 +72,25 @@ function renderFormattedMessage(text: string) {
               className="my-1.5 p-2 rounded-lg bg-[var(--surface-container-high)]/90 border border-[#B13BFF]/30 font-mono text-[11px] text-[#f1c100] text-center overflow-x-auto select-all shadow-inner"
             >
               {formula}
+            </div>
+          );
+        }
+
+        // Code block check: ```...```
+        if (trimmed.startsWith("```") && trimmed.endsWith("```")) {
+          const codeLines = trimmed.split("\n");
+          const lang = codeLines[0].replace("```", "").trim();
+          const codeBody = codeLines.slice(1, -1).join("\n");
+          return (
+            <div key={pIdx} className="my-1.5 rounded-lg overflow-hidden border border-[var(--outline-variant)]/30 bg-[var(--surface-container-highest)] font-mono text-[11px]">
+              {lang && (
+                <div className="px-2.5 py-1 text-[9px] uppercase tracking-wider text-[var(--on-surface-variant)] border-b border-[var(--outline-variant)]/20 bg-[var(--surface-container-high)] font-semibold">
+                  {lang}
+                </div>
+              )}
+              <pre className="p-2.5 overflow-x-auto text-[var(--on-surface)] whitespace-pre">
+                <code>{codeBody}</code>
+              </pre>
             </div>
           );
         }
@@ -354,62 +218,135 @@ export function MovableAIChatbot() {
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
-    setMessages((prev) => [...prev, userMsg]);
+    const historyPayload = messages
+      .filter((m) => m.id !== "welcome" && !m.isError)
+      .slice(-12)
+      .map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: m.text,
+      }))
+      .concat([{ role: "user", content: text }]);
+
+    const aiMsgId = String(Date.now() + 1);
+    const aiPlaceholder: ChatMessage = {
+      id: aiMsgId,
+      sender: "ai",
+      text: "",
+      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+
+    setMessages((prev) => [...prev, aiPlaceholder]);
     setInputMessage("");
     setIsLoading(true);
 
-    let replyText = "";
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2500);
+    let accumulatedText = "";
 
-      // Try proxy first, then direct backend port
-      const res = await fetch("/api/ai/chat", {
+    try {
+      // 1. Primary real-time Server-Sent Events (SSE) streaming
+      let res = await fetch("/api/ai/chat/stream", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [{ role: "user", content: text }],
-        }),
-        signal: controller.signal,
+        body: JSON.stringify({ messages: historyPayload }),
       }).catch(async () => {
-        return await fetch("http://localhost:8000/api/ai/chat", {
+        return await fetch("http://localhost:8000/api/ai/chat/stream", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: [{ role: "user", content: text }],
-          }),
-          signal: controller.signal,
+          body: JSON.stringify({ messages: historyPayload }),
         });
       });
 
-      clearTimeout(timeoutId);
+      if (res && res.ok && res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
 
-      if (res && res.ok) {
-        const data = await res.json();
-        replyText = data.reply || "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const events = buffer.split("\n\n");
+          buffer = events.pop() || "";
+
+          for (const ev of events) {
+            const trimmed = ev.trim();
+            if (!trimmed.startsWith("data: ")) continue;
+            const dataStr = trimmed.slice(6).trim();
+            if (dataStr === "[DONE]") break;
+
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.token) {
+                accumulatedText += parsed.token;
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === aiMsgId ? { ...m, text: accumulatedText } : m
+                  )
+                );
+              } else if (parsed.error) {
+                throw new Error(parsed.error);
+              }
+            } catch (err: any) {
+              if (dataStr !== "[DONE]") throw err;
+            }
+          }
+        }
       }
-    } catch {
-      // Handled cleanly via expert domain fallback below
-    }
 
-    if (!replyText) {
-      replyText = getExpertProjectReply(text);
-    }
+      // 2. Fallback to standard chat endpoint if streaming returned empty
+      if (!accumulatedText.trim()) {
+        const fallbackRes = await fetch("/api/ai/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: historyPayload }),
+        }).catch(async () => {
+          return await fetch("http://localhost:8000/api/ai/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: historyPayload }),
+          });
+        });
 
-    const aiReply: ChatMessage = {
-      id: String(Date.now() + 1),
-      sender: "ai",
-      text: replyText,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    };
-    setMessages((prev) => [...prev, aiReply]);
-    setIsLoading(false);
+        if (fallbackRes && fallbackRes.ok) {
+          const data = await fallbackRes.json();
+          accumulatedText = data.reply || "";
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === aiMsgId ? { ...m, text: accumulatedText } : m
+            )
+          );
+        } else {
+          const errData = await fallbackRes?.json().catch(() => ({}));
+          throw new Error(errData?.detail || `AI Provider error (HTTP ${fallbackRes?.status || "offline"})`);
+        }
+      }
+    } catch (err: any) {
+      // Honest, transparent error handling - NEVER fake responses
+      const errorMsg =
+        err?.message ||
+        "Unable to connect to the AI model. Please verify that the backend server is running and your Meta Model API credentials are valid.";
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === aiMsgId
+            ? {
+                ...m,
+                text: `⚠️ **AI Service Error**: ${errorMsg}`,
+                isError: true,
+              }
+            : m
+        )
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const quickPrompts = [
-    "How to optimize signal timings?",
-    "Explain IDM car-following model",
-    "How to test bottleneck chokepoints?",
+    "Explain the IDM equation",
+    "How does Webster signal timing work?",
+    "Write a Python script for traffic data",
+    "Help me design a multi-agent scenario",
   ];
 
   return (
@@ -504,13 +441,27 @@ export function MovableAIChatbot() {
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-relaxed shadow-sm ${
                     m.sender === "user"
                       ? "bg-gradient-to-tr from-[#B13BFF] to-[#7928ca] text-white rounded-tr-none font-medium"
+                      : m.isError
+                      ? "bg-red-500/10 text-red-300 border border-red-500/30 rounded-tl-none font-sans"
                       : "bg-[var(--surface-container)] text-[var(--on-surface)] border border-[var(--outline-variant)]/20 rounded-tl-none"
                   }`}
                 >
                   {m.sender === "user" ? (
                     <p className="whitespace-pre-wrap">{m.text}</p>
+                  ) : m.text ? (
+                    <div>
+                      {renderFormattedMessage(m.text)}
+                      {isLoading && m === messages[messages.length - 1] && (
+                        <span className="inline-block w-1.5 h-3.5 bg-[#B13BFF] ml-1 animate-pulse align-middle" />
+                      )}
+                    </div>
                   ) : (
-                    renderFormattedMessage(m.text)
+                    <div className="flex items-center gap-2 py-1 text-[var(--on-surface-variant)]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#B13BFF] animate-bounce"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#f1c100] animate-bounce [animation-delay:0.2s]"></span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#06b6d4] animate-bounce [animation-delay:0.4s]"></span>
+                      <span className="font-telemetry text-[11px] italic ml-1">Thinking...</span>
+                    </div>
                   )}
                 </div>
                 <span className="text-[9px] text-[var(--on-surface-variant)]/70 px-1 mt-1 font-telemetry">
@@ -519,14 +470,6 @@ export function MovableAIChatbot() {
               </div>
             ))}
 
-            {isLoading && (
-              <div className="flex items-center gap-2 text-xs text-[var(--on-surface-variant)] p-2">
-                <span className="w-2 h-2 rounded-full bg-[#B13BFF] animate-bounce"></span>
-                <span className="w-2 h-2 rounded-full bg-[#f1c100] animate-bounce [animation-delay:0.2s]"></span>
-                <span className="w-2 h-2 rounded-full bg-[#06b6d4] animate-bounce [animation-delay:0.4s]"></span>
-                <span className="font-telemetry text-[11px] ml-1">Analyzing world...</span>
-              </div>
-            )}
             <div ref={messagesEndRef} />
           </div>
 
